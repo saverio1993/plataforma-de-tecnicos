@@ -103,5 +103,16 @@
       if (sequence.length > 10) sequence = sequence.slice(-10);
     });
   </script>
+
+  <!-- PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw-pwa.js')
+          .then(reg => console.log('PWA: SW registered', reg.scope))
+          .catch(err => console.log('PWA: SW failed', err));
+      });
+    }
+  </script>
 </body>
 </html>

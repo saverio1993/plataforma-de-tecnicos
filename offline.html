@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sin conexión · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .offline-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--sp-6); }
+    .offline-content { text-align: center; max-width: 480px; }
+    .offline-icon { font-size: 5rem; margin-bottom: var(--sp-4); animation: pulse 2s ease-in-out infinite; }
+    .offline-title { font-size: var(--fs-2xl); margin-bottom: var(--sp-3); }
+    .offline-text { color: var(--text-secondary); margin-bottom: var(--sp-6); line-height: 1.6; }
+    .offline-tips { text-align: left; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-4); margin-bottom: var(--sp-6); }
+    .offline-tip { display: flex; gap: var(--sp-2); padding: var(--sp-2) 0; font-size: var(--fs-sm); color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+  <main class="offline-page">
+    <div class="offline-content">
+      <div class="offline-icon">📡</div>
+      <h1 class="offline-title">Estás sin conexión</h1>
+      <p class="offline-text">No pudimos cargar la página. Revisá tu internet y volvé a intentar.</p>
+      <div class="offline-tips">
+        <div class="offline-tip">🔌 <span>Verificá que estés conectado a WiFi o datos móviles</span></div>
+        <div class="offline-tip">📶 <span>Si tenés señal baja, esperá unos segundos y reintentá</span></div>
+        <div class="offline-tip">🔄 <span>Pull down para refrescar cuando vuelvas a tener internet</span></div>
+        <div class="offline-tip">💾 <span>Las páginas que ya visitaste siguen disponibles offline</span></div>
+      </div>
+      <button class="btn btn-primary btn-lg" onclick="location.reload()">🔄 Reintentar</button>
+    </div>
+  </main>
+
+  <!-- PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw-pwa.js')
+          .then(reg => console.log('PWA: SW registered', reg.scope))
+          .catch(err => console.log('PWA: SW failed', err));
+      });
+    }
+  </script>
+</body>
+</html>

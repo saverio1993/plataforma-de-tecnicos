@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IA Técnica · Academia Jota Rubio</title>
   <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Jota Rubio">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0F172A">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
@@ -262,5 +271,16 @@
 
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
+
+  <!-- PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw-pwa.js')
+          .then(reg => console.log('PWA: SW registered', reg.scope))
+          .catch(err => console.log('PWA: SW failed', err));
+      });
+    }
+  </script>
 </body>
 </html>

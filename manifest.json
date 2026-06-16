@@ -1,0 +1,94 @@
+{
+  "name": "Academia Jota Rubio",
+  "short_name": "Jota Rubio",
+  "description": "La plataforma premium de aprendizaje para técnicos en reparación electrónica",
+  "start_url": "/plataforma-de-tecnicos/",
+  "scope": "/plataforma-de-tecnicos/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F172A",
+  "theme_color": "#0F172A",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["education", "productivity", "social"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Academia",
+      "short_name": "Cursos",
+      "description": "Ver catálogo de cursos",
+      "url": "/plataforma-de-tecnicos/academia.html",
+      "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Comunidad",
+      "short_name": "Comunidad",
+      "description": "Conocé la comunidad",
+      "url": "/plataforma-de-tecnicos/comunidad.html",
+      "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Asistente IA",
+      "short_name": "IA",
+      "description": "Asistente técnico de diagnóstico",
+      "url": "/plataforma-de-tecnicos/ia.html",
+      "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Panel",
+      "description": "Tu panel personal",
+      "url": "/plataforma-de-tecnicos/dashboard.html",
+      "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
+    }
+  ]
+}
