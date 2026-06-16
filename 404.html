@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 · Página no encontrada · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .error-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--sp-6); position: relative; overflow: hidden; }
+    .error-content { text-align: center; max-width: 600px; position: relative; z-index: 1; }
+    .error-illustration { font-size: 8rem; font-weight: var(--fw-black); font-family: var(--font-mono); background: linear-gradient(135deg, var(--accent), var(--success), var(--warning)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: var(--sp-4); animation: pulse 3s ease-in-out infinite; }
+    .error-glitch { position: relative; display: inline-block; }
+    .error-glitch::before, .error-glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-primary); }
+    .error-glitch::before { left: 2px; text-shadow: -1px 0 var(--danger); clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%); animation: glitch 2s infinite linear alternate-reverse; }
+    .error-glitch::after { left: -2px; text-shadow: -1px 0 var(--accent); clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); animation: glitch 3s infinite linear alternate-reverse; }
+    @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-1px, 1px); } 40% { transform: translate(-1px, -1px); } 60% { transform: translate(1px, 1px); } 80% { transform: translate(1px, -1px); } 100% { transform: translate(0); } }
+    .error-title { font-size: var(--fs-3xl); margin-bottom: var(--sp-3); }
+    .error-text { font-size: var(--fs-lg); color: var(--text-secondary); margin-bottom: var(--sp-8); line-height: 1.6; }
+    .error-actions { display: flex; gap: var(--sp-3); justify-content: center; flex-wrap: wrap; margin-bottom: var(--sp-8); }
+    .error-suggestions { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); text-align: left; }
+    .error-suggestion { padding: var(--sp-3); background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); backdrop-filter: blur(20px); transition: all var(--t-base); text-decoration: none; }
+    .error-suggestion:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .error-suggestion-icon { font-size: 24px; margin-bottom: var(--sp-2); }
+    .error-suggestion-title { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--text-primary); margin-bottom: 2px; }
+    .error-suggestion-desc { font-size: 11px; color: var(--text-muted); }
+    .error-bg { position: absolute; inset: 0; overflow: hidden; opacity: 0.5; }
+    .error-bg svg { width: 100%; height: 100%; }
+    @media (max-width: 600px) { .error-suggestions { grid-template-columns: 1fr; } .error-illustration { font-size: 5rem; } }
+  </style>
+</head>
+<body>
+
+  <main class="error-page">
+    <div class="error-bg">
+      <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+        <g stroke="#3B82F6" stroke-width="1" fill="none" opacity="0.4">
+          <path d="M 0 200 L 200 200 L 200 100 L 400 100" stroke-dasharray="5 5"/>
+          <path d="M 100 0 L 100 150 L 250 150 L 250 300" stroke-dasharray="5 5"/>
+          <path d="M 400 0 L 400 200 L 600 200" stroke-dasharray="5 5"/>
+          <path d="M 600 0 L 600 100 L 800 100 L 800 250" stroke-dasharray="5 5"/>
+          <path d="M 800 0 L 800 150 L 1000 150" stroke-dasharray="5 5"/>
+          <path d="M 200 400 L 200 600 L 400 600" stroke-dasharray="5 5"/>
+          <path d="M 500 500 L 700 500 L 700 700" stroke-dasharray="5 5"/>
+          <path d="M 800 400 L 1000 400 L 1000 600" stroke-dasharray="5 5"/>
+        </g>
+        <g fill="#3B82F6">
+          <circle cx="200" cy="200" r="3"/>
+          <circle cx="600" cy="200" r="3"/>
+          <circle cx="1000" cy="150" r="3"/>
+          <circle cx="400" cy="600" r="3"/>
+          <circle cx="700" cy="700" r="3"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="error-content">
+      <div class="error-illustration error-glitch" data-text="404">404</div>
+      <h1 class="error-title">Página no encontrada</h1>
+      <p class="error-text">La ruta que buscás no existe o fue movida. Pero no te preocupes, hay mucho más para explorar en Academia Jota Rubio.</p>
+
+      <div class="error-actions">
+        <a href="index.html" class="btn btn-primary btn-lg">← Volver al inicio</a>
+        <button class="btn btn-secondary btn-lg" onclick="history.back()">← Página anterior</button>
+      </div>
+
+      <div class="error-suggestions">
+        <a href="academia.html" class="error-suggestion">
+          <div class="error-suggestion-icon">🎓</div>
+          <div class="error-suggestion-title">Academia</div>
+          <div class="error-suggestion-desc">120+ cursos técnicos</div>
+        </a>
+        <a href="dashboard.html" class="error-suggestion">
+          <div class="error-suggestion-icon">🏠</div>
+          <div class="error-suggestion-title">Dashboard</div>
+          <div class="error-suggestion-desc">Tu panel personal</div>
+        </a>
+        <a href="foro.html" class="error-suggestion">
+          <div class="error-suggestion-icon">💬</div>
+          <div class="error-suggestion-title">Foro</div>
+          <div class="error-suggestion-desc">Comunidad activa</div>
+        </a>
+        <a href="ia.html" class="error-suggestion">
+          <div class="error-suggestion-icon">🤖</div>
+          <div class="error-suggestion-title">IA Técnica</div>
+          <div class="error-suggestion-desc">Asistente de diagnóstico</div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Easter egg: tipear "404" en cualquier lado para volver al inicio
+    let sequence = '';
+    document.addEventListener('keydown', e => {
+      sequence += e.key;
+      if (sequence.includes('404')) {
+        window.location.href = 'index.html';
+      }
+      if (sequence.length > 10) sequence = sequence.slice(-10);
+    });
+  </script>
+</body>
+</html>

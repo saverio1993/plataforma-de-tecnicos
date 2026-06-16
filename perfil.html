@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carlos Méndez · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    .profile-hero { background: linear-gradient(180deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.05), transparent); border-bottom: 1px solid var(--border); }
+    .profile-banner { height: 200px; background: linear-gradient(135deg, #1e3a8a, #3B82F6, #10B981); position: relative; overflow: hidden; }
+    .profile-banner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent 50%), radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.4), transparent 50%); }
+    .profile-banner svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.3; }
+    .profile-header { max-width: 1280px; margin: 0 auto; padding: 0 var(--sp-6) var(--sp-6); position: relative; }
+    .profile-avatar-wrap { position: relative; display: inline-block; margin-top: -64px; margin-bottom: var(--sp-3); }
+    .profile-avatar { width: 128px; height: 128px; border-radius: 50%; background: linear-gradient(135deg, #3B82F6, #10B981); border: 4px solid var(--bg-primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: var(--fw-black); font-size: 3rem; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .profile-status { position: absolute; bottom: 8px; right: 8px; width: 28px; height: 28px; background: var(--success); border: 4px solid var(--bg-primary); border-radius: 50%; }
+    .profile-info { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--sp-4); }
+    .profile-name-block h1 { font-size: var(--fs-3xl); margin-bottom: var(--sp-1); }
+    .profile-username { color: var(--text-secondary); font-size: var(--fs-lg); margin-bottom: var(--sp-2); font-family: var(--font-mono); }
+    .profile-bio { max-width: 600px; margin-bottom: var(--sp-3); font-size: var(--fs-base); }
+    .profile-meta { display: flex; gap: var(--sp-4); flex-wrap: wrap; font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-4); }
+    .profile-meta span { display: flex; align-items: center; gap: 4px; }
+    .profile-actions { display: flex; gap: var(--sp-2); }
+    .profile-stats { display: flex; gap: var(--sp-6); padding: var(--sp-4) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: var(--sp-3); flex-wrap: wrap; }
+    .profile-stat-item { }
+    .profile-stat-value { font-size: var(--fs-xl); font-weight: var(--fw-bold); color: var(--text-primary); }
+    .profile-stat-value strong { color: var(--accent); }
+    .profile-stat-label { font-size: var(--fs-xs); color: var(--text-secondary); text-transform: uppercase; }
+    .profile-layout { max-width: 1280px; margin: var(--sp-6) auto 0; padding: 0 var(--sp-6) var(--sp-12); display: grid; grid-template-columns: 1fr 320px; gap: var(--sp-6); }
+    .profile-tabs { display: flex; gap: var(--sp-1); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-5); }
+    .profile-tab { padding: var(--sp-3) var(--sp-5); color: var(--text-secondary); font-weight: var(--fw-medium); border-bottom: 2px solid transparent; cursor: pointer; transition: all var(--t-fast); font-size: var(--fs-sm); display: flex; align-items: center; gap: var(--sp-2); }
+    .profile-tab:hover { color: var(--text-primary); }
+    .profile-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .profile-tab-count { font-size: 11px; padding: 2px 6px; background: var(--bg-tertiary); border-radius: var(--radius-full); color: var(--text-muted); }
+    .profile-tab.active .profile-tab-count { background: var(--accent-soft); color: var(--accent); }
+    .pin-item { display: flex; gap: var(--sp-3); padding: var(--sp-4); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--sp-3); transition: all var(--t-base); cursor: pointer; }
+    .pin-item:hover { border-color: var(--accent); transform: translateX(2px); }
+    .pin-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .pin-icon.course { background: var(--accent-soft); color: var(--accent); }
+    .pin-icon.biblioteca { background: var(--warning-soft); color: var(--warning); }
+    .pin-icon.forum { background: var(--success-soft); color: var(--success); }
+    .pin-info { flex: 1; min-width: 0; }
+    .pin-title { font-weight: var(--fw-semibold); font-size: var(--fs-sm); margin-bottom: 2px; }
+    .pin-meta { font-size: var(--fs-xs); color: var(--text-muted); }
+    .activity-graph { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-4); margin-bottom: var(--sp-5); }
+    .activity-graph-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-3); }
+    .activity-grid { display: grid; grid-template-columns: repeat(53, 1fr); gap: 3px; }
+    .activity-cell { aspect-ratio: 1; background: var(--bg-tertiary); border-radius: 2px; cursor: pointer; transition: all var(--t-fast); }
+    .activity-cell:hover { transform: scale(1.4); }
+    .activity-cell.l1 { background: rgba(59, 130, 246, 0.2); }
+    .activity-cell.l2 { background: rgba(59, 130, 246, 0.4); }
+    .-cell.l3 { background: rgba(59, 130, 246, 0.6); }
+    .activity-cell.l4 { background: rgba(59, 130, 246, 0.8); }
+    .activity-cell.l5 { background: rgba(59, 130, 246, 1); }
+    .skill-bar { padding: var(--sp-3) 0; }
+    .skill-bar-header { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: var(--fs-sm); }
+    .skill-bar-name { font-weight: var(--fw-semibold); }
+    .skill-bar-value { color: var(--accent); font-family: var(--font-mono); font-size: 12px; }
+    .skill-bar-track { height: 6px; background: var(--bg-tertiary); border-radius: 999px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--success)); border-radius: 999px; }
+    .badge-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); }
+    .badge-item { text-align: center; padding: var(--sp-3); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); transition: all var(--t-base); cursor: pointer; }
+    .badge-item:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .badge-icon { font-size: 32px; margin-bottom: var(--sp-2); }
+    .badge-name { font-size: 11px; font-weight: var(--fw-semibold); }
+    .badge-rank { font-size: 10px; color: var(--warning); margin-top: 2px; text-transform: uppercase; }
+    .sidebar-card-mini { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-4); backdrop-filter: blur(20px); margin-bottom: var(--sp-4); }
+    .sidebar-card-mini h3 { font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: var(--sp-3); }
+    .org-item { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) 0; }
+    .org-avatar { width: 32px; height: 32px; border-radius: var(--radius-sm); }
+    .org-name { font-size: var(--fs-sm); font-weight: var(--fw-semibold); }
+    .org-role { font-size: 11px; color: var(--text-muted); }
+    @media (max-width: 900px) { .profile-layout { grid-template-columns: 1fr; } .profile-banner { height: 140px; } .profile-avatar { width: 96px; height: 96px; font-size: 2.25rem; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="academia.html" class="navbar-link">Academia</a></li>
+        <li><a href="biblioteca.html" class="navbar-link">Biblioteca</a></li>
+        <li><a href="foro.html" class="navbar-link">Foro</a></li>
+        <li><a href="ia.html" class="navbar-link">IA</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">← Volver</a>
+        <a href="planes.html" class="btn btn-primary btn-sm">⚡ Pro</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="profile-hero">
+    <div class="profile-banner">
+      <svg viewBox="0 0 1280 200" preserveAspectRatio="xMidYMid slice">
+        <g stroke="#3B82F6" stroke-width="1" fill="none" opacity="0.5">
+          <path d="M 0 100 L 200 100 L 200 50 L 400 50 L 400 150 L 600 150"/>
+          <path d="M 0 180 L 300 180 L 300 80 L 500 80"/>
+          <path d="M 700 0 L 700 100 L 900 100 L 900 200"/>
+          <path d="M 1000 50 L 1100 50 L 1100 150 L 1280 150"/>
+        </g>
+        <g fill="#3B82F6">
+          <circle cx="200" cy="100" r="4"/>
+          <circle cx="400" cy="150" r="4"/>
+          <circle cx="300" cy="80" r="4"/>
+          <circle cx="700" cy="100" r="4"/>
+          <circle cx="1100" cy="150" r="4"/>
+        </g>
+        <g fill="#10B981">
+          <circle cx="400" cy="50" r="4"/>
+          <circle cx="900" cy="100" r="4"/>
+          <circle cx="300" cy="180" r="4"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="profile-header">
+      <div class="profile-info">
+        <div>
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar">CM</div>
+            <div class="profile-status"></div>
+          </div>
+          <div class="profile-name-block">
+            <h1>Carlos Méndez</h1>
+            <div class="profile-username">@carlos_repair</div>
+            <p class="profile-bio">Técnico certificado Apple · 12 años reparando iPhones · Ex-genio del Apple Store · Fundé mi propio taller premium en CDMX. Instructor en Academia Jota Rubio desde 2024.</p>
+            <div class="profile-meta">
+              <span>📍 Ciudad de México, MX</span>
+              <span>📅 Se unió en marzo 2024</span>
+              <span>🔗 <a href="#" style="color: var(--accent);">carlosrepair.com</a></span>
+              <span>🐦 <a href="#" style="color: var(--accent);">@carlos_repair</a></span>
+            </div>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button class="btn btn-secondary">🔔 Seguir</button>
+          <button class="btn btn-primary">💬 Mensaje</button>
+        </div>
+      </div>
+
+      <div class="profile-stats">
+        <div class="profile-stat-item">
+          <div class="profile-stat-value"><strong>3,421</strong></div>
+          <div class="profile-stat-label">Seguidores</div>
+        </div>
+        <div class="profile-stat-item">
+          <div class="profile-stat-value"><strong>847</strong></div>
+          <div class="profile-stat-label">Siguiendo</div>
+        </div>
+        <div class="profile-stat-item">
+          <div class="profile-stat-value"><strong>4,892</strong></div>
+          <div class="profile-stat-label">Estudiantes</div>
+        </div>
+        <div class="profile-stat-item">
+          <div class="profile-stat-value"><strong>1,247</strong></div>
+          <div class="profile-stat-label">Posts</div>
+        </div>
+        <div class="profile-stat-item">
+          <div class="profile-stat-value"><strong>8</strong> cursos</div>
+          <div class="profile-stat-label">Instructor</div>
+        </div>
+        <div class="profile-stat-item">
+          <div class="profile-stat-value"><strong>15,420</strong></div>
+          <div class="profile-stat-label">Reputación</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="profile-layout">
+    <main>
+      <div class="activity-graph">
+        <div class="activity-graph-header">
+          <div>
+            <strong>847 contribuciones</strong> en el último año
+          </div>
+          <div style="font-size: var(--fs-xs); color: var(--text-muted);">Más activo en: <strong style="color: var(--success);">Sábados</strong></div>
+        </div>
+        <div class="activity-grid" id="activityGrid"></div>
+        <div style="display: flex; gap: 4px; align-items: center; justify-content: flex-end; margin-top: var(--sp-3); font-size: var(--fs-xs); color: var(--text-muted);">
+          <span>Menos</span>
+          <div style="display: flex; gap: 3px;">
+            <div class="activity-cell" style="width: 12px; height: 12px;"></div>
+            <div class="activity-cell l1" style="width: 12px; height: 12px;"></div>
+            <div class="activity-cell l2" style="width: 12px; height: 12px;"></div>
+            <div class="activity-cell l3" style="width: 12px; height: 12px;"></div>
+            <div class="activity-cell l4" style="width: 12px; height: 12px;"></div>
+            <div class="activity-cell l5" style="width: 12px; height: 12px;"></div>
+          </div>
+          <span>Más</span>
+        </div>
+      </div>
+
+      <div class="profile-tabs">
+        <div class="profile-tab active" data-tab="overview">📌 Overview</div>
+        <div class="profile-tab" data-tab="cursos">🎓 Cursos <span class="profile-tab-count">8</span></div>
+        <div class="profile-tab" data-tab="logros">🏆 Logros <span class="profile-tab-count">24</span></div>
+        <div class="profile-tab" data-tab="actividad">📊 Actividad</div>
+        <div class="profile-tab" data-tab="reputacion">⭐ Reputación</div>
+      </div>
+
+      <div class="tab-content active" data-tab="overview">
+        <h3 style="font-size: var(--fs-lg); margin-bottom: var(--sp-3);">📌 Pines</h3>
+        <p style="font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-4);">Lo más destacado del perfil de Carlos</p>
+
+        <div class="pin-item">
+          <div class="pin-icon course">🎓</div>
+          <div class="pin-info">
+            <div class="pin-title">Reparación profesional de iPhone · Nivel 2</div>
+            <div class="pin-meta">📚 Curso · 1,248 estudiantes · ⭐ 4.9</div>
+          </div>
+          <div style="color: var(--text-muted); font-size: var(--fs-xs);">Bestseller</div>
+        </div>
+
+        <div class="pin-item">
+          <div class="pin-icon biblioteca">📚</div>
+          <div class="pin-info">
+            <div class="pin-title">Esquemático iPhone 13 Pro · Full Board</div>
+            <div class="pin-meta">📄 Biblioteca · 14.2 MB · 248 páginas</div>
+          </div>
+        </div>
+
+        <div class="pin-item">
+          <div class="pin-icon forum">💬</div>
+          <div class="pin-info">
+            <div class="pin-title">MEGA-TUTORIAL: Aprende a leer esquemáticos en 7 días</div>
+            <div class="pin-meta">💬 Foro · 42 respuestas · 3.2K vistas</div>
+          </div>
+          <div style="color: var(--text-muted); font-size: var(--fs-xs);">Fijado</div>
+        </div>
+
+        <div class="pin-item">
+          <div class="pin-icon course">🎓</div>
+          <div class="pin-info">
+            <div class="pin-title">Reparación de Laptops · Diagnóstico avanzado</div>
+            <div class="pin-meta">📚 Curso · 1,124 estudiantes · ⭐ 4.88</div>
+          </div>
+        </div>
+
+        <h3 style="font-size: var(--fs-lg); margin: var(--sp-8) 0 var(--sp-3);">💼 Habilidades técnicas</h3>
+
+        <div class="skill-bar">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">📱 Reparación iPhone</span>
+            <span class="skill-bar-value">98%</span>
+          </div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 98%"></div></div>
+        </div>
+
+        <div class="skill-bar">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">🔬 Micro-soldadura / Board level</span>
+            <span class="skill-bar-value">87%</span>
+          </div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 87%"></div></div>
+        </div>
+
+        <div class="skill-bar">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">💻 Reparación MacBook</span>
+            <span class="skill-bar-value">82%</span>
+          </div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 82%"></div></div>
+        </div>
+
+        <div class="skill-bar">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">📐 Lectura de esquemáticos</span>
+            <span class="skill-bar-value">95%</span>
+          </div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 95%"></div></div>
+        </div>
+
+        <div class="skill-bar">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">🤖 IA aplicada a diagnóstico</span>
+            <span class="skill-bar-value">68%</span>
+          </div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 68%"></div></div>
+        </div>
+
+        <h3 style="font-size: var(--fs-lg); margin: var(--sp-8) 0 var(--sp-3);">🏆 Logros recientes</h3>
+
+        <div class="badge-grid">
+          <div class="badge-item">
+            <div class="badge-icon">🎓</div>
+            <div class="badge-name">Top Instructor</div>
+            <div class="badge-rank">★★★★★</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon">⭐</div>
+            <div class="badge-name">10K Posts</div>
+            <div class="badge-rank">★★★★</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon">🔥</div>
+            <div class="badge-name">Trending</div>
+            <div class="badge-rank">★★★★★</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon">💎</div>
+            <div class="badge-name">Verified Pro</div>
+            <div class="badge-rank">★★★★★</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon">🎯</div>
+            <div class="badge-name">Micro Pro</div>
+            <div class="badge-rank">★★★★★</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon">🛠</div>
+            <div class="badge-name">Master Tech</div>
+            <div class="badge-rank">★★★★</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon">📚</div>
+            <div class="badge-name">Author</div>
+            <div class="badge-rank">★★★</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon">🚀</div>
+            <div class="badge-name">Early Adopter</div>
+            <div class="badge-rank">★★★</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" data-tab="cursos" style="display: none;">
+        <h3 style="margin-bottom: var(--sp-4);">🎓 Cursos que enseña</h3>
+        <p style="color: var(--text-secondary); font-size: var(--fs-sm); margin-bottom: var(--sp-4);">8 cursos · 4,892 estudiantes totales</p>
+        <div class="courses-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-4);">
+          <div class="course-card reveal">
+            <div class="course-thumb" style="background: linear-gradient(135deg, #1e3a8a, #3B82F6);"><div class="course-thumb-text">iPHONE<br>REPAIR</div><span class="course-duration">12h 40m</span></div>
+            <div class="course-body">
+              <div class="course-meta"><span class="badge badge-primary">Smartphones</span></div>
+              <div class="course-title">Reparación profesional de iPhone · Nivel 2</div>
+              <div class="course-stats" style="display: flex; gap: 12px; font-size: 11px; color: var(--text-muted); padding-top: 8px; border-top: 1px solid var(--border); margin-top: 8px;"><span>⭐ 4.9 (234)</span><span>👥 1,248</span></div>
+            </div>
+          </div>
+          <div class="course-card reveal delay-1">
+            <div class="course-thumb" style="background: linear-gradient(135deg, #7c2d12, #EA580C);"><div class="course-thumb-text">LAPTOP<br>BOARD</div><span class="course-duration">22h 10m</span></div>
+            <div class="course-body">
+              <div class="course-meta"><span class="badge badge-primary">Laptops</span></div>
+              <div class="course-title">Reparación de Laptops · Diagnóstico avanzado</div>
+              <div class="course-stats" style="display: flex; gap: 12px; font-size: 11px; color: var(--text-muted); padding-top: 8px; border-top: 1px solid var(--border); margin-top: 8px;"><span>⭐ 4.88 (298)</span><span>👥 1,124</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" data-tab="logros" style="display: none;">
+        <h3 style="margin-bottom: var(--sp-4);">🏆 Todos los logros</h3>
+        <div class="badge-grid" style="grid-template-columns: repeat(6, 1fr);">
+          <div class="badge-item"><div class="badge-icon">🎓</div><div class="badge-name">Top Instructor</div><div class="badge-rank">★★★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">⭐</div><div class="badge-name">10K Posts</div><div class="badge-rank">★★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">🔥</div><div class="badge-name">Trending</div><div class="badge-rank">★★★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">💎</div><div class="badge-name">Verified Pro</div><div class="badge-rank">★★★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">🎯</div><div class="badge-name">Micro Pro</div><div class="badge-rank">★★★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">🛠</div><div class="badge-name">Master Tech</div><div class="badge-rank">★★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">📚</div><div class="badge-name">Author</div><div class="badge-rank">★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">🚀</div><div class="badge-name">Early Adopter</div><div class="badge-rank">★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">💬</div><div class="badge-name">Helper</div><div class="badge-rank">★★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">🎥</div><div class="badge-name">Streamer</div><div class="badge-rank">★★★★★</div></div>
+          <div class="badge-item"><div class="badge-icon">🏅</div><div class="badge-name">First Course</div><div class="badge-rank">★★</div></div>
+          <div class="badge-item"><div class="badge-icon">🌟</div><div class="badge-name">Community Star</div><div class="badge-rank">★★★★★</div></div>
+        </div>
+      </div>
+
+      <div class="tab-content" data-tab="actividad" style="display: none;">
+        <h3 style="margin-bottom: var(--sp-4);">📊 Actividad reciente</h3>
+        <div style="display: flex; flex-direction: column; gap: var(--sp-3);">
+          <div style="padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md); display: flex; gap: var(--sp-3);">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 18px;">🎥</div>
+            <div style="flex: 1;">
+              <div style="font-size: var(--fs-sm);">Publicó nuevo directo: <strong>"Reparación iPhone 14 Pro · Taptic Engine"</strong></div>
+              <div style="font-size: var(--fs-xs); color: var(--text-muted); margin-top: 2px;">Hace 1 hora</div>
+            </div>
+          </div>
+          <div style="padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md); display: flex; gap: var(--sp-3);">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--success-soft); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 18px;">💬</div>
+            <div style="flex: 1;">
+              <div style="font-size: var(--fs-sm);">Respondió 8 preguntas en el foro</div>
+              <div style="font-size: var(--fs-xs); color: var(--text-muted); margin-top: 2px;">Hace 3 horas</div>
+            </div>
+          </div>
+          <div style="padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md); display: flex; gap: var(--sp-3);">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--warning-soft); color: var(--warning); display: flex; align-items: center; justify-content: center; font-size: 18px;">📚</div>
+            <div style="flex: 1;">
+              <div style="font-size: var(--fs-sm);">Subió nuevo recurso a la biblioteca: <strong>"Esquema Samsung S22"</strong></div>
+              <div style="font-size: var(--fs-xs); color: var(--text-muted); margin-top: 2px;">Hace 4 horas</div>
+            </div>
+          </div>
+          <div style="padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md); display: flex; gap: var(--sp-3);">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(168, 85, 247, 0.15); color: #A855F7; display: flex; align-items: center; justify-content: center; font-size: 18px;">🏆</div>
+            <div style="flex: 1;">
+              <div style="font-size: var(--fs-sm);">Obtuvo el badge <strong>"Streamer"</strong> por llegar a 100 directos</div>
+              <div style="font-size: var(--fs-xs); color: var(--text-muted); margin-top: 2px;">Ayer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" data-tab="reputacion" style="display: none;">
+        <h3 style="margin-bottom: var(--sp-4);">⭐ Reputación y nivel</h3>
+        <div style="padding: var(--sp-5); background: linear-gradient(135deg, var(--accent-soft), rgba(16, 185, 129, 0.1)); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: var(--radius-lg); margin-bottom: var(--sp-5);">
+          <div style="display: flex; align-items: center; gap: var(--sp-4); margin-bottom: var(--sp-3);">
+            <div style="font-size: 3rem;">👑</div>
+            <div>
+              <div style="font-size: var(--fs-2xl); font-weight: var(--fw-black);">Nivel 24 · Master Tech</div>
+              <div style="font-size: var(--fs-sm); color: var(--text-secondary);">15,420 puntos de reputación</div>
+            </div>
+          </div>
+          <div style="height: 8px; background: var(--bg-tertiary); border-radius: 999px; overflow: hidden;">
+            <div style="height: 100%; width: 73%; background: linear-gradient(90deg, var(--accent), var(--success), var(--warning)); border-radius: 999px;"></div>
+          </div>
+          <div style="font-size: var(--fs-xs); color: var(--text-muted); margin-top: 6px;">4,580 puntos para el siguiente nivel (Legend)</div>
+        </div>
+
+        <h4 style="margin-bottom: var(--sp-3);">🏅 Insignias obtenidas</h4>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-3);">
+          <div style="padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md); display: flex; gap: var(--sp-3); align-items: center;">
+            <div style="font-size: 32px;">🥇</div>
+            <div>
+              <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Gold Supporter</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Donó $500+ a la comunidad</div>
+            </div>
+          </div>
+          <div style="padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md); display: flex; gap: var(--sp-3); align-items: center;">
+            <div style="font-size: 32px;">🎯</div>
+            <div>
+              <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Answer Master</div>
+              <div style="font-size: 11px; color: var(--text-muted);">500+ respuestas aceptadas</div>
+            </div>
+          </div>
+          <div style="padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md); display: flex; gap: var(--sp-3); align-items: center;">
+            <div style="font-size: 32px;">🚀</div>
+            <div>
+              <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Beta Tester</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Probó features en beta</div>
+            </div>
+          </div>
+          <div style="padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md); display: flex; gap: var(--sp-3); align-items: center;">
+            <div style="font-size: 32px;">🌟</div>
+            <div>
+              <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Community Pillar</div>
+              <div style="font-size: 11px; color: var(--text-muted);">2 años activo en la comunidad</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <aside>
+      <div class="sidebar-card-mini">
+        <h3>🏢 Organizaciones</h3>
+        <div class="org-item">
+          <div class="org-avatar" style="background: linear-gradient(135deg, #1e3a8a, #3B82F6); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px;">JR</div>
+          <div>
+            <div class="org-name">Academia Jota Rubio</div>
+            <div class="org-role">Instructor · desde 2024</div>
+          </div>
+        </div>
+        <div class="org-item">
+          <div class="org-avatar" style="background: linear-gradient(135deg, #831843, #DB2777); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px;">CT</div>
+          <div>
+            <div class="org-name">CarlosTech Repair</div>
+            <div class="org-role">Owner · desde 2018</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-card-mini">
+        <h3>🎯 Especialidades</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <span class="badge badge-primary">iPhone</span>
+          <span class="badge badge-success">MacBook</span>
+          <span class="badge badge-warning">Micro-soldadura</span>
+          <span class="badge badge-primary">BGA Reballing</span>
+          <span class="badge badge-success">Diagnóstico</span>
+          <span class="badge badge-warning">Esquemáticos</span>
+        </div>
+      </div>
+
+      <div class="sidebar-card-mini">
+        <h3>📊 Stats rápidas</h3>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: var(--fs-sm);">
+          <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-secondary);">Posts en foro</span><strong>1,247</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-secondary);">Respuestas aceptadas</span><strong>892</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-secondary);">Recursos subidos</span><strong>34</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-secondary);">Transmisiones</span><strong>128</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-secondary);">Tiempo en comunidad</span><strong>2 años</strong></div>
+        </div>
+      </div>
+
+      <div class="sidebar-card-mini">
+        <h3>🔗 Links</h3>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <a href="#" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">🌐 carlosrepair.com</a>
+          <a href="#" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">🐦 @carlos_repair</a>
+          <a href="#" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">📸 @carlos_repair</a>
+          <a href="#" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">▶ CarlosTech Repair</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    // Generar activity graph (53 semanas × 7 días = 371 celdas)
+    const grid = document.getElementById('activityGrid');
+    if (grid) {
+      const totalCells = 53 * 7;
+      const today = new Date();
+      for (let i = 0; i < totalCells; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'activity-cell';
+        // Patrón aleatorio pero realista
+        const r = Math.random();
+        if (r < 0.45) cell.classList.add('l' + Math.floor(Math.random() * 2 + 1));
+        else if (r < 0.7) cell.classList.add('l' + Math.floor(Math.random() * 2 + 3));
+        else if (r < 0.85) cell.classList.add('l5');
+        // Más actividad en semanas recientes
+        const weekFromEnd = Math.floor((totalCells - i) / 7);
+        if (weekFromEnd < 8 && Math.random() > 0.3) {
+          cell.classList.add('l' + Math.floor(Math.random() * 2 + 3));
+        }
+        grid.appendChild(cell);
+      }
+    }
+
+    // Tabs
+    document.querySelectorAll('.profile-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => { c.classList.remove('active'); c.style.display = 'none'; });
+        tab.classList.add('active');
+        const targetEl = document.querySelector(`.tab-content[data-tab="${target}"]`);
+        if (targetEl) { targetEl.classList.add('active'); targetEl.style.display = 'block'; }
+      });
+    });
+  </script>
+</body>
+</html>
