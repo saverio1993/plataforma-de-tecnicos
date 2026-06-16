@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    .academia-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+    .filter-sidebar { background: var(--bg-secondary); border-right: 1px solid var(--border); padding: var(--sp-6) var(--sp-4); position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .filter-title { font-size: var(--fs-sm); font-weight: var(--fw-semibold); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin: var(--sp-4) 0 var(--sp-2); }
+    .filter-title:first-child { margin-top: 0; }
+    .filter-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .filter-item { padding: var(--sp-2) var(--sp-3); border-radius: var(--radius-sm); color: var(--text-secondary); font-size: var(--fs-sm); cursor: pointer; transition: all var(--t-fast); display: flex; justify-content: space-between; align-items: center; }
+    .filter-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+    .filter-item.active { background: var(--accent-soft); color: var(--accent); }
+    .filter-count { font-size: var(--fs-xs); color: var(--text-muted); background: var(--bg-tertiary); padding: 2px 6px; border-radius: var(--radius-full); }
+    .filter-item.active .filter-count { background: var(--accent); color: white; }
+    .academia-main { padding: var(--sp-8); }
+    .academia-header { margin-bottom: var(--sp-6); }
+    .academia-header h1 { font-size: var(--fs-3xl); margin-bottom: var(--sp-2); }
+    .academia-toolbar { display: flex; gap: var(--sp-3); align-items: center; flex-wrap: wrap; margin-bottom: var(--sp-6); }
+    .academia-toolbar .input { max-width: 400px; }
+    .academia-toolbar select { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: var(--sp-3) var(--sp-4); border-radius: var(--radius-md); }
+    .courses-grid-page { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-5); }
+    .course-card-large { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(20px); transition: all var(--t-base); cursor: pointer; }
+    .course-card-large:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .course-card-large .course-thumb { aspect-ratio: 16/9; }
+    .course-card-large .course-body { padding: var(--sp-5); }
+    .course-card-large .course-title { font-size: var(--fs-lg); margin-bottom: var(--sp-3); }
+    .course-card-large .course-desc { font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-4); line-height: 1.5; }
+    .course-card-large .course-stats { display: flex; gap: var(--sp-3); font-size: var(--fs-xs); color: var(--text-muted); padding-top: var(--sp-3); border-top: 1px solid var(--border); }
+    .course-card-large .course-stats span { display: flex; align-items: center; gap: 4px; }
+    @media (max-width: 900px) { .academia-layout { grid-template-columns: 1fr; } .filter-sidebar { display: none; } .courses-grid-page { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="academia.html" class="navbar-link" style="color: var(--accent);">Academia</a></li>
+        <li><a href="biblioteca.html" class="navbar-link">Biblioteca</a></li>
+        <li><a href="foro.html" class="navbar-link">Foro</a></li>
+        <li><a href="ia.html" class="navbar-link">IA</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">← Volver</a>
+        <a href="planes.html" class="btn btn-primary btn-sm">⚡ Pro</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="academia-layout" style="padding-top: var(--nav-height);">
+    <!-- Filter sidebar -->
+    <aside class="filter-sidebar">
+      <div class="filter-title">Categorías</div>
+      <ul class="filter-list">
+        <li class="filter-item active">Todas <span class="filter-count">120</span></li>
+        <li class="filter-item">📱 Smartphones <span class="filter-count">32</span></li>
+        <li class="filter-item">📱 Tablets <span class="filter-count">14</span></li>
+        <li class="filter-item">💻 Laptops <span class="filter-count">22</span></li>
+        <li class="filter-item">🔬 Microelectrónica <span class="filter-count">18</span></li>
+        <li class="filter-item">🔧 Soldadura <span class="filter-count">12</span></li>
+        <li class="filter-item">🤖 Diagnóstico <span class="filter-count">15</span></li>
+        <li class="filter-item">💾 Software <span class="filter-count">8</span></li>
+        <li class="filter-item">🧠 IA Aplicada <span class="filter-count">9</span></li>
+      </ul>
+
+      <div class="filter-title">Nivel</div>
+      <ul class="filter-list">
+        <li class="filter-item">Principiante <span class="filter-count">38</span></li>
+        <li class="filter-item active">Intermedio <span class="filter-count">52</span></li>
+        <li class="filter-item">Avanzado <span class="filter-count">30</span></li>
+      </ul>
+
+      <div class="filter-title">Duración</div>
+      <ul class="filter-list">
+        <li class="filter-item">Menos de 5h</li>
+        <li class="filter-item">5-15h</li>
+        <li class="filter-item">15-30h</li>
+        <li class="filter-item">+30h</li>
+      </ul>
+
+      <div class="filter-title">Instructor</div>
+      <ul class="filter-list">
+        <li class="filter-item">Carlos Méndez</li>
+        <li class="filter-item">Ana Ramírez</li>
+        <li class="filter-item">Luis Ortega</li>
+        <li class="filter-item">María González</li>
+      </ul>
+    </aside>
+
+    <!-- Main -->
+    <main class="academia-main">
+      <header class="academia-header">
+        <h1>🎓 Academia</h1>
+        <p>120+ cursos técnicos · Rutas de aprendizaje · Certificaciones</p>
+      </header>
+
+      <div class="academia-toolbar">
+        <input type="text" class="input" placeholder="Buscar curso, tema, instructor...">
+        <select>
+          <option>Más populares</option>
+          <option>Más recientes</option>
+          <option>Mejor valorados</option>
+          <option>Más cortos primero</option>
+        </select>
+        <span style="color: var(--text-secondary); font-size: var(--fs-sm); margin-left: auto;">Mostrando 1-9 de 52 resultados</span>
+      </div>
+
+      <div class="courses-grid-page">
+        <div class="course-card-large reveal">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #1e3a8a, #3B82F6);">
+            <div class="course-thumb-text">iPHONE<br>REPAIR</div>
+            <span class="course-duration">12h 40m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-primary">Smartphones</span>
+              <span class="badge badge-success">Intermedio</span>
+            </div>
+            <div class="course-title">Reparación profesional de iPhone · Nivel 2</div>
+            <p class="course-desc">Cambio de batería, pantallas, Taptic Engine, Face ID, cámaras y problemas comunes de las series 12-15.</p>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Carlos Méndez · 8 módulos · 64 clases</span>
+            </div>
+            <div class="course-stats">
+              <span>⭐ 4.9 (234)</span>
+              <span>👥 1,248</span>
+              <span>📜 Certificado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card-large reveal delay-1">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #065f46, #10B981);">
+            <div class="course-thumb-text">MICRO<br>SOLDER</div>
+            <span class="course-duration">18h 15m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-success">Microelectrónica</span>
+              <span class="badge badge-warning">Avanzado</span>
+            </div>
+            <div class="course-title">Micro-soldadura nivel avanzado · Board level</div>
+            <p class="course-desc">Reballing BGA, micro-soldadura bajo microscopio, reparación de capas y técnicas profesionales.</p>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Ana Ramírez · 12 módulos · 89 clases</span>
+            </div>
+            <div class="course-stats">
+              <span>⭐ 4.95 (412)</span>
+              <span>👥 689</span>
+              <span>📜 Certificado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card-large reveal delay-2">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #92400e, #F59E0B);">
+            <div class="course-thumb-text">AI<br>DIAG</div>
+            <span class="course-duration">8h 30m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-warning">IA Aplicada</span>
+              <span class="badge badge-primary">Todos los niveles</span>
+            </div>
+            <div class="course-title">IA para diagnóstico técnico · De cero a pro</div>
+            <p class="course-desc">Prompts efectivos, integrar LLMs en tu taller, construir tu propio asistente de diagnóstico.</p>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Luis Ortega · 6 módulos · 42 clases</span>
+            </div>
+            <div class="course-stats">
+              <span>⭐ 4.85 (187)</span>
+              <span>👥 921</span>
+              <span>📜 Certificado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card-large reveal delay-3">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #7c2d12, #EA580C);">
+            <div class="course-thumb-text">LAPTOP<br>BOARD</div>
+            <span class="course-duration">22h 10m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-primary">Laptops</span>
+              <span class="badge badge-success">Intermedio</span>
+            </div>
+            <div class="course-title">Reparación de Laptops · Diagnóstico avanzado</div>
+            <p class="course-desc">MacBook, Lenovo, HP, ASUS. Esquemas, boardview, fallas comunes y procedimientos profesionales.</p>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Carlos Méndez · 14 módulos · 102 clases</span>
+            </div>
+            <div class="course-stats">
+              <span>⭐ 4.88 (298)</span>
+              <span>👥 1,124</span>
+              <span>📜 Certificado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card-large reveal delay-4">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #831843, #DB2777);">
+            <div class="course-thumb-text">SAMSUNG<br>PRO</div>
+            <span class="course-duration">14h 50m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-primary">Smartphones</span>
+              <span class="badge badge-success">Intermedio</span>
+            </div>
+            <div class="course-title">Reparación profesional de Samsung · Series S y Note</div>
+            <p class="course-desc">Fallas comunes, código de servicio, problemas de software, hardware y módulos especiales.</p>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Ana Ramírez · 10 módulos · 76 clases</span>
+            </div>
+            <div class="course-stats">
+              <span>⭐ 4.82 (156)</span>
+              <span>👥 587</span>
+              <span>📜 Certificado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card-large reveal delay-5">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #4c1d95, #7C3AED);">
+            <div class="course-thumb-text">BGA<br>REBALL</div>
+            <span class="course-duration">10h 30m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-success">Soldadura</span>
+              <span class="badge badge-warning">Avanzado</span>
+            </div>
+            <div class="course-title">Reballing BGA · Técnica profesional</div>
+            <p class="course-desc">Estaño plomo, plomo libre, plantilla, horno, identificación de chips y temperaturas.</p>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Luis Ortega · 7 módulos · 48 clases</span>
+            </div>
+            <div class="course-stats">
+              <span>⭐ 4.93 (342)</span>
+              <span>👥 412</span>
+              <span>📜 Certificado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card-large reveal delay-1">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #0c4a6e, #0284C7);">
+            <div class="course-thumb-text">SCHEMATIC<br>READ</div>
+            <span class="course-duration">6h 20m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-warning">Diagnóstico</span>
+              <span class="badge badge-success">Intermedio</span>
+            </div>
+            <div class="course-title">Leer esquemáticos como un pro</div>
+            <p class="course-desc">Símbolos, líneas de alimentación, bloques funcionales, lectura de boardviews. De cero a avanzado.</p>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Carlos Méndez · 5 módulos · 32 clases</span>
+            </div>
+            <div class="course-stats">
+              <span>⭐ 4.86 (203)</span>
+              <span>👥 798</span>
+              <span>📜 Certificado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card-large reveal delay-2">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #064e3b, #059669);">
+            <div class="course-thumb-text">TOOLS<br>PRO</div>
+            <span class="course-duration">4h 15m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-success">Soldadura</span>
+              <span class="badge badge-primary">Principiante</span>
+            </div>
+            <div class="course-title">Tu primer laboratorio · Setup profesional</div>
+            <p class="course-desc">Estación de soldado, microscopio, multímetro, fuentes, herramientas. Guía de compra.</p>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Ana Ramírez · 4 módulos · 24 clases</span>
+            </div>
+            <div class="course-stats">
+              <span>⭐ 4.79 (118)</span>
+              <span>👥 1,567</span>
+              <span>📜 Certificado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card-large reveal delay-3">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #1e1b4b, #4F46E5);">
+            <div class="course-thumb-text">DATA<br>RECOVER</div>
+            <span class="course-duration">9h 45m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-primary">Software</span>
+              <span class="badge badge-success">Intermedio</span>
+            </div>
+            <div class="course-title">Recuperación de datos · Discos y memorias</div>
+            <p class="course-desc">HDD, SSD, eMMC, UFS. Software, hardware, casos reales. Cuándo sí y cuándo no se puede.</p>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>María González · 6 módulos · 41 clases</span>
+            </div>
+            <div class="course-stats">
+              <span>⭐ 4.81 (89)</span>
+              <span>👥 324</span>
+              <span>📜 Certificado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

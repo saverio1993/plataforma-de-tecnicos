@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Técnica · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    .library-main { padding: var(--sp-8); }
+    .library-header { margin-bottom: var(--sp-6); }
+    .library-header h1 { font-size: var(--fs-3xl); margin-bottom: var(--sp-2); }
+    .search-bar-big { display: flex; gap: var(--sp-3); margin-bottom: var(--sp-6); }
+    .search-bar-big .input { flex: 1; padding: var(--sp-4); font-size: var(--fs-base); }
+    .chip-row { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-6); }
+    .chip { padding: var(--sp-2) var(--sp-4); background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-full); color: var(--text-secondary); font-size: var(--fs-sm); cursor: pointer; transition: all var(--t-base); }
+    .chip:hover { border-color: var(--accent); color: var(--text-primary); }
+    .chip.active { background: var(--accent); color: white; border-color: transparent; }
+    .library-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--sp-4); }
+    .lib-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-5); backdrop-filter: blur(20px); transition: all var(--t-base); cursor: pointer; position: relative; overflow: hidden; }
+    .lib-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .lib-icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: var(--sp-3); }
+    .lib-icon.sch { background: var(--accent-soft); color: var(--accent); }
+    .lib-icon.data { background: var(--success-soft); color: var(--success); }
+    .lib-icon.manual { background: var(--warning-soft); color: var(--warning); }
+    .lib-icon.board { background: var(--danger-soft); color: var(--danger); }
+    .lib-icon.guide { background: rgba(168, 85, 247, 0.15); color: #A855F7; }
+    .lib-icon.tool { background: rgba(236, 72, 153, 0.15); color: #EC4899; }
+    .lib-title { font-size: var(--fs-base); font-weight: var(--fw-semibold); margin-bottom: var(--sp-1); line-height: 1.3; }
+    .lib-meta { font-size: var(--fs-xs); color: var(--text-muted); display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-3); }
+    .lib-tags { display: flex; gap: var(--sp-1); flex-wrap: wrap; }
+    .lib-tag { font-size: 10px; padding: 2px 6px; background: var(--bg-tertiary); color: var(--text-secondary); border-radius: var(--radius-sm); }
+    .lib-actions { display: flex; gap: var(--sp-2); margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--border); }
+    .lib-action { font-size: var(--fs-xs); color: var(--text-secondary); display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: var(--radius-sm); cursor: pointer; transition: all var(--t-fast); }
+    .lib-action:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="academia.html" class="navbar-link">Academia</a></li>
+        <li><a href="biblioteca.html" class="navbar-link" style="color: var(--accent);">Biblioteca</a></li>
+        <li><a href="foro.html" class="navbar-link">Foro</a></li>
+        <li><a href="ia.html" class="navbar-link">IA</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">← Volver</a>
+        <a href="planes.html" class="btn btn-primary btn-sm">⚡ Pro</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="library-main" style="padding-top: calc(var(--nav-height) + var(--sp-8));">
+    <header class="library-header">
+      <h1>📚 Biblioteca Técnica</h1>
+      <p>8,247 documentos · Manuales, esquemáticos, datasheets, guías y más</p>
+    </header>
+
+    <div class="search-bar-big">
+      <input type="text" class="input" placeholder='Buscar "iPhone 14 schematic", "Samsung S22 datasheet"...'>
+      <button class="btn btn-primary btn-lg">🔍 Buscar</button>
+    </div>
+
+    <div class="chip-row">
+      <span class="chip active">Todos</span>
+      <span class="chip">📐 Esquemáticos (1,824)</span>
+      <span class="chip">📄 Datasheets (2,103)</span>
+      <span class="chip">📖 Manuales de servicio (1,452)</span>
+      <span class="chip">🔌 Boardviews (876)</span>
+      <span class="chip">🛠 Guías paso a paso (1,189)</span>
+      <span class="chip">🧰 Herramientas (203)</span>
+    </div>
+
+    <div class="chip-row" style="margin-bottom: var(--sp-8);">
+      <span class="chip" style="background: var(--accent-soft); color: var(--accent); border-color: var(--accent);">Marcas:</span>
+      <span class="chip">🍎 Apple</span>
+      <span class="chip">📱 Samsung</span>
+      <span class="chip">📱 Xiaomi</span>
+      <span class="chip">📱 Huawei</span>
+      <span class="chip">💻 MacBook</span>
+      <span class="chip">💻 Dell</span>
+      <span class="chip">💻 Lenovo</span>
+      <span class="chip">+ 28 más</span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-4);">
+      <div style="color: var(--text-secondary); font-size: var(--fs-sm);">Mostrando 1-9 de 1,824 esquemáticos</div>
+      <select style="background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: 8px 12px; border-radius: 8px;">
+        <option>Más recientes</option>
+        <option>Más descargados</option>
+        <option>Mejor valorados</option>
+      </select>
+    </div>
+
+    <div class="library-grid">
+      <div class="lib-card reveal">
+        <div class="lib-icon sch">📐</div>
+        <div class="lib-title">iPhone 14 Pro · Schematic completo</div>
+        <div class="lib-meta">
+          <span>📄 PDF · 14.2 MB</span>
+          <span>·</span>
+          <span>📃 248 págs</span>
+          <span>·</span>
+          <span>📅 2025-08</span>
+        </div>
+        <div class="lib-tags">
+          <span class="lib-tag">Apple</span>
+          <span class="lib-tag">iPhone 14 Pro</span>
+          <span class="lib-tag">A16 Bionic</span>
+          <span class="lib-tag">Board level</span>
+        </div>
+        <div class="lib-actions">
+          <span class="lib-action">👁 Vista previa</span>
+          <span class="lib-action">⬇ Descargar</span>
+          <span class="lib-action" style="margin-left: auto;">🔖 Guardar</span>
+        </div>
+      </div>
+
+      <div class="lib-card reveal delay-1">
+        <div class="lib-icon data">📄</div>
+        <div class="lib-title">Samsung Galaxy S22 · Datasheet Exynos 2200</div>
+        <div class="lib-meta">
+          <span>📄 PDF · 8.4 MB</span>
+          <span>·</span>
+          <span>📃 132 págs</span>
+          <span>·</span>
+          <span>📅 2025-09</span>
+        </div>
+        <div class="lib-tags">
+          <span class="lib-tag">Samsung</span>
+          <span class="lib-tag">S22</span>
+          <span class="lib-tag">Exynos 2200</span>
+        </div>
+        <div class="lib-actions">
+          <span class="lib-action">👁 Vista previa</span>
+          <span class="lib-action">⬇ Descargar</span>
+          <span class="lib-action" style="margin-left: auto;">🔖 Guardar</span>
+        </div>
+      </div>
+
+      <div class="lib-card reveal delay-2">
+        <div class="lib-icon board">🔌</div>
+        <div class="lib-title">MacBook Pro M1 · Boardview completo</div>
+        <div class="lib-meta">
+          <span>📄 PDF · 22.1 MB</span>
+          <span>·</span>
+          <span>📃 412 págs</span>
+          <span>·</span>
+          <span>📅 2025-07</span>
+        </div>
+        <div class="lib-tags">
+          <span class="lib-tag">Apple</span>
+          <span class="lib-tag">MacBook</span>
+          <span class="lib-tag">M1 Pro</span>
+          <span class="lib-tag">Board level</span>
+        </div>
+        <div class="lib-actions">
+          <span class="lib-action">👁 Vista previa</span>
+          <span class="lib-action">⬇ Descargar</span>
+          <span class="lib-action" style="margin-left: auto;">🔖 Guardar</span>
+        </div>
+      </div>
+
+      <div class="lib-card reveal delay-3">
+        <div class="lib-icon manual">📖</div>
+        <div class="lib-title">Xiaomi Redmi Note 11 · Manual de servicio</div>
+        <div class="lib-meta">
+          <span>📄 PDF · 18.7 MB</span>
+          <span>·</span>
+          <span>📃 187 págs</span>
+          <span>·</span>
+          <span>📅 2025-06</span>
+        </div>
+        <div class="lib-tags">
+          <span class="lib-tag">Xiaomi</span>
+          <span class="lib-tag">Redmi Note 11</span>
+          <span class="lib-tag">Snapdragon 680</span>
+        </div>
+        <div class="lib-actions">
+          <span class="lib-action">👁 Vista previa</span>
+          <span class="lib-action">⬇ Descargar</span>
+          <span class="lib-action" style="margin-left: auto;">🔖 Guardar</span>
+        </div>
+      </div>
+
+      <div class="lib-card reveal delay-4">
+        <div class="lib-icon guide">🛠</div>
+        <div class="lib-title">Guía paso a paso · Cambio de batería iPhone 13</div>
+        <div class="lib-meta">
+          <span>📄 PDF + Video · 6.2 MB</span>
+          <span>·</span>
+          <span>📃 28 págs</span>
+          <span>·</span>
+          <span>📅 2025-10</span>
+        </div>
+        <div class="lib-tags">
+          <span class="lib-tag">Apple</span>
+          <span class="lib-tag">iPhone 13</span>
+          <span class="lib-tag">Batería</span>
+          <span class="lib-tag">Principiante</span>
+        </div>
+        <div class="lib-actions">
+          <span class="lib-action">▶ Ver video</span>
+          <span class="lib-action">⬇ Descargar</span>
+          <span class="lib-action" style="margin-left: auto;">🔖 Guardar</span>
+        </div>
+      </div>
+
+      <div class="lib-card reveal delay-5">
+        <div class="lib-icon sch">📐</div>
+        <div class="lib-title">iPhone 12 Pro · Schematic + Boardview</div>
+        <div class="lib-meta">
+          <span>📄 PDF · 11.8 MB</span>
+          <span>·</span>
+          <span>📃 198 págs</span>
+          <span>·</span>
+          <span>📅 2025-05</span>
+        </div>
+        <div class="lib-tags">
+          <span class="lib-tag">Apple</span>
+          <span class="lib-tag">iPhone 12 Pro</span>
+          <span class="lib-tag">A14 Bionic</span>
+        </div>
+        <div class="lib-actions">
+          <span class="lib-action">👁 Vista previa</span>
+          <span class="lib-action">⬇ Descargar</span>
+          <span class="lib-action" style="margin-left: auto;">🔖 Guardar</span>
+        </div>
+      </div>
+
+      <div class="lib-card reveal delay-1">
+        <div class="lib-icon data">📄</div>
+        <div class="lib-title">Huawei P50 Pro · Datasheet Kirin 9000</div>
+        <div class="lib-meta">
+          <span>📄 PDF · 7.3 MB</span>
+          <span>·</span>
+          <span>📃 98 págs</span>
+          <span>·</span>
+          <span>📅 2025-04</span>
+        </div>
+        <div class="lib-tags">
+          <span class="lib-tag">Huawei</span>
+          <span class="lib-tag">P50 Pro</span>
+          <span class="lib-tag">Kirin 9000</span>
+        </div>
+        <div class="lib-actions">
+          <span class="lib-action">👁 Vista previa</span>
+          <span class="lib-action">⬇ Descargar</span>
+          <span class="lib-action" style="margin-left: auto;">🔖 Guardar</span>
+        </div>
+      </div>
+
+      <div class="lib-card reveal delay-2">
+        <div class="lib-icon tool">🧰</div>
+        <div class="lib-title">Catálogo de herramientas JBC · Comparativa 2025</div>
+        <div class="lib-meta">
+          <span>📄 PDF · 4.1 MB</span>
+          <span>·</span>
+          <span>📃 36 págs</span>
+          <span>·</span>
+          <span>📅 2025-10</span>
+        </div>
+        <div class="lib-tags">
+          <span class="lib-tag">JBC</span>
+          <span class="lib-tag">Soldadura</span>
+          <span class="lib-tag">Herramientas</span>
+        </div>
+        <div class="lib-actions">
+          <span class="lib-action">👁 Vista previa</span>
+          <span class="lib-action">⬇ Descargar</span>
+          <span class="lib-action" style="margin-left: auto;">🔖 Guardar</span>
+        </div>
+      </div>
+
+      <div class="lib-card reveal delay-3">
+        <div class="lib-icon board">🔌</div>
+        <div class="lib-title">Lenovo ThinkPad X1 Carbon · Boardview</div>
+        <div class="lib-meta">
+          <span>📄 PDF · 19.4 MB</span>
+          <span>·</span>
+          <span>📃 287 págs</span>
+          <span>·</span>
+          <span>📅 2025-03</span>
+        </div>
+        <div class="lib-tags">
+          <span class="lib-tag">Lenovo</span>
+          <span class="lib-tag">ThinkPad</span>
+          <span class="lib-tag">Laptop</span>
+        </div>
+        <div class="lib-actions">
+          <span class="lib-action">👁 Vista previa</span>
+          <span class="lib-action">⬇ Descargar</span>
+          <span class="lib-action" style="margin-left: auto;">🔖 Guardar</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

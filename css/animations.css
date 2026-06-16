@@ -1,0 +1,197 @@
+/* ============================================================
+   ANIMACIONES — ACADEMIA JOTA RUBIO
+   ============================================================ */
+
+/* ---------- KEYFRAMES ---------- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33%      { transform: translate(30px, -30px) rotate(120deg); }
+  66%      { transform: translate(-20px, 20px) rotate(240deg); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
+  50%      { box-shadow: 0 0 40px var(--accent-glow), 0 0 60px var(--accent-glow); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+@keyframes drawLine {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes typingCursor {
+  0%, 100% { border-color: transparent; }
+  50%      { border-color: var(--accent); }
+}
+
+/* ---------- HERO CIRCUIT ANIMATION ---------- */
+.circuit-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.4;
+}
+
+.circuit-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.circuit-line {
+  stroke: var(--accent);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.4;
+  stroke-dasharray: 5 5;
+  animation: drawLine 4s linear infinite;
+}
+
+.circuit-line.green { stroke: var(--success); opacity: 0.3; }
+.circuit-line.amber { stroke: var(--warning); opacity: 0.3; }
+
+.circuit-node {
+  fill: var(--accent);
+  animation: blink 3s ease-in-out infinite;
+}
+
+.circuit-node.green { fill: var(--success); animation-delay: 1s; }
+.circuit-node.amber { fill: var(--warning); animation-delay: 2s; }
+
+.circuit-pulse {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Floating orbs in background */
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: floatSlow 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.bg-orb-1 {
+  width: 400px; height: 400px;
+  background: var(--accent);
+  top: 10%; left: 10%;
+}
+
+.bg-orb-2 {
+  width: 300px; height: 300px;
+  background: var(--success);
+  bottom: 20%; right: 15%;
+  animation-delay: 5s;
+}
+
+.bg-orb-3 {
+  width: 250px; height: 250px;
+  background: var(--warning);
+  top: 50%; left: 50%;
+  animation-delay: 10s;
+  opacity: 0.3;
+}
+
+/* ---------- SCROLL REVEAL ---------- */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale { opacity: 0; transform: scale(0.9); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+/* ---------- STAGGER DELAYS ---------- */
+.delay-1 { transition-delay: 0.1s !important; }
+.delay-2 { transition-delay: 0.2s !important; }
+.delay-3 { transition-delay: 0.3s !important; }
+.delay-4 { transition-delay: 0.4s !important; }
+.delay-5 { transition-delay: 0.5s !important; }
+.delay-6 { transition-delay: 0.6s !important; }
+
+/* ---------- HOVER EFFECTS ---------- */
+.hover-lift { transition: transform var(--t-base), box-shadow var(--t-base); }
+.hover-lift:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+.hover-glow { transition: all var(--t-base); }
+.hover-glow:hover { box-shadow: 0 0 30px var(--accent-glow); border-color: var(--accent); }
+
+/* ---------- LOADING STATES ---------- */
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(148, 163, 184, 0.05) 0%,
+    rgba(148, 163, 184, 0.15) 50%,
+    rgba(148, 163, 184, 0.05) 100%);
+  background-size: 2000px 100%;
+  animation: shimmer 1.5s linear infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

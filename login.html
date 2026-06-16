@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ingresar · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .login-page { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+    .login-side { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary)); padding: var(--sp-12); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+    .login-side::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, var(--accent-glow), transparent 60%); opacity: 0.3; }
+    .login-side::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.15), transparent 60%); opacity: 0.4; }
+    .login-side > * { position: relative; z-index: 1; }
+    .login-side-quote { max-width: 480px; }
+    .login-side-quote h2 { font-size: var(--fs-3xl); margin-bottom: var(--sp-4); line-height: 1.2; }
+    .login-side-quote p { font-size: var(--fs-lg); color: var(--text-secondary); margin-bottom: var(--sp-8); }
+    .login-stats-mini { display: flex; gap: var(--sp-6); margin-top: var(--sp-8); }
+    .login-stat-mini { }
+    .login-stat-mini-value { font-size: var(--fs-2xl); font-weight: var(--fw-black); font-family: var(--font-mono); color: var(--accent); }
+    .login-stat-mini-label { font-size: var(--fs-xs); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .login-testimonial { padding: var(--sp-5); background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); backdrop-filter: blur(20px); max-width: 480px; }
+    .login-testimonial-text { color: var(--text-secondary); font-size: var(--fs-sm); font-style: italic; margin-bottom: var(--sp-3); }
+    .login-testimonial-author { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-xs); }
+    .login-form-side { padding: var(--sp-12); display: flex; align-items: center; justify-content: center; }
+    .login-form { max-width: 420px; width: 100%; }
+    .login-form h1 { font-size: var(--fs-3xl); margin-bottom: var(--sp-2); }
+    .login-form > p { color: var(--text-secondary); margin-bottom: var(--sp-8); }
+    .login-form label { display: block; font-size: var(--fs-sm); font-weight: var(--fw-semibold); margin-bottom: var(--sp-2); color: var(--text-primary); }
+    .login-form .form-group { margin-bottom: var(--sp-5); }
+    .login-form .input { padding: var(--sp-4); font-size: var(--fs-base); }
+    .login-form-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-6); font-size: var(--fs-sm); }
+    .login-form-row label { display: flex; align-items: center; gap: var(--sp-2); cursor: pointer; color: var(--text-secondary); }
+    .login-form-row a { color: var(--accent); }
+    .login-divider { display: flex; align-items: center; gap: var(--sp-4); margin: var(--sp-6) 0; color: var(--text-muted); font-size: var(--fs-sm); }
+    .login-divider::before, .login-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .social-login { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
+    .social-login .btn { background: var(--bg-secondary); border: 1px solid var(--border); }
+    .social-login .btn:hover { border-color: var(--accent); }
+    .login-footer { text-align: center; margin-top: var(--sp-6); font-size: var(--fs-sm); color: var(--text-secondary); }
+    .login-footer a { color: var(--accent); font-weight: var(--fw-semibold); }
+    .back-home { position: absolute; top: var(--sp-6); left: var(--sp-6); z-index: 2; }
+    @media (max-width: 900px) { .login-page { grid-template-columns: 1fr; } .login-side { display: none; } }
+  </style>
+</head>
+<body>
+
+  <div class="login-page">
+    <a href="index.html" class="back-home"><img src="assets/logos/logo.svg" alt="Logo" style="height: 40px;"></a>
+
+    <div class="login-form-side">
+      <div class="login-form">
+        <h1>Bienvenido de vuelta</h1>
+        <p>Ingresá a tu cuenta y seguí aprendiendo.</p>
+
+        <form onsubmit="event.preventDefault(); window.location='dashboard.html';">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="input" placeholder="tu@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" class="input" placeholder="••••••••" required>
+          </div>
+
+          <div class="login-form-row">
+            <label>
+              <input type="checkbox" checked> Recordarme
+            </label>
+            <a href="#">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Ingresar</button>
+        </form>
+
+        <div class="login-divider">o ingresá con</div>
+
+        <div class="social-login">
+          <button class="btn">
+            <span style="font-size: 18px;">🔍</span>
+            Google
+          </button>
+          <button class="btn">
+            <span style="font-size: 18px;">⌨</span>
+            GitHub
+          </button>
+        </div>
+
+        <div class="login-footer">
+          ¿Sos nuevo? <a href="#">Creá una cuenta gratis</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-side">
+      <div></div>
+      <div class="login-side-quote">
+        <h2>La comunidad <span class="gradient-text">técnica</span> que necesitabas.</h2>
+        <p>2,438 técnicos activos compartiendo reparaciones, esquemáticos y diagnósticos en tiempo real.</p>
+        <div class="login-stats-mini">
+          <div class="login-stat-mini">
+            <div class="login-stat-mini-value">120+</div>
+            <div class="login-stat-mini-label">Cursos</div>
+          </div>
+          <div class="login-stat-mini">
+            <div class="login-stat-mini-value">8K+</div>
+            <div class="login-stat-mini-label">Documentos</div>
+          </div>
+          <div class="login-stat-mini">
+            <div class="login-stat-mini-value">15K</div>
+            <div class="login-stat-mini-label">Casos resueltos</div>
+          </div>
+        </div>
+      </div>
+      <div class="login-testimonial">
+        <div class="login-testimonial-text">"Pasé de no saber abrir un iPhone a tener mi propio taller. En 6 meses. Los cursos de micro-soldadura valen oro."</div>
+        <div class="login-testimonial-author">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--success)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px;">CM</div>
+          <div>
+            <div style="color: var(--text-primary); font-weight: 600;">Carlos Méndez</div>
+            <div style="color: var(--text-muted);">Técnico · Ciudad de México</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

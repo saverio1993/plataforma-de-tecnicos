@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia Jota Rubio · La plataforma premium de técnicos en reparación</title>
+  <meta name="description" content="Comunidad premium de aprendizaje para técnicos en reparación electrónica, microelectrónica e IA aplicada al diagnóstico técnico. Clases en vivo, biblioteca, foro y mentorías.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <img src="assets/logos/logo.svg" alt="Academia Jota Rubio">
+      </a>
+
+      <ul class="navbar-menu" id="navbarMenu">
+        <li><a href="#beneficios" class="navbar-link">Beneficios</a></li>
+        <li><a href="#modulos" class="navbar-link">Módulos</a></li>
+        <li><a href="#cursos" class="navbar-link">Cursos</a></li>
+        <li><a href="#ia" class="navbar-link">IA Técnica</a></li>
+        <li><a href="#planes" class="navbar-link">Planes</a></li>
+        <li><a href="#testimonios" class="navbar-link">Comunidad</a></li>
+      </ul>
+
+      <div class="navbar-actions">
+        <a href="login.html" class="btn btn-ghost btn-sm">Ingresar</a>
+        <a href="planes.html" class="btn btn-primary btn-sm">Empezar ahora</a>
+        <button class="navbar-toggle" id="navbarToggle">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero">
+    <!-- Background animado: circuitos SVG + orbs -->
+    <div class="hero-bg">
+      <svg class="circuit-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <!-- Líneas de circuito -->
+        <path class="circuit-line" d="M 0 200 L 200 200 L 200 100 L 400 100" />
+        <path class="circuit-line green" d="M 100 0 L 100 150 L 250 150 L 250 300" />
+        <path class="circuit-line" d="M 400 0 L 400 200 L 600 200" />
+        <path class="circuit-line amber" d="M 600 0 L 600 100 L 800 100 L 800 250" />
+        <path class="circuit-line green" d="M 800 0 L 800 150 L 1000 150" />
+        <path class="circuit-line" d="M 200 400 L 200 600 L 400 600" />
+        <path class="circuit-line green" d="M 500 500 L 700 500 L 700 700" />
+        <path class="circuit-line amber" d="M 800 400 L 1000 400 L 1000 600" />
+        <path class="circuit-line" d="M 0 700 L 300 700 L 300 800" />
+        <path class="circuit-line green" d="M 1000 700 L 1200 700" />
+        <path class="circuit-line" d="M 1100 200 L 1100 500" />
+
+        <!-- Nodos -->
+        <circle class="circuit-node" cx="200" cy="200" r="4" />
+        <circle class="circuit-node green" cx="400" cy="100" r="4" />
+        <circle class="circuit-node amber" cx="600" cy="200" r="4" />
+        <circle class="circuit-node" cx="800" cy="100" r="4" />
+        <circle class="circuit-node green" cx="1000" cy="150" r="4" />
+        <circle class="circuit-node" cx="200" cy="600" r="4" />
+        <circle class="circuit-node amber" cx="700" cy="500" r="4" />
+        <circle class="circuit-node" cx="1000" cy="600" r="4" />
+        <circle class="circuit-node green" cx="300" cy="700" r="4" />
+
+        <!-- Pulsos -->
+        <circle class="circuit-pulse" cx="500" cy="350" r="40" />
+      </svg>
+    </div>
+
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-tag">
+          <span class="hero-tag-dot"></span>
+          Comunidad activa · Cohorte 2026 abierta
+        </div>
+
+        <h1>
+          La plataforma donde los <span class="gradient-text">técnicos se vuelven leyenda</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Clases en vivo, biblioteca técnica, foro profesional, mentorías y un asistente de IA
+          para diagnóstico. Todo lo que necesitás para dominar la reparación electrónica.
+        </p>
+
+        <div class="hero-actions">
+          <a href="planes.html" class="btn btn-primary btn-lg">
+            Comenzar ahora
+            <span style="font-size:1.2em">→</span>
+          </a>
+          <a href="#cursos" class="btn btn-secondary btn-lg">
+            <span style="font-size:1.2em">▶</span>
+            Ver demo
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value"><span class="accent">2.4</span>K+</div>
+            <div class="hero-stat-label">Miembros</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value"><span class="accent">120</span>+</div>
+            <div class="hero-stat-label">Cursos</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value"><span class="accent">800</span>+</div>
+            <div class="hero-stat-label">Horas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mockup flotante -->
+      <div class="hero-visual">
+        <div class="floating-card live">
+          <div class="floating-icon live">●</div>
+          <div>
+            <div class="floating-text-main">EN VIVO</div>
+            <div class="floating-text-sub">Reparación iPhone · 234 viendo</div>
+          </div>
+        </div>
+
+        <div class="floating-card ia">
+          <div class="floating-icon ia">⚡</div>
+          <div>
+            <div class="floating-text-main">IA Diagnóstico</div>
+            <div class="floating-text-sub">3 causas detectadas</div>
+          </div>
+        </div>
+
+        <div class="hero-mockup">
+          <div class="mockup-bar">
+            <span class="mockup-dot r"></span>
+            <span class="mockup-dot y"></span>
+            <span class="mockup-dot g"></span>
+            <span class="mockup-title">academia.jotarubio.io</span>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-video">
+              <div class="mockup-play"></div>
+            </div>
+            <div class="mockup-rows">
+              <div class="mockup-row"></div>
+              <div class="mockup-row"></div>
+              <div class="mockup-row"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS BANNER
+       ============================================================ -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="stats-banner reveal">
+        <div class="stat-item">
+          <div class="stat-value gradient-text">2,438</div>
+          <div class="stat-label">Miembros activos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value gradient-text">120+</div>
+          <div class="stat-label">Cursos técnicos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value gradient-text">850h</div>
+          <div class="stat-label">Contenido en video</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value gradient-text">15K</div>
+          <div class="stat-label">Casos resueltos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BENEFICIOS
+       ============================================================ -->
+  <section class="section" id="beneficios">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">¿Por qué Academia Jota Rubio?</span>
+        <h2 class="section-title">Todo lo que un técnico serio necesita</h2>
+        <p class="section-subtitle">
+          Diseñado por y para profesionales de reparación electrónica. Sin relleno, sin humo, sin tutoriales de YouTube.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal delay-1">
+          <div class="feature-icon blue">🎥</div>
+          <h3>Clases en vivo</h3>
+          <p>Reparaciones en tiempo real con instructores certificados. Preguntá, intervén, aprendé viendo cómo se hace.</p>
+        </div>
+
+        <div class="feature-card reveal delay-2">
+          <div class="feature-icon green">👥</div>
+          <h3>Comunidad privada</h3>
+          <p>Foro moderado por expertos, mentorías 1:1 y un grupo cerrado donde los técnicos comparten casos reales.</p>
+        </div>
+
+        <div class="feature-card reveal delay-3">
+          <div class="feature-icon amber">📚</div>
+          <h3>Biblioteca técnica</h3>
+          <p>Esquemáticos, datasheets, manuales de servicio, guías de micro-soldadura. Todo indexado y buscable.</p>
+        </div>
+
+        <div class="feature-card reveal delay-4">
+          <div class="feature-icon red">🤖</div>
+          <h3>IA para diagnóstico</h3>
+          <p>Describí el síntoma, marca y modelo. La IA propone causas, pruebas y soluciones en segundos.</p>
+        </div>
+
+        <div class="feature-card reveal delay-5">
+          <div class="feature-icon blue">🎓</div>
+          <h3>Soporte profesional</h3>
+          <p>Subí fotos, esquemáticos y logs. Recibí respuesta de un técnico senior verificado en menos de 24 h.</p>
+        </div>
+
+        <div class="feature-card reveal delay-6">
+          <div class="feature-icon green">🏆</div>
+          <h3>Certificaciones</h3>
+          <p>Validá tus habilidades con certificaciones reconocidas por la industria. Mostralas en tu taller o CV.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MÓDULOS SHOWCASE
+       ============================================================ -->
+  <section class="section" id="modulos" style="background: linear-gradient(180deg, transparent, rgba(30, 41, 59, 0.3), transparent);">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulos principales</span>
+        <h2 class="section-title">Una plataforma, seis superpoderes</h2>
+        <p class="section-subtitle">Cada módulo pensado para una parte del trabajo real de un técnico.</p>
+      </div>
+
+      <div class="modules-tabs reveal" id="moduleTabs">
+        <button class="module-tab active" data-module="streaming">📺 Transmisiones</button>
+        <button class="module-tab" data-module="academia">🎓 Academia</button>
+        <button class="module-tab" data-module="biblioteca">📚 Biblioteca</button>
+        <button class="module-tab" data-module="foro">💬 Foro</button>
+        <button class="module-tab" data-module="consultas">🔧 Consultas</button>
+        <button class="module-tab" data-module="ia">🤖 IA Técnica</button>
+      </div>
+
+      <div>
+        <div class="module-content active" data-module="streaming">
+          <div class="module-text">
+            <h3>Streaming en vivo todas las semanas</h3>
+            <p>Reparaciones reales, en vivo, con audio de la mesa de trabajo. Vea el multímetro, vea el microscopio, vea el soldador.</p>
+            <ul class="module-features">
+              <li>HD + multicámara con vista microscopio</li>
+              <li>Chat en vivo con moderación</li>
+              <li>Grabaciones disponibles 24/7</li>
+              <li>Próximos directos con recordatorio automático</li>
+            </ul>
+            <a href="#" class="btn btn-primary">Ver próximas transmisiones</a>
+          </div>
+          <div class="module-visual">
+            <div style="padding: var(--sp-6); height: 100%; display: flex; flex-direction: column; gap: var(--sp-3);">
+              <div style="aspect-ratio: 16/9; background: linear-gradient(135deg, #0F172A, #1E293B); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid var(--border);">
+                <div style="position: absolute; top: 12px; left: 12px; background: var(--danger); color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700;">● EN VIVO</div>
+                <div style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.7); color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px;">👁 234</div>
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.95); display: flex; align-items: center; justify-content: center;">
+                  <div style="width: 0; height: 0; border-left: 14px solid #0F172A; border-top: 9px solid transparent; border-bottom: 9px solid transparent; margin-left: 3px;"></div>
+                </div>
+              </div>
+              <div style="display: flex; gap: var(--sp-2); flex-wrap: wrap;">
+                <span class="badge badge-primary">iPhone 14 Pro</span>
+                <span class="badge badge-success">Cambio de Taptic</span>
+              </div>
+              <div style="margin-top: var(--sp-3); display: flex; flex-direction: column; gap: 8px;">
+                <div style="display:flex; gap: 8px; align-items:center; padding: 8px; background: var(--bg-secondary); border-radius: 8px; font-size: 13px;">
+                  <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--accent);"></div>
+                  <span style="color: var(--text-primary);"><b>Carlos:</b> tremenda clase maestro</span>
+                </div>
+                <div style="display:flex; gap: 8px; align-items:center; padding: 8px; background: var(--bg-secondary); border-radius: 8px; font-size: 13px;">
+                  <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--success);"></div>
+                  <span style="color: var(--text-primary);"><b>Ana:</b> por qué usas flux orgánico?</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-content" data-module="academia">
+          <div class="module-text">
+            <h3>Academia con ruta de aprendizaje</h3>
+            <p>Cursos estructurados por nivel: principiante, intermedio, avanzado. Cada curso con temario, recursos y certificado.</p>
+            <ul class="module-features">
+              <li>8 categorías: smartphones, laptops, micro-soldadura, IA...</li>
+              <li>Temario interactivo con progreso</li>
+              <li>Recursos descargables</li>
+              <li>Comentarios y preguntas por clase</li>
+            </ul>
+            <a href="academia.html" class="btn btn-primary">Explorar academia</a>
+          </div>
+          <div class="module-visual">
+            <div style="padding: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-3);">
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                <div style="aspect-ratio: 1; background: linear-gradient(135deg, var(--accent-soft), transparent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px;">📱</div>
+                <div style="aspect-ratio: 1; background: linear-gradient(135deg, var(--success-soft), transparent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px;">💻</div>
+                <div style="aspect-ratio: 1; background: linear-gradient(135deg, var(--warning-soft), transparent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px;">🔬</div>
+                <div style="aspect-ratio: 1; background: linear-gradient(135deg, var(--danger-soft), transparent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px;">🔧</div>
+                <div style="aspect-ratio: 1; background: linear-gradient(135deg, var(--accent-soft), transparent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px;">⚡</div>
+                <div style="aspect-ratio: 1; background: linear-gradient(135deg, var(--success-soft), transparent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px;">🤖</div>
+              </div>
+              <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border);">
+                <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">Tu progreso</div>
+                <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">62% del plan Pro</div>
+                <div style="height: 6px; background: var(--bg-tertiary); border-radius: 999px; overflow: hidden;">
+                  <div style="height: 100%; width: 62%; background: linear-gradient(90deg, var(--accent), var(--success));"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-content" data-module="biblioteca">
+          <div class="module-text">
+            <h3>Biblioteca técnica indexada</h3>
+            <p>Más de 8,000 documentos: manuales de servicio, esquemáticos, datasheets, guías paso a paso. Todo buscable por marca, modelo y componente.</p>
+            <ul class="module-features">
+              <li>Filtros por marca, modelo, categoría</li>
+              <li>Búsqueda full-text en PDFs</li>
+              <li>Vista previa antes de descargar</li>
+              <li>Marcadores y notas personales</li>
+            </ul>
+            <a href="biblioteca.html" class="btn btn-primary">Abrir biblioteca</a>
+          </div>
+          <div class="module-visual">
+            <div style="padding: var(--sp-4); display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span class="badge badge-primary">Apple</span>
+                <span class="badge badge-success">Samsung</span>
+                <span class="badge badge-warning">Xiaomi</span>
+                <span class="badge badge-danger">Huawei</span>
+                <span class="badge badge-neutral">+ 32</span>
+              </div>
+              <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; display: flex; gap: 12px; align-items: center; border: 1px solid var(--border);">
+                <div style="width: 40px; height: 40px; background: var(--accent-soft); color: var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 18px;">📄</div>
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">iPhone 14 Pro Schematic</div>
+                  <div style="font-size: 11px; color: var(--text-secondary);">PDF · 14.2 MB · 248 págs</div>
+                </div>
+              </div>
+              <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; display: flex; gap: 12px; align-items: center; border: 1px solid var(--border);">
+                <div style="width: 40px; height: 40px; background: var(--success-soft); color: var(--success); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 18px;">🔌</div>
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Samsung S22 Datasheet</div>
+                  <div style="font-size: 11px; color: var(--text-secondary);">PDF · 8.4 MB · 132 págs</div>
+                </div>
+              </div>
+              <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; display: flex; gap: 12px; align-items: center; border: 1px solid var(--border);">
+                <div style="width: 40px; height: 40px; background: var(--warning-soft); color: var(--warning); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 18px;">⚙️</div>
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">MacBook M1 BoardView</div>
+                  <div style="font-size: 11px; color: var(--text-secondary);">PDF · 22.1 MB · 412 págs</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-content" data-module="foro">
+          <div class="module-text">
+            <h3>Foro profesional moderado</h3>
+            <p>Estilo Stack Overflow + Reddit. Preguntá, respondé, votá. Los expertos validan las respuestas correctas.</p>
+            <ul class="module-features">
+              <li>Etiquetas por marca, modelo y componente</li>
+              <li>Sistema de votos y reputación</li>
+              <li>Moderación por técnicos senior</li>
+              <li>Búsqueda por síntoma o error</li>
+            </ul>
+            <a href="foro.html" class="btn btn-primary">Entrar al foro</a>
+          </div>
+          <div class="module-visual">
+            <div style="padding: var(--sp-4); display: flex; flex-direction: column; gap: 8px;">
+              <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border);">
+                <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--accent);"></div>
+                  <span style="font-size: 13px; font-weight: 600;">@carlos_repair</span>
+                  <span style="font-size: 11px; color: var(--text-secondary);">hace 2 h</span>
+                </div>
+                <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">iPhone 13 no enciende después de cambio de batería</div>
+                <div style="display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                  <span>▲ 24</span>
+                  <span>💬 8 respuestas</span>
+                  <span style="margin-left: auto; color: var(--success);">✓ Resuelto</span>
+                </div>
+              </div>
+              <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border);">
+                <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--success);"></div>
+                  <span style="font-size: 13px; font-weight: 600;">@microsoldadora</span>
+                  <span style="font-size: 11px; color: var(--text-secondary);">hace 5 h</span>
+                </div>
+                <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Xiaomi Redmi Note 11 · backlight falla intermitente</div>
+                <div style="display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                  <span>▲ 12</span>
+                  <span>💬 4 respuestas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-content" data-module="consultas">
+          <div class="module-text">
+            <h3>Consultas premium con seguimiento</h3>
+            <p>Subí tu caso con fotos, videos y logs. Un técnico senior asignado lo analiza y te responde paso a paso.</p>
+            <ul class="module-features">
+              <li>Estados: pendiente, en revisión, respondido, resuelto</li>
+              <li>Adjuntar imágenes, videos, esquemáticos</li>
+              <li>Chat directo con el técnico asignado</li>
+              <li>SLA de 24 h en planes Pro/Premium</li>
+            </ul>
+            <a href="#" class="btn btn-primary">Crear consulta</a>
+          </div>
+          <div class="module-visual">
+            <div style="padding: var(--sp-4); display: flex; flex-direction: column; gap: 8px;">
+              <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; border-left: 3px solid var(--warning); border: 1px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span style="font-size: 12px; font-weight: 600;">#CS-1247</span>
+                  <span class="badge badge-warning">En revisión</span>
+                </div>
+                <div style="font-size: 13px;">MacBook Pro M1 · Touch ID no funciona</div>
+                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">Asignado a: <b>@senior_tech</b></div>
+              </div>
+              <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; border-left: 3px solid var(--success); border: 1px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span style="font-size: 12px; font-weight: 600;">#CS-1245</span>
+                  <span class="badge badge-success">Resuelto</span>
+                </div>
+                <div style="font-size: 13px;">iPhone 12 · Bootloop post caída</div>
+                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">Cerrado hace 3 días</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-content" data-module="ia">
+          <div class="module-text">
+            <h3>Asistente IA para diagnóstico</h3>
+            <p>Describí síntoma + marca + modelo. La IA entrenada con miles de casos reales propone causas, pruebas y soluciones.</p>
+            <ul class="module-features">
+              <li>Análisis de causa raíz con probabilidad</li>
+              <li>Pruebas recomendadas paso a paso</li>
+              <li>Referencias a esquemáticos y videos</li>
+              <li>Chat técnico de seguimiento</li>
+            </ul>
+            <a href="ia.html" class="btn btn-primary">Probar IA</a>
+          </div>
+          <div class="module-visual">
+            <div style="padding: var(--sp-4); display: flex; flex-direction: column; gap: 8px; height: 100%;">
+              <div style="padding: 10px 12px; background: var(--bg-secondary); border-radius: 12px 12px 12px 2px; font-size: 13px;">
+                <div style="font-size: 11px; color: var(--accent); margin-bottom: 4px;">iPhone 13 · No carga</div>
+                Pantalla en negro después de cambio de batería. Probé con cargador original y de 20W. La luz de carga no aparece.
+              </div>
+              <div style="padding: 10px 12px; background: var(--accent-soft); border-radius: 12px 12px 2px 12px; font-size: 13px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                <div style="font-size: 11px; color: var(--accent); margin-bottom: 6px; font-weight: 600;">⚡ IA · 3 causas detectadas</div>
+                <div style="margin-bottom: 4px;"><b>1. (78%)</b> Conector de batería dañado</div>
+                <div style="margin-bottom: 4px;"><b>2. (15%)</b> Batería defectuosa</div>
+                <div style="margin-bottom: 6px;"><b>3. (7%)</b> Tristar corto</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">¿Empezamos con el conector?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CURSOS DESTACADOS
+       ============================================================ -->
+  <section class="section" id="cursos">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Academia</span>
+        <h2 class="section-title">Cursos destacados</h2>
+        <p class="section-subtitle">Una pequeña muestra de los 120+ cursos disponibles. Todos con ruta de aprendizaje y certificado.</p>
+      </div>
+
+      <div class="courses-grid">
+        <div class="course-card reveal delay-1">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #1e3a8a, #3B82F6);">
+            <div class="course-thumb-text">iPHONE<br>REPAIR</div>
+            <span class="course-duration">12h 40m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-primary">Smartphones</span>
+              <span class="badge badge-success">Intermedio</span>
+            </div>
+            <div class="course-title">Reparación profesional de iPhone · Nivel 2</div>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Carlos Méndez · Instructor senior</span>
+            </div>
+            <div class="course-progress"><div class="course-progress-bar" style="width: 65%"></div></div>
+            <div class="course-progress-text">
+              <span>Tu progreso</span>
+              <span>65%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card reveal delay-2">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #065f46, #10B981);">
+            <div class="course-thumb-text">MICRO<br>SOLDER</div>
+            <span class="course-duration">18h 15m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-success">Microelectrónica</span>
+              <span class="badge badge-warning">Avanzado</span>
+            </div>
+            <div class="course-title">Micro-soldadura nivel avanzado · Board level</div>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Ana Ramírez · Experta en BGA</span>
+            </div>
+            <div class="course-progress"><div class="course-progress-bar" style="width: 30%"></div></div>
+            <div class="course-progress-text">
+              <span>Tu progreso</span>
+              <span>30%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card reveal delay-3">
+          <div class="course-thumb" style="background: linear-gradient(135deg, #92400e, #F59E0B);">
+            <div class="course-thumb-text">AI<br>DIAG</div>
+            <span class="course-duration">8h 30m</span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="badge badge-warning">IA Aplicada</span>
+              <span class="badge badge-primary">Todos los niveles</span>
+            </div>
+            <div class="course-title">IA para diagnóstico técnico · De cero a pro</div>
+            <div class="course-instructor">
+              <div class="instructor-avatar"></div>
+              <span>Luis Ortega · AI Engineer</span>
+            </div>
+            <div class="course-progress"><div class="course-progress-bar" style="width: 0%"></div></div>
+            <div class="course-progress-text">
+              <span>Sin empezar</span>
+              <span>0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: var(--sp-8);" class="reveal">
+        <a href="academia.html" class="btn btn-secondary btn-lg">Ver los 120+ cursos →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       IA SHOWCASE
+       ============================================================ -->
+  <section class="section" id="ia" style="background: linear-gradient(180deg, transparent, rgba(59, 130, 246, 0.04), transparent);">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Inteligencia artificial</span>
+        <h2 class="section-title">Tu copiloto técnico en segundos</h2>
+        <p class="section-subtitle">
+          La IA analiza tu caso, propone causas probables y te guía paso a paso. Aprende de miles de reparaciones reales.
+        </p>
+      </div>
+
+      <div class="module-content active" style="display: grid;">
+        <div class="module-text">
+          <h3>Diagnóstico inteligente</h3>
+          <p>Describí el síntoma, indicá marca y modelo. La IA devuelve causas ordenadas por probabilidad, con pruebas recomendadas y referencias a videos de la academia.</p>
+          <ul class="module-features">
+            <li>Análisis multifactorial con scoring de probabilidad</li>
+            <li>Pruebas recomendadas paso a paso</li>
+            <li>Referencias cruzadas con biblioteca y academia</li>
+            <li>Memoria de tus casos anteriores</li>
+          </ul>
+          <a href="ia.html" class="btn btn-primary">Probar el asistente</a>
+        </div>
+        <div class="module-visual" style="min-height: 460px;">
+          <div style="padding: var(--sp-4); display: flex; flex-direction: column; gap: 8px; height: 100%;">
+            <div style="padding: 12px; background: var(--bg-secondary); border-radius: 12px 12px 12px 2px; font-size: 13px;">
+              <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 4px;">Tú</div>
+              Samsung S21 · No toma fotos con la cámara principal. La frontal anda perfecto. Se reinicia al abrir la app.
+            </div>
+            <div style="padding: 14px; background: linear-gradient(135deg, var(--accent-soft), rgba(16, 185, 129, 0.1)); border-radius: 12px 12px 2px 12px; font-size: 13px; border: 1px solid rgba(59, 130, 246, 0.25);">
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--accent); margin-bottom: 8px; font-weight: 700;">
+                <span style="display: inline-block; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent);"></span>
+                IA · Análisis completo
+              </div>
+              <div style="margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <span style="font-weight: 600;">1. Cámara principal desconectada</span>
+                  <span style="color: var(--success); font-size: 12px;">82%</span>
+                </div>
+                <div style="height: 4px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; width: 82%; background: var(--success);"></div>
+                </div>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <span style="font-weight: 600;">2. Flex de cámara dañado</span>
+                  <span style="color: var(--warning); font-size: 12px;">14%</span>
+                </div>
+                <div style="height: 4px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; width: 14%; background: var(--warning);"></div>
+                </div>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <span style="font-weight: 600;">3. Sensor IMX686 fallando</span>
+                  <span style="color: var(--text-secondary); font-size: 12px;">4%</span>
+                </div>
+                <div style="height: 4px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; width: 4%; background: var(--text-secondary);"></div>
+                </div>
+              </div>
+              <div style="padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-secondary);">
+                <b style="color: var(--text-primary);">💡 Sugerencia:</b> Empezá por revisar el conector FPC de la cámara. Video relacionado: <span style="color: var(--accent);">"Diagnóstico cámaras Samsung"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PLANES
+       ============================================================ -->
+  <section class="section" id="planes">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Membresías</span>
+        <h2 class="section-title">Elegí tu nivel</h2>
+        <p class="section-subtitle">Desde acceso gratuito hasta mentorías 1:1 con los mejores técnicos.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card reveal delay-1">
+          <div class="pricing-name">Gratuito</div>
+          <div class="pricing-tagline">Probá la plataforma sin compromiso</div>
+          <div class="pricing-price">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-amount">0</span>
+            <span class="pricing-period">/siempre</span>
+          </div>
+          <div class="pricing-billing">Acceso limitado</div>
+          <ul class="pricing-features">
+            <li>✓ 5 cursos introductorios</li>
+            <li>✓ Acceso al foro público</li>
+            <li>✓ Biblioteca: previews solamente</li>
+            <li>✓ 1 consulta premium / mes</li>
+            <li>✗ Sin clases en vivo</li>
+            <li>✗ Sin descargas</li>
+          </ul>
+          <a href="#" class="btn btn-secondary pricing-cta">Empezar gratis</a>
+        </div>
+
+        <div class="pricing-card featured reveal delay-2">
+          <span class="pricing-badge">⭐ Más elegido</span>
+          <div class="pricing-name">Profesional</div>
+          <div class="pricing-tagline">Para técnicos en activo</div>
+          <div class="pricing-price">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-amount">29</span>
+            <span class="pricing-period">/mes</span>
+          </div>
+          <div class="pricing-billing">Facturado mensualmente</div>
+          <ul class="pricing-features">
+            <li>✓ Acceso completo a 120+ cursos</li>
+            <li>✓ Todas las clases en vivo + grabaciones</li>
+            <li>✓ Biblioteca completa + descargas</li>
+            <li>✓ Foro privado con técnicos senior</li>
+            <li>✓ Consultas ilimitadas (SLA 24h)</li>
+            <li>✓ Asistente IA sin límite</li>
+            <li>✗ Sin mentorías 1:1</li>
+          </ul>
+          <a href="#" class="btn btn-primary pricing-cta">Suscribirme</a>
+        </div>
+
+        <div class="pricing-card reveal delay-3">
+          <div class="pricing-name">Premium</div>
+          <div class="pricing-tagline">Para talleres y formadores</div>
+          <div class="pricing-price">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-amount">89</span>
+            <span class="pricing-period">/mes</span>
+          </div>
+          <div class="pricing-billing">Facturado mensualmente</div>
+          <ul class="pricing-features">
+            <li>✓ Todo lo del plan Profesional</li>
+            <li>✓ 2 mentorías 1:1 al mes</li>
+            <li>✓ Directos exclusivos premium</li>
+            <li>✓ Recursos avanzados y esquemas</li>
+            <li>✓ Soporte prioritario (SLA 4h)</li>
+            <li>✓ Certificaciones avanzadas</li>
+            <li>✓ Badge verificado en perfil</li>
+          </ul>
+          <a href="#" class="btn btn-secondary pricing-cta">Hablar con ventas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TESTIMONIOS
+       ============================================================ -->
+  <section class="section" id="testimonios" style="background: linear-gradient(180deg, transparent, rgba(30, 41, 59, 0.3), transparent);">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Comunidad</span>
+        <h2 class="section-title">Lo que dicen los técnicos</h2>
+        <p class="section-subtitle">Historias reales de gente que pasó de "reparar lo básico" a "ser referente".</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal delay-1">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-rating">★★★★★</div>
+          <p class="testimonial-text">En 6 meses pasé de no saber abrir un iPhone a tener mi propio taller. Los cursos de micro-soldadura son una locura, lo que aprendí acá no lo encontré en ningún otro lado.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">CM</div>
+            <div>
+              <div class="author-name">Carlos Méndez</div>
+              <div class="author-role">Técnico en Ciudad de México</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal delay-2">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-rating">★★★★★</div>
+          <p class="testimonial-text">La IA me ahorró 4 horas en un caso de iPhone con bootloop. Le pasé la descripción, me dijo "tristar", y tenía razón. Ahora la uso antes de cada caso complejo.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">AR</div>
+            <div>
+              <div class="author-name">Ana Ramírez</div>
+              <div class="author-role">Especialista BGA · Bogotá</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal delay-3">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-rating">★★★★★</div>
+          <p class="testimonial-text">El foro vale oro. Pregunté a las 11pm un caso raro de MacBook M1 y a las 9am tenía 3 respuestas de técnicos senior. La comunidad es lo mejor de la plataforma.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">JP</div>
+            <div>
+              <div class="author-name">Juan Pablo</div>
+              <div class="author-role">Reparador independiente · Buenos Aires</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA FINAL
+       ============================================================ -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-final reveal-scale">
+        <h2>Sumate a la comunidad</h2>
+        <p>2,438 técnicos ya están adentro. Empezá hoy con 7 días gratis del plan Profesional.</p>
+        <div style="display: flex; gap: var(--sp-4); justify-content: center; flex-wrap: wrap;">
+          <a href="planes.html" class="btn btn-primary btn-lg">Empezar 7 días gratis</a>
+          <a href="academia.html" class="btn btn-secondary btn-lg" style="background: transparent; color: white; border-color: rgba(255,255,255,0.3);">Ver cursos gratis</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="navbar-logo" style="margin-bottom: var(--sp-4);">
+            <img src="assets/logos/logo.svg" alt="Academia Jota Rubio" style="height: 50px;">
+          </a>
+          <p>La plataforma premium de aprendizaje para técnicos en reparación electrónica, microelectrónica e IA aplicada.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="YouTube">▶</a>
+            <a href="#" aria-label="Instagram">◎</a>
+            <a href="#" aria-label="Twitter">𝕏</a>
+            <a href="#" aria-label="Discord">💬</a>
+            <a href="#" aria-label="GitHub">⌨</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Plataforma</h4>
+          <ul>
+            <li><a href="#modulos">Transmisiones</a></li>
+            <li><a href="academia.html">Academia</a></li>
+            <li><a href="biblioteca.html">Biblioteca</a></li>
+            <li><a href="foro.html">Foro</a></li>
+            <li><a href="ia.html">IA Técnica</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Recursos</h4>
+          <ul>
+            <li><a href="planes.html">Planes</a></li>
+            <li><a href="#testimonios">Testimonios</a></li>
+            <li><a href="#">Centro de ayuda</a></li>
+            <li><a href="#">Estado del servicio</a></li>
+            <li><a href="#">API & Webhooks</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Términos</a></li>
+            <li><a href="#">Privacidad</a></li>
+            <li><a href="#">Cookies</a></li>
+            <li><a href="#">Contacto</a></li>
+            <li><a href="#">Sobre nosotros</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Academia Jota Rubio · Hecho con ⚡ para la comunidad técnica</div>
+        <div>v0.1.0 · <span style="color: var(--success);">●</span> Todos los servicios operativos</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

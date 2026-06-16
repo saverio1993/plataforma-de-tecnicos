@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IA Técnica · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    .ia-layout { display: grid; grid-template-columns: 1fr 320px; min-height: 100vh; padding-top: var(--nav-height); }
+    .ia-main { padding: var(--sp-6); display: flex; flex-direction: column; }
+    .ia-sidebar { background: var(--bg-secondary); border-left: 1px solid var(--border); padding: var(--sp-5); }
+    .ia-header { margin-bottom: var(--sp-4); }
+    .ia-header h1 { font-size: var(--fs-2xl); margin-bottom: var(--sp-1); display: flex; align-items: center; gap: var(--sp-2); }
+    .ia-header p { font-size: var(--fs-sm); color: var(--text-secondary); }
+    .ia-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: var(--success-soft); color: var(--success); border-radius: var(--radius-full); font-size: var(--fs-xs); font-weight: var(--fw-semibold); margin-bottom: var(--sp-3); }
+    .ia-status::before { content: ''; width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 6px var(--success); animation: pulse 2s ease-in-out infinite; }
+    .ia-chat-area { flex: 1; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; min-height: 600px; }
+    .ia-chat-messages { flex: 1; padding: var(--sp-5); overflow-y: auto; display: flex; flex-direction: column; gap: var(--sp-4); }
+    .ia-msg { max-width: 80%; display: flex; gap: var(--sp-3); }
+    .ia-msg-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .ia-msg.user .ia-msg-avatar { background: var(--accent); color: white; font-weight: var(--fw-bold); }
+    .ia-msg.ai .ia-msg-avatar { background: linear-gradient(135deg, var(--accent), var(--success)); color: white; }
+    .ia-msg-bubble { padding: var(--sp-3) var(--sp-4); border-radius: var(--radius-lg); font-size: var(--fs-sm); line-height: 1.6; }
+    .ia-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+    .ia-msg.user .ia-msg-bubble { background: var(--accent); color: white; border-bottom-right-radius: 4px; }
+    .ia-msg.ai { align-self: flex-start; }
+    .ia-msg.ai .ia-msg-bubble { background: var(--bg-tertiary); color: var(--text-primary); border-bottom-left-radius: 4px; }
+    .ia-msg.ai .ia-msg-bubble strong { color: var(--accent); }
+    .ia-msg.ai .ia-msg-bubble .label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: var(--fw-bold); margin-bottom: 4px; display: block; }
+    .ia-msg-bubble .cause { padding: var(--sp-2) 0; border-bottom: 1px solid var(--border); }
+    .ia-msg-bubble .cause:last-child { border-bottom: none; }
+    .ia-msg-bubble .cause-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .ia-msg-bubble .cause-name { font-weight: var(--fw-semibold); font-size: var(--fs-sm); }
+    .ia-msg-bubble .cause-pct { font-size: 11px; font-weight: var(--fw-bold); padding: 2px 6px; border-radius: var(--radius-sm); }
+    .ia-msg-bubble .cause-pct.high { background: var(--success-soft); color: var(--success); }
+    .ia-msg-bubble .cause-pct.mid { background: var(--warning-soft); color: var(--warning); }
+    .ia-msg-bubble .cause-pct.low { background: var(--bg-primary); color: var(--text-muted); }
+    .ia-msg-bubble .cause-detail { font-size: var(--fs-xs); color: var(--text-secondary); }
+    .ia-msg-bubble .recom { margin-top: var(--sp-3); padding: var(--sp-3); background: var(--accent-soft); border-radius: var(--radius-md); border-left: 3px solid var(--accent); }
+    .ia-msg-bubble .recom-title { font-size: 11px; color: var(--accent); font-weight: var(--fw-bold); text-transform: uppercase; margin-bottom: 4px; }
+    .ia-typing { display: inline-flex; gap: 4px; padding: 4px 0; }
+    .ia-typing span { width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%; animation: pulse 1.4s ease-in-out infinite; }
+    .ia-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .ia-typing span:nth-child(3) { animation-delay: 0.4s; }
+    .ia-input-area { padding: var(--sp-4); border-top: 1px solid var(--border); background: var(--bg-primary); }
+    .ia-input-row { display: flex; gap: var(--sp-2); }
+    .ia-input-row .input { flex: 1; }
+    .ia-quick-prompts { display: flex; gap: var(--sp-2); margin-top: var(--sp-2); flex-wrap: wrap; }
+    .ia-quick-prompt { font-size: var(--fs-xs); padding: 4px 10px; background: var(--bg-tertiary); border-radius: var(--radius-full); color: var(--text-secondary); cursor: pointer; transition: all var(--t-fast); }
+    .ia-quick-prompt:hover { background: var(--accent-soft); color: var(--accent); }
+    .ia-quick-prompt.active { background: var(--accent); color: white; }
+    .ia-context-builder { background: var(--bg-tertiary); padding: var(--sp-3); border-radius: var(--radius-md); margin-bottom: var(--sp-3); }
+    .ia-context-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: var(--sp-2); font-weight: var(--fw-bold); }
+    .ia-context-row { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-2); }
+    .ia-context-chip { font-size: 11px; padding: 4px 8px; background: var(--bg-primary); border-radius: var(--radius-sm); color: var(--text-primary); }
+    .ia-context-chip strong { color: var(--accent); }
+    .ia-sidebar h3 { font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: var(--sp-3); }
+    .ia-case-card { background: var(--bg-tertiary); padding: var(--sp-3); border-radius: var(--radius-md); margin-bottom: var(--sp-2); cursor: pointer; transition: all var(--t-fast); }
+    .ia-case-card:hover { background: var(--bg-primary); border-left: 2px solid var(--accent); }
+    .ia-case-title { font-size: var(--fs-sm); font-weight: var(--fw-semibold); margin-bottom: 2px; }
+    .ia-case-meta { font-size: 11px; color: var(--text-muted); }
+    .ia-stat-box { background: var(--bg-tertiary); padding: var(--sp-3); border-radius: var(--radius-md); text-align: center; margin-bottom: var(--sp-2); }
+    .ia-stat-box-value { font-size: var(--fs-xl); font-weight: var(--fw-black); font-family: var(--font-mono); color: var(--accent); }
+    .ia-stat-box-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+    @media (max-width: 900px) { .ia-layout { grid-template-columns: 1fr; } .ia-sidebar { display: none; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="academia.html" class="navbar-link">Academia</a></li>
+        <li><a href="biblioteca.html" class="navbar-link">Biblioteca</a></li>
+        <li><a href="foro.html" class="navbar-link">Foro</a></li>
+        <li><a href="ia.html" class="navbar-link" style="color: var(--accent);">IA</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <button class="btn btn-secondary btn-sm">⚙ Configurar</button>
+        <button class="btn btn-primary btn-sm">+ Nuevo caso</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="ia-layout">
+    <!-- Chat principal -->
+    <div class="ia-main">
+      <div class="ia-header">
+        <span class="ia-status">IA online · 12,847 diagnósticos realizados</span>
+        <h1>🤖 Asistente IA para diagnóstico técnico</h1>
+        <p>Describí el síntoma. La IA analiza con miles de casos reales y propone causas + pruebas.</p>
+      </div>
+
+      <div class="ia-chat-area">
+        <div class="ia-context-builder">
+          <div class="ia-context-label">Contexto del caso</div>
+          <div class="ia-context-row">
+            <span class="ia-context-chip">📱 <strong>Samsung Galaxy S21</strong></span>
+            <span class="ia-context-chip">⚙️ <strong>SM-G991B</strong></span>
+            <span class="ia-context-chip">📅 Comprado 2022</span>
+            <span class="ia-context-chip">🔧 Última reparación: hace 8 meses</span>
+          </div>
+        </div>
+
+        <div class="ia-chat-messages">
+          <div class="ia-msg user">
+            <div class="ia-msg-avatar">JR</div>
+            <div class="ia-msg-bubble">
+              Hola, tengo un Samsung S21 que no toma fotos con la cámara principal. La frontal anda perfecto. Cuando abro la app de cámara y pongo en modo "principal", se ve negro y la app se cierra. También se reinicia solo a veces.
+            </div>
+          </div>
+
+          <div class="ia-msg ai">
+            <div class="ia-msg-avatar">⚡</div>
+            <div class="ia-msg-bubble">
+              <span class="label">⚡ IA · Análisis multifactorial</span>
+              <strong>3 causas detectadas</strong> basadas en 1,247 casos similares en la base de conocimiento:
+              <div class="cause" style="margin-top: 12px;">
+                <div class="cause-header">
+                  <span class="cause-name">1. Conector FPC de cámara principal flojo o sucio</span>
+                  <span class="cause-pct high">82%</span>
+                </div>
+                <div class="cause-detail">Falla típica tras caídas o vibración. Conector en board, revisar pestaña de retención.</div>
+              </div>
+              <div class="cause">
+                <div class="cause-header">
+                  <span class="cause-name">2. Flex de cámara dañado</span>
+                  <span class="cause-pct mid">14%</span>
+                </div>
+                <div class="cause-detail">Si el equipo tuvo golpe fuerte. Inspeccionar continuidad con multímetro.</div>
+              </div>
+              <div class="cause">
+                <div class="cause-header">
+                  <span class="cause-name">3. Sensor IMX555 con falla</span>
+                  <span class="cause-pct low">4%</span>
+                </div>
+                <div class="cause-detail">Falla del componente mismo. Requiere reemplazo del módulo de cámara completo.</div>
+              </div>
+              <div class="recom">
+                <div class="recom-title">💡 Plan de acción recomendado</div>
+                <strong>Paso 1:</strong> Abrir equipo, desconectar y reconectar el FPC de la cámara principal.<br>
+                <strong>Paso 2:</strong> Limpiar contactos con isopropílico 99% + cepillo antiestático.<br>
+                <strong>Paso 3:</strong> Probar. Si persiste, cambiar flex. Si aún falla, cambiar módulo cámara.<br>
+                <strong>📹 Video relacionado:</strong> <span style="color: var(--accent);">"Diagnóstico cámara Samsung S21"</span> en Academia
+              </div>
+            </div>
+          </div>
+
+          <div class="ia-msg user">
+            <div class="ia-msg-avatar">JR</div>
+            <div class="ia-msg-bubble">
+              Perfecto, voy a abrirlo. ¿Qué herramientas necesitás que use para no romper el conector?
+            </div>
+          </div>
+
+          <div class="ia-msg ai">
+            <div class="ia-msg-avatar">⚡</div>
+            <div class="ia-msg-bubble">
+              <span class="label">⚡ IA · Guía de herramientas</span>
+              Para esta reparación necesitás:
+              <ul style="margin: 8px 0; padding-left: 20px; color: var(--text-secondary); font-size: 13px;">
+                <li>Spudger plástico (nunca metálico para FPC)</li>
+                <li>Pinzones de precisión antiestáticos</li>
+                <li>Isopropílico 99% + hisopos</li>
+                <li>Fuente de calor regulable a 80°C (para ablandar adhesivo)</li>
+                <li>Microscopio o lupa 10x para revisar pines</li>
+              </ul>
+              <div class="recom">
+                <div class="recom-title">⚠️ Cuidado</div>
+                El FPC de cámara del S21 tiene <strong>28 pines</strong> en 8mm. Si forzás la pestaña de retención se rompe. Levantá siempre 90° con cuidado.
+              </div>
+            </div>
+          </div>
+
+          <div class="ia-msg user">
+            <div class="ia-msg-avatar">JR</div>
+            <div class="ia-msg-bubble">
+              Listo, ya reconecté. Anda perfecto. Muchas gracias!
+            </div>
+          </div>
+
+          <div class="ia-msg ai">
+            <div class="ia-msg-avatar">⚡</div>
+            <div class="ia-msg-bubble">
+              <span class="label">⚡ IA · Caso cerrado</span>
+              ¡Buenísimo! 🎉 Marqué el caso como <strong style="color: var(--success);">resuelto en el primer paso</strong> (82% acierto, en línea con la predicción).
+              <div class="recom">
+                <div class="recom-title">📊 Tu progreso</div>
+                Subiste de <strong>tasa de acierto 78%</strong> a <strong style="color: var(--success);">83%</strong> en diagnósticos IA. ¡A seguir así!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ia-input-area">
+          <div class="ia-input-row">
+            <input type="text" class="input" placeholder="Describí el síntoma, marca, modelo, código de error...">
+            <button class="btn btn-primary">Analizar ⚡</button>
+          </div>
+          <div class="ia-quick-prompts">
+            <span class="ia-quick-prompt">No enciende</span>
+            <span class="ia-quick-prompt">Bootloop</span>
+            <span class="ia-quick-prompt">No carga</span>
+            <span class="ia-quick-prompt">Pantalla negra</span>
+            <span class="ia-quick-prompt">Sobrecalentamiento</span>
+            <span class="ia-quick-prompt">Cámara falla</span>
+            <span class="ia-quick-prompt">Touch no responde</span>
+            <span class="ia-quick-prompt">WiFi no conecta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar derecha -->
+    <aside class="ia-sidebar">
+      <h3>📊 Tu cuenta</h3>
+      <div class="ia-stat-box">
+        <div class="ia-stat-box-value">83%</div>
+        <div class="ia-stat-box-label">Tasa de acierto</div>
+      </div>
+      <div class="ia-stat-box">
+        <div class="ia-stat-box-value">47</div>
+        <div class="ia-stat-box-label">Diagnósticos hechos</div>
+      </div>
+      <div class="ia-stat-box">
+        <div class="ia-stat-box-value">⚡ PRO</div>
+        <div class="ia-stat-box-label">Sin límite</div>
+      </div>
+
+      <h3 style="margin-top: var(--sp-6);">📁 Casos recientes</h3>
+      <div class="ia-case-card">
+        <div class="ia-case-title">Samsung S21 · Cámara falla</div>
+        <div class="ia-case-meta">Resuelto · hace 12 min</div>
+      </div>
+      <div class="ia-case-card">
+        <div class="ia-case-title">iPhone 13 · Bootloop</div>
+        <div class="ia-case-meta">Resuelto · ayer</div>
+      </div>
+      <div class="ia-case-card">
+        <div class="ia-case-title">MacBook M1 · Touch ID</div>
+        <div class="ia-case-meta">En progreso · hace 2 días</div>
+      </div>
+      <div class="ia-case-card">
+        <div class="ia-case-title">Xiaomi RN11 · Backlight</div>
+        <div class="ia-case-meta">Resuelto · hace 4 días</div>
+      </div>
+
+      <h3 style="margin-top: var(--sp-6);">🔥 Tendencias</h3>
+      <div class="ia-case-card" style="border-left: 2px solid var(--danger);">
+        <div class="ia-case-title">⚠️ iPhone 14 series · Error 4013</div>
+        <div class="ia-case-meta">Aumento inusual de casos esta semana</div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

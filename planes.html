@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planes y Membresías · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .plans-hero { padding: calc(var(--nav-height) + var(--sp-16)) var(--sp-6) var(--sp-12); text-align: center; }
+    .plans-hero h1 { font-size: var(--fs-5xl); margin-bottom: var(--sp-4); }
+    .plans-hero p { font-size: var(--fs-lg); color: var(--text-secondary); max-width: 700px; margin: 0 auto var(--sp-6); }
+    .billing-toggle { display: inline-flex; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-full); padding: 4px; gap: 4px; backdrop-filter: blur(20px); }
+    .billing-toggle button { padding: var(--sp-2) var(--sp-5); border-radius: var(--radius-full); color: var(--text-secondary); font-weight: var(--fw-semibold); font-size: var(--fs-sm); transition: all var(--t-base); }
+    .billing-toggle button.active { background: var(--accent); color: white; }
+    .billing-toggle .save { background: var(--success-soft); color: var(--success); font-size: 10px; padding: 2px 6px; border-radius: var(--radius-full); margin-left: 4px; }
+    .pricing-grid-large { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-6); max-width: 1200px; margin: 0 auto; padding: 0 var(--sp-6); align-items: stretch; }
+    .pricing-card-large { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-xl); padding: var(--sp-8); backdrop-filter: blur(20px); transition: all var(--t-base); display: flex; flex-direction: column; position: relative; }
+    .pricing-card-large:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .pricing-card-large.featured { background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(16, 185, 129, 0.04)); border-color: var(--accent); box-shadow: 0 0 60px var(--accent-glow); transform: scale(1.03); }
+    .pricing-card-large.featured:hover { transform: scale(1.03) translateY(-4px); }
+    .pricing-badge-large { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--accent), var(--success)); color: white; padding: var(--sp-2) var(--sp-5); border-radius: var(--radius-full); font-size: var(--fs-xs); font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 16px var(--accent-glow); }
+    .plan-name { font-size: var(--fs-2xl); font-weight: var(--fw-bold); margin-bottom: var(--sp-2); }
+    .plan-tagline { color: var(--text-secondary); font-size: var(--fs-sm); margin-bottom: var(--sp-6); }
+    .plan-price-row { display: flex; align-items: baseline; gap: var(--sp-1); margin-bottom: var(--sp-2); }
+    .plan-currency { font-size: var(--fs-2xl); color: var(--text-secondary); }
+    .plan-amount { font-size: 5rem; font-weight: var(--fw-black); line-height: 1; font-family: var(--font-mono); }
+    .plan-period { color: var(--text-secondary); font-size: var(--fs-base); }
+    .plan-billing { font-size: var(--fs-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--sp-8); }
+    .plan-features { list-style: none; margin-bottom: var(--sp-8); flex: 1; }
+    .plan-features li { display: flex; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-2) 0; font-size: var(--fs-sm); color: var(--text-secondary); }
+    .plan-features li svg { flex-shrink: 0; margin-top: 2px; }
+    .plan-features li strong { color: var(--text-primary); }
+    .plan-cta { width: 100%; }
+    .faq-section { max-width: 800px; margin: var(--sp-24) auto 0; padding: 0 var(--sp-6); }
+    .faq-section h2 { text-align: center; margin-bottom: var(--sp-12); }
+    .faq-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); margin-bottom: var(--sp-3); overflow: hidden; backdrop-filter: blur(20px); }
+    .faq-question { padding: var(--sp-5); cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: var(--fw-semibold); transition: color var(--t-fast); }
+    .faq-question:hover { color: var(--accent); }
+    .faq-toggle { color: var(--accent); font-size: var(--fs-xl); transition: transform var(--t-base); }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height var(--t-base); padding: 0 var(--sp-5); color: var(--text-secondary); font-size: var(--fs-sm); line-height: 1.7; }
+    .faq-item.open .faq-answer { max-height: 300px; padding: 0 var(--sp-5) var(--sp-5); }
+    .guarantee-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-6); max-width: 1000px; margin: var(--sp-16) auto 0; padding: 0 var(--sp-6); }
+    .guarantee-item { text-align: center; }
+    .guarantee-icon { width: 56px; height: 56px; border-radius: var(--radius-md); background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--sp-3); font-size: 24px; }
+    .guarantee-item h4 { font-size: var(--fs-base); margin-bottom: var(--sp-1); }
+    .guarantee-item p { font-size: var(--fs-sm); }
+    @media (max-width: 900px) { .pricing-grid-large { grid-template-columns: 1fr; } .pricing-card-large.featured { transform: none; } .guarantee-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu">
+        <li><a href="index.html#beneficios" class="navbar-link">Beneficios</a></li>
+        <li><a href="index.html#modulos" class="navbar-link">Módulos</a></li>
+        <li><a href="academia.html" class="navbar-link">Academia</a></li>
+        <li><a href="index.html#ia" class="navbar-link">IA</a></li>
+        <li><a href="planes.html" class="navbar-link" style="color: var(--accent);">Planes</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="login.html" class="btn btn-secondary btn-sm">Ingresar</a>
+        <a href="#" class="btn btn-primary btn-sm">7 días gratis</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="plans-hero">
+    <h1>Planes para cada <span class="gradient-text">nivel técnico</span></h1>
+    <p>Desde el gratuito para curiosos hasta Premium con mentorías 1:1. Sin permanencia, cancelás cuando quieras.</p>
+
+    <div class="billing-toggle">
+      <button class="active">Mensual</button>
+      <button>Anual <span class="save">Ahorrá 20%</span></button>
+    </div>
+  </header>
+
+  <section class="pricing-grid-large">
+    <div class="pricing-card-large reveal">
+      <div class="plan-name">Gratuito</div>
+      <div class="plan-tagline">Probá la plataforma sin compromiso</div>
+      <div class="plan-price-row">
+        <span class="plan-currency">$</span>
+        <span class="plan-amount">0</span>
+        <span class="plan-period">/siempre</span>
+      </div>
+      <div class="plan-billing">Acceso limitado para siempre</div>
+      <ul class="plan-features">
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <span><strong>5 cursos</strong> introductorios completos</span></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Acceso al <strong>foro público</strong></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Biblioteca: <strong>previews</strong> solamente</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>1 consulta premium</strong> por mes</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>10 usos</strong> de IA por mes</li>
+        <li style="opacity: 0.4;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Sin clases en vivo</li>
+        <li style="opacity: 0.4;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Sin descargas</li>
+        <li style="opacity: 0.4;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Sin certificaciones</li>
+      </ul>
+      <a href="login.html" class="btn btn-secondary plan-cta">Empezar gratis</a>
+    </div>
+
+    <div class="pricing-card-large featured reveal delay-1">
+      <span class="pricing-badge-large">⭐ Más elegido</span>
+      <div class="plan-name">Profesional</div>
+      <div class="plan-tagline">Para técnicos en activo que quieren todo</div>
+      <div class="plan-price-row">
+        <span class="plan-currency">$</span>
+        <span class="plan-amount">29</span>
+        <span class="plan-period">/mes</span>
+      </div>
+      <div class="plan-billing">Facturado mensualmente · <span style="color: var(--success);">7 días gratis</span></div>
+      <ul class="plan-features">
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>Acceso a <strong>120+ cursos</strong> completos</span></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Clases en vivo semanales</strong> + grabaciones</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Biblioteca completa</strong> + descargas ilimitadas</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Foro privado</strong> con técnicos senior</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Consultas ilimitadas</strong> · SLA 24h</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>IA sin límite</strong> · todas las funciones</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Certificaciones</strong> estándar</li>
+        <li style="opacity: 0.4;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Sin mentorías 1:1</li>
+      </ul>
+      <a href="#" class="btn btn-primary plan-cta">Empezar 7 días gratis</a>
+    </div>
+
+    <div class="pricing-card-large reveal delay-2">
+      <div class="plan-name">Premium</div>
+      <div class="plan-tagline">Para talleres y formadores</div>
+      <div class="plan-price-row">
+        <span class="plan-currency">$</span>
+        <span class="plan-amount">89</span>
+        <span class="plan-period">/mes</span>
+      </div>
+      <div class="plan-billing">Facturado mensualmente</div>
+      <ul class="plan-features">
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <span><strong>Todo lo del plan Pro</strong></span></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>2 mentorías 1:1</strong> mensuales con senior</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Directos exclusivos Premium</strong></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Recursos avanzados</strong> y esquemas premium</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Soporte prioritario</strong> · SLA 4h</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Certificaciones avanzadas</strong></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Badge verificado</strong> en perfil</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Acceso anticipado</strong> a nuevos cursos</li>
+      </ul>
+      <a href="#" class="btn btn-secondary plan-cta">Hablar con ventas</a>
+    </div>
+  </section>
+
+  <section class="guarantee-row">
+    <div class="guarantee-item reveal">
+      <div class="guarantee-icon">🛡</div>
+      <h4>7 días de garantía</h4>
+      <p>Si no te gusta, te devolvemos el 100% sin preguntas.</p>
+    </div>
+    <div class="guarantee-item reveal delay-1">
+      <div class="guarantee-icon">🔓</div>
+      <h4>Sin permanencia</h4>
+      <p>Cancelás cuando quieras desde tu cuenta, 1 click.</p>
+    </div>
+    <div class="guarantee-item reveal delay-2">
+      <div class="guarantee-icon">⚡</div>
+      <h4>Activación inmediata</h4>
+      <p>Pagás y empezás. Sin esperas ni papeleo.</p>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <h2>Preguntas frecuentes</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Puedo cambiar de plan en cualquier momento?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Sí, podés subir o bajar de plan cuando quieras. Si subís, se cobra proporcional. Si bajás, te queda el crédito a favor para el próximo mes.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Qué métodos de pago aceptan?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Tarjeta de crédito/débito (Visa, Mastercard, Amex), Mercado Pago, transferencia bancaria (para planes anuales), y cripto (USDT, BTC).</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Los cursos tienen certificado?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Todos los cursos del plan Profesional y Premium tienen certificado digital al completarlos. Los del Premium además son certificaciones avanzadas reconocidas por la industria.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Puedo descargar los videos?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Los videos se pueden ver online 24/7. Los manuales, esquemáticos y PDFs sí son descargables desde la biblioteca en planes Pro y Premium.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Cuántas veces por semana hay clases en vivo?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">3 a 5 clases en vivo por semana, generalmente de 1-2 horas cada una. Todas quedan grabadas y disponibles en la academia.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿La IA funciona sin internet?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">No, la IA necesita conexión para analizar tu caso contra la base de conocimiento actualizada. Estamos trabajando en una versión offline para el futuro.</div>
+    </div>
+  </section>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    // FAQ toggle
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        q.parentElement.classList.toggle('open');
+      });
+    });
+    // Billing toggle
+    document.querySelectorAll('.billing-toggle button').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.billing-toggle button').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

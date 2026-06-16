@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foro · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    .forum-main { padding: var(--sp-8); max-width: 1100px; margin: 0 auto; }
+    .forum-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--sp-6); flex-wrap: wrap; gap: var(--sp-4); }
+    .forum-header h1 { font-size: var(--fs-3xl); margin-bottom: var(--sp-2); }
+    .forum-tabs { display: flex; gap: var(--sp-1); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-6); }
+    .forum-tab { padding: var(--sp-3) var(--sp-5); color: var(--text-secondary); font-weight: var(--fw-medium); border-bottom: 2px solid transparent; cursor: pointer; transition: all var(--t-fast); font-size: var(--fs-sm); }
+    .forum-tab:hover { color: var(--text-primary); }
+    .forum-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .forum-tab .count { font-size: var(--fs-xs); color: var(--text-muted); margin-left: 4px; }
+    .thread { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-5); margin-bottom: var(--sp-3); backdrop-filter: blur(20px); transition: all var(--t-base); display: grid; grid-template-columns: 60px 1fr 120px 100px; gap: var(--sp-5); align-items: center; cursor: pointer; }
+    .thread:hover { border-color: var(--accent); transform: translateX(4px); }
+    .thread-stats { text-align: center; }
+    .thread-votes { font-size: var(--fs-xl); font-weight: var(--fw-bold); color: var(--text-primary); }
+    .thread-votes-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+    .thread-content h3 { font-size: var(--fs-lg); font-weight: var(--fw-semibold); margin-bottom: var(--sp-2); line-height: 1.3; }
+    .thread-content h3:hover { color: var(--accent); }
+    .thread-excerpt { font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-3); line-height: 1.5; }
+    .thread-tags { display: flex; gap: var(--sp-1); flex-wrap: wrap; }
+    .thread-tag { padding: 2px 8px; background: var(--accent-soft); color: var(--accent); border-radius: var(--radius-sm); font-size: 11px; font-weight: var(--fw-medium); }
+    .thread-tag.brand { background: var(--success-soft); color: var(--success); }
+    .thread-author { display: flex; align-items: center; gap: var(--sp-2); }
+    .author-mini-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--success)); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: var(--fw-bold); }
+    .author-mini-name { font-size: var(--fs-xs); color: var(--text-primary); font-weight: var(--fw-medium); }
+    .author-mini-rep { font-size: 10px; color: var(--text-muted); }
+    .thread-answers { text-align: center; }
+    .thread-answers-count { font-size: var(--fs-xl); font-weight: var(--fw-bold); padding: var(--sp-2); border-radius: var(--radius-md); }
+    .thread-answers-count.has { color: var(--success); background: var(--success-soft); }
+    .thread-answers-count.none { color: var(--text-muted); background: var(--bg-tertiary); }
+    .thread-answers-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; }
+    .thread-views { text-align: center; font-size: var(--fs-sm); color: var(--text-secondary); }
+    .thread-views-count { font-weight: var(--fw-bold); color: var(--text-primary); font-size: var(--fs-base); }
+    .thread-views-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+    .thread-solved::before { content: '✓ Resuelto'; color: var(--success); font-size: 10px; font-weight: var(--fw-bold); }
+    @media (max-width: 768px) { .thread { grid-template-columns: 50px 1fr 70px; gap: var(--sp-3); } .thread-views { display: none; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="academia.html" class="navbar-link">Academia</a></li>
+        <li><a href="biblioteca.html" class="navbar-link">Biblioteca</a></li>
+        <li><a href="foro.html" class="navbar-link" style="color: var(--accent);">Foro</a></li>
+        <li><a href="ia.html" class="navbar-link">IA</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <button class="btn btn-primary btn-sm">+ Nueva pregunta</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="forum-main" style="padding-top: calc(var(--nav-height) + var(--sp-8));">
+    <header class="forum-header">
+      <div>
+        <h1>💬 Foro Profesional</h1>
+        <p>2,438 técnicos activos · 14,892 preguntas resueltas</p>
+      </div>
+      <div style="display: flex; gap: var(--sp-3);">
+        <input type="text" class="input" placeholder="Buscar en el foro..." style="width: 280px;">
+        <button class="btn btn-primary">+ Preguntar</button>
+      </div>
+    </header>
+
+    <div class="forum-tabs">
+      <div class="forum-tab active">Recientes <span class="count">(248)</span></div>
+      <div class="forum-tab">Sin responder <span class="count">(34)</span></div>
+      <div class="forum-tab">Más votados</div>
+      <div class="forum-tab">Tendencia 🔥</div>
+      <div class="forum-tab">Mis preguntas <span class="count">(7)</span></div>
+    </div>
+
+    <div>
+      <div class="thread reveal">
+        <div class="thread-stats">
+          <div class="thread-votes">24</div>
+          <div class="thread-votes-label">votos</div>
+        </div>
+        <div class="thread-content">
+          <h3>iPhone 13 Pro · No enciende después de cambio de batería, conector verificado</h3>
+          <div class="thread-excerpt">Cambié batería original Apple en un iPhone 13 Pro. Ahora no da señales de vida. Probé con cargador original 20W y el símbolo de carga no aparece. Conector de batería limpio, sin pines doblados. ¿Por dónde sigo?</div>
+          <div class="thread-tags">
+            <span class="thread-tag">iPhone</span>
+            <span class="thread-tag brand">Apple</span>
+            <span class="thread-tag">Batería</span>
+            <span class="thread-tag">No enciende</span>
+          </div>
+        </div>
+        <div class="thread-answers">
+          <div class="thread-answers-count has">8</div>
+          <div class="thread-answers-label">✓ resuelto</div>
+        </div>
+        <div class="thread-views">
+          <div class="thread-views-count">428</div>
+          <div class="thread-views-label">vistas</div>
+        </div>
+      </div>
+
+      <div class="thread reveal delay-1">
+        <div class="thread-stats">
+          <div class="thread-votes">18</div>
+          <div class="thread-votes-label">votos</div>
+        </div>
+        <div class="thread-content">
+          <h3>MacBook Pro M1 · Touch ID dejó de funcionar tras cambio de pantalla</h3>
+          <div class="thread-excerpt">Cliente volvió con Touch ID que no anda. Cambié pantalla hace 3 días. Originalmente todo andaba. ¿Se rompió algún flex? ¿Hay que reasignar en Apple Service Toolkit?</div>
+          <div class="thread-tags">
+            <span class="thread-tag">MacBook</span>
+            <span class="thread-tag brand">Apple</span>
+            <span class="thread-tag">Touch ID</span>
+            <span class="thread-tag">M1</span>
+          </div>
+        </div>
+        <div class="thread-answers">
+          <div class="thread-answers-count has">5</div>
+          <div class="thread-answers-label">respuestas</div>
+        </div>
+        <div class="thread-views">
+          <div class="thread-views-count">312</div>
+          <div class="thread-views-label">vistas</div>
+        </div>
+      </div>
+
+      <div class="thread reveal delay-2">
+        <div class="thread-stats">
+          <div class="thread-votes">12</div>
+          <div class="thread-votes-label">votos</div>
+        </div>
+        <div class="thread-content">
+          <h3>Samsung S21 · Bootloop post-cambio de firmware · ¿qué reviso?</h3>
+          <div class="thread-excerpt">Equipo de un colega: flasheó firmware de stock y ahora queda en bootloop infinito. Llega a mostrar logo Samsung y reinicia. Probó Wipe cache + factory reset desde recovery. Sin solución.</div>
+          <div class="thread-tags">
+            <span class="thread-tag">Samsung</span>
+            <span class="thread-tag brand">Android</span>
+            <span class="thread-tag">Bootloop</span>
+            <span class="thread-tag">Firmware</span>
+          </div>
+        </div>
+        <div class="thread-answers">
+          <div class="thread-answers-count has">11</div>
+          <div class="thread-answers-label">✓ resuelto</div>
+        </div>
+        <div class="thread-views">
+          <div class="thread-views-count">587</div>
+          <div class="thread-views-label">vistas</div>
+        </div>
+      </div>
+
+      <div class="thread reveal delay-3">
+        <div class="thread-stats">
+          <div class="thread-votes">9</div>
+          <div class="thread-votes-label">votos</div>
+        </div>
+        <div class="thread-content">
+          <h3>¿Cómo diagnostico corto en línea VDD_MAIN sin osciloscopio?</h3>
+          <div class="thread-excerpt">Tengo un iPhone X que consume 1.2A apenas le doy energía. La línea VDD_MAIN tiene corto. No tengo osciloscopio, solo multímetro. ¿Por dónde empiezo a buscar el componente culpable?</div>
+          <div class="thread-tags">
+            <span class="thread-tag">Diagnóstico</span>
+            <span class="thread-tag">iPhone X</span>
+            <span class="thread-tag">Cortocircuito</span>
+          </div>
+        </div>
+        <div class="thread-answers">
+          <div class="thread-answers-count has">15</div>
+          <div class="thread-answers-label">respuestas</div>
+        </div>
+        <div class="thread-views">
+          <div class="thread-views-count">723</div>
+          <div class="thread-views-label">vistas</div>
+        </div>
+      </div>
+
+      <div class="thread reveal delay-4">
+        <div class="thread-stats">
+          <div class="thread-votes">7</div>
+          <div class="thread-votes-label">votos</div>
+        </div>
+        <div class="thread-content">
+          <h3>Xiaomi Redmi Note 11 · Backlight falla intermitente al mover el equipo</h3>
+          <div class="thread-excerpt">La pantalla se apaga y prende sola al inclinar el teléfono. Funciona perfecta si lo dejo quieto. ¿Flex de display? ¿Display mismo? ¿Problema del backlight IC?</div>
+          <div class="thread-tags">
+            <span class="thread-tag">Xiaomi</span>
+            <span class="thread-tag brand">Android</span>
+            <span class="thread-tag">Backlight</span>
+            <span class="thread-tag">Intermitente</span>
+          </div>
+        </div>
+        <div class="thread-answers">
+          <div class="thread-answers-count has">4</div>
+          <div class="thread-answers-label">respuestas</div>
+        </div>
+        <div class="thread-views">
+          <div class="thread-views-count">234</div>
+          <div class="thread-views-label">vistas</div>
+        </div>
+      </div>
+
+      <div class="thread reveal delay-5">
+        <div class="thread-stats">
+          <div class="thread-votes">0</div>
+          <div class="thread-votes-label">votos</div>
+        </div>
+        <div class="thread-content">
+          <h3>iPhone 14 Pro Max · Error 4013 en iTunes · ¿es baseband?</h3>
+          <div class="thread-excerpt">Cliente con iPhone 14 Pro Max que no restaura. Error 4013 repetidamente. CPU Baseband? NAND? ¿Cómo confirmar sin boardview?</div>
+          <div class="thread-tags">
+            <span class="thread-tag">iPhone 14 Pro</span>
+            <span class="thread-tag brand">Apple</span>
+            <span class="thread-tag">Error 4013</span>
+            <span class="thread-tag">iTunes</span>
+          </div>
+        </div>
+        <div class="thread-answers">
+          <div class="thread-answers-count none">0</div>
+          <div class="thread-answers-label">sin respuesta</div>
+        </div>
+        <div class="thread-views">
+          <div class="thread-views-count">67</div>
+          <div class="thread-views-label">vistas</div>
+        </div>
+      </div>
+
+      <div class="thread reveal">
+        <div class="thread-stats">
+          <div class="thread-votes">31</div>
+          <div class="thread-votes-label">votos</div>
+        </div>
+        <div class="thread-content">
+          <h3>📌 [MEGA-TUTORIAL] Aprende a leer esquemáticos en 7 días · Carlos Méndez</h3>
+          <div class="thread-excerpt">Como muchos me preguntaron, armé este tutorial paso a paso para aprender a leer esquemáticos. Cubre símbolos, líneas de alimentación, bloques funcionales y casos prácticos en 7 días.</div>
+          <div class="thread-tags">
+            <span class="thread-tag">Destacado</span>
+            <span class="thread-tag brand">Tutorial</span>
+            <span class="thread-tag">Esquemáticos</span>
+          </div>
+        </div>
+        <div class="thread-answers">
+          <div class="thread-answers-count has">42</div>
+          <div class="thread-answers-label">✓ fijado</div>
+        </div>
+        <div class="thread-views">
+          <div class="thread-views-count">3.2K</div>
+          <div class="thread-views-label">vistas</div>
+        </div>
+      </div>
+
+      <div class="thread reveal delay-1">
+        <div class="thread-stats">
+          <div class="thread-votes">5</div>
+          <div class="thread-votes-label">votos</div>
+        </div>
+        <div class="thread-content">
+          <h3>¿Vale la pena comprar el JBC CD-2BE? · Review personal</h3>
+          <div class="thread-excerpt">Después de 3 meses usándolo, dejo mi review honesta del JBC CD-2BE. Pros, contras, comparativa con Quicko T12 y Pinecil V2. Spoiler: para mí vale cada peso.</div>
+          <div class="thread-tags">
+            <span class="thread-tag">JBC</span>
+            <span class="thread-tag">Soldadura</span>
+            <span class="thread-tag brand">Review</span>
+          </div>
+        </div>
+        <div class="thread-answers">
+          <div class="thread-answers-count has">23</div>
+          <div class="thread-answers-label">respuestas</div>
+        </div>
+        <div class="thread-views">
+          <div class="thread-views-count">891</div>
+          <div class="thread-views-label">vistas</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: var(--sp-8);">
+      <button class="btn btn-secondary btn-lg">Cargar más preguntas →</button>
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

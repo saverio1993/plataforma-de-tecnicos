@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Overlay mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <a href="index.html"><img src="assets/logos/logo.svg" alt="Academia Jota Rubio"></a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Principal</div>
+        <a href="dashboard.html" class="sidebar-link active">
+          <span class="sidebar-link-icon">🏠</span>
+          Inicio
+        </a>
+        <a href="#" class="sidebar-link live">
+          <span class="sidebar-link-icon">📺</span>
+          Transmisiones
+        </a>
+        <a href="academia.html" class="sidebar-link">
+          <span class="sidebar-link-icon">🎓</span>
+          Cursos
+          <span class="sidebar-link-badge">3</span>
+        </a>
+        <a href="biblioteca.html" class="sidebar-link">
+          <span class="sidebar-link-icon">📚</span>
+          Biblioteca
+        </a>
+        <a href="foro.html" class="sidebar-link">
+          <span class="sidebar-link-icon">💬</span>
+          Foro
+          <span class="sidebar-link-badge">12</span>
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Trabajo</div>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link-icon">🔧</span>
+          Consultas
+        </a>
+        <a href="ia.html" class="sidebar-link">
+          <span class="sidebar-link-icon">🤖</span>
+          IA Técnica
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link-icon">📅</span>
+          Calendario
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link-icon">👥</span>
+          Miembros
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Cuenta</div>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link-icon">👤</span>
+          Perfil
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link-icon">⚙️</span>
+          Configuración
+        </a>
+        <a href="planes.html" class="sidebar-link">
+          <span class="sidebar-link-icon">⭐</span>
+          Mi plan
+        </a>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar">JR</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Jota Rubio</div>
+          <div class="sidebar-user-plan">⚡ Plan Pro</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="dashboard-main">
+      <header class="dashboard-header">
+        <div class="dashboard-greeting">
+          <h1>Hola, Jota 👋</h1>
+          <p>Tenés 2 transmisiones en vivo hoy y 3 cursos en progreso.</p>
+        </div>
+        <div class="dashboard-header-actions">
+          <div class="dashboard-search">
+            <input type="text" class="input" placeholder="Buscar cursos, temas, miembros...">
+          </div>
+          <button class="btn btn-secondary">🔔</button>
+        </div>
+      </header>
+
+      <!-- Stat cards -->
+      <section class="dashboard-grid">
+        <div class="stat-card blue reveal">
+          <div class="stat-card-icon">📺</div>
+          <div class="stat-card-value">12</div>
+          <div class="stat-card-label">Cursos en progreso</div>
+          <span class="stat-card-trend up">↑ 3 esta semana</span>
+        </div>
+
+        <div class="stat-card green reveal delay-1">
+          <div class="stat-card-icon">⏱</div>
+          <div class="stat-card-value">48h</div>
+          <div class="stat-card-label">Horas estudiadas</div>
+          <span class="stat-card-trend up">↑ 6h vs mes anterior</span>
+        </div>
+
+        <div class="stat-card amber reveal delay-2">
+          <div class="stat-card-icon">🏆</div>
+          <div class="stat-card-value">7</div>
+          <div class="stat-card-label">Certificaciones</div>
+          <span class="stat-card-trend up">↑ 2 nuevas</span>
+        </div>
+
+        <div class="stat-card red reveal delay-3">
+          <div class="stat-card-icon">💬</div>
+          <div class="stat-card-value">3</div>
+          <div class="stat-card-label">Respuestas sin leer</div>
+          <span class="stat-card-trend up">↑ En el foro</span>
+        </div>
+      </section>
+
+      <!-- Live + Calendar row -->
+      <section class="dashboard-row">
+        <div class="widget reveal">
+          <div class="widget-header">
+            <div class="widget-title">📺 Próximas transmisiones en vivo</div>
+            <a href="#" class="widget-link">Ver todas →</a>
+          </div>
+          <div class="live-list">
+            <div class="live-item">
+              <div class="live-item-thumb" style="background: linear-gradient(135deg, #3B82F6, #1d4ed8);">📱</div>
+              <div class="live-item-info">
+                <div class="live-item-title">Reparación iPhone 14 Pro · Cambio de Taptic Engine</div>
+                <div class="live-item-meta">
+                  <span>👤 Carlos Méndez</span>
+                  <span>·</span>
+                  <span>🕐 Hoy 19:00 ART</span>
+                  <span>·</span>
+                  <span>👁 234 anotados</span>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-sm">Recordar</button>
+            </div>
+
+            <div class="live-item">
+              <div class="live-item-thumb" style="background: linear-gradient(135deg, #10B981, #047857);">💻</div>
+              <div class="live-item-info">
+                <div class="live-item-title">MacBook M1 · Diagnóstico de no enciende</div>
+                <div class="live-item-meta">
+                  <span>👤 Ana Ramírez</span>
+                  <span>·</span>
+                  <span>🕐 Hoy 21:30 ART</span>
+                  <span>·</span>
+                  <span>👁 189 anotados</span>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-sm">Recordar</button>
+            </div>
+
+            <div class="live-item">
+              <div class="live-item-thumb" style="background: linear-gradient(135deg, #F59E0B, #b45309);">🔬</div>
+              <div class="live-item-info">
+                <div class="live-item-title">Micro-soldadura BGA · Reballing en vivo</div>
+                <div class="live-item-meta">
+                  <span>👤 Luis Ortega</span>
+                  <span>·</span>
+                  <span>🕐 Mañana 18:00 ART</span>
+                  <span>·</span>
+                  <span>👁 412 anotados</span>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm">Recordar</button>
+            </div>
+
+            <div class="live-item">
+              <div class="live-item-thumb" style="background: linear-gradient(135deg, #EF4444, #b91c1c);">🤖</div>
+              <div class="live-item-info">
+                <div class="live-item-title">IA aplicada al diagnóstico · Workshop interactivo</div>
+                <div class="live-item-meta">
+                  <span>👤 Luis Ortega</span>
+                  <span>·</span>
+                  <span>🕐 Jueves 20:00 ART</span>
+                  <span>·</span>
+                  <span>👁 287 anotados</span>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm">Recordar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget reveal delay-2">
+          <div class="widget-header">
+            <div class="widget-title">📅 Calendario</div>
+            <a href="#" class="widget-link">Ver más →</a>
+          </div>
+          <div class="calendar-mini">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-3);">
+              <button style="color: var(--text-secondary);">‹</button>
+              <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Junio 2026</div>
+              <button style="color: var(--text-secondary);">›</button>
+            </div>
+            <div class="calendar-week" style="font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: var(--sp-2);">
+              <div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div><div>D</div>
+            </div>
+            <div class="calendar-week">
+              <div class="calendar-day">1</div>
+              <div class="calendar-day">2</div>
+              <div class="calendar-day has-event">3</div>
+              <div class="calendar-day">4</div>
+              <div class="calendar-day">5</div>
+              <div class="calendar-day has-event">6</div>
+              <div class="calendar-day">7</div>
+              <div class="calendar-day">8</div>
+              <div class="calendar-day">9</div>
+              <div class="calendar-day has-event">10</div>
+              <div class="calendar-day">11</div>
+              <div class="calendar-day">12</div>
+              <div class="calendar-day has-event">13</div>
+              <div class="calendar-day">14</div>
+              <div class="calendar-day">15</div>
+              <div class="calendar-day today live">16</div>
+              <div class="calendar-day has-event">17</div>
+              <div class="calendar-day">18</div>
+              <div class="calendar-day has-event">19</div>
+              <div class="calendar-day">20</div>
+              <div class="calendar-day">21</div>
+              <div class="calendar-day has-event">22</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Progress + Activity row -->
+      <section class="dashboard-row">
+        <div class="widget reveal">
+          <div class="widget-header">
+            <div class="widget-title">🎓 Cursos en progreso</div>
+            <a href="academia.html" class="widget-link">Ver academia →</a>
+          </div>
+          <div class="progress-list">
+            <div class="progress-item">
+              <div class="progress-thumb" style="background: linear-gradient(135deg, #1e3a8a, #3B82F6);">📱</div>
+              <div class="progress-info">
+                <div class="progress-title">Reparación profesional de iPhone · Nivel 2</div>
+                <div class="progress-bar-mini"><div class="progress-bar-fill" style="width: 65%"></div></div>
+                <div class="progress-pct">65% · 8h 12m restantes</div>
+              </div>
+              <button class="btn btn-primary btn-sm">Continuar</button>
+            </div>
+
+            <div class="progress-item">
+              <div class="progress-thumb" style="background: linear-gradient(135deg, #065f46, #10B981);">🔬</div>
+              <div class="progress-info">
+                <div class="progress-title">Micro-soldadura nivel avanzado · Board level</div>
+                <div class="progress-bar-mini"><div class="progress-bar-fill" style="width: 30%"></div></div>
+                <div class="progress-pct">30% · 12h 45m restantes</div>
+              </div>
+              <button class="btn btn-primary btn-sm">Continuar</button>
+            </div>
+
+            <div class="progress-item">
+              <div class="progress-thumb" style="background: linear-gradient(135deg, #92400e, #F59E0B);">🤖</div>
+              <div class="progress-info">
+                <div class="progress-title">IA para diagnóstico técnico · De cero a pro</div>
+                <div class="progress-bar-mini"><div class="progress-bar-fill" style="width: 12%"></div></div>
+                <div class="progress-pct">12% · 7h 30m restantes</div>
+              </div>
+              <button class="btn btn-primary btn-sm">Continuar</button>
+            </div>
+
+            <div class="progress-item">
+              <div class="progress-thumb" style="background: linear-gradient(135deg, #7c2d12, #EA580C);">💻</div>
+              <div class="progress-info">
+                <div class="progress-title">Reparación de Laptops · Diagnóstico avanzado</div>
+                <div class="progress-bar-mini"><div class="progress-bar-fill" style="width: 88%"></div></div>
+                <div class="progress-pct">88% · 1h 20m restantes</div>
+              </div>
+              <button class="btn btn-primary btn-sm">Continuar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget reveal delay-2">
+          <div class="widget-header">
+            <div class="widget-title">🔔 Actividad reciente</div>
+            <a href="#" class="widget-link">Ver todo →</a>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-avatar">CM</div>
+              <div>
+                <div class="activity-text"><strong>Carlos Méndez</strong> respondió tu pregunta en el foro: <em>"iPhone 13 bootloop"</em></div>
+                <div class="activity-time">Hace 12 min</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-avatar">AR</div>
+              <div>
+                <div class="activity-text"><strong>Ana Ramírez</strong> publicó nuevo directo: <em>"MacBook M1 diagnóstico"</em></div>
+                <div class="activity-time">Hace 1 h</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-avatar">🤖</div>
+              <div>
+                <div class="activity-text">Tu consulta de IA fue marcada como <strong style="color: var(--success);">resuelta</strong> con 87% de precisión</div>
+                <div class="activity-time">Hace 2 h</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-avatar">LO</div>
+              <div>
+                <div class="activity-text"><strong>Luis Ortega</strong> subió nuevo recurso a la biblioteca: <em>"Esquema Samsung S22"</em></div>
+                <div class="activity-time">Hace 4 h</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-avatar">🏆</div>
+              <div>
+                <div class="activity-text">¡Felicitaciones! Obtuviste la insignia <strong>Micro-soldador Pro</strong></div>
+                <div class="activity-time">Ayer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Mobile menu toggle -->
+  <button class="menu-toggle" id="menuToggle">☰</button>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    // Mobile sidebar
+    const toggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if (toggle && sidebar && overlay) {
+      toggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+        toggle.textContent = sidebar.classList.contains('open') ? '✕' : '☰';
+      });
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+        toggle.textContent = '☰';
+      });
+    }
+  </script>
+</body>
+</html>
