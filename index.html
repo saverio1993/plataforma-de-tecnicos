@@ -318,7 +318,7 @@
               <li>Grabaciones disponibles 24/7</li>
               <li>Próximos directos con recordatorio automático</li>
             </ul>
-            <a href="#" class="btn btn-primary">Ver próximas transmisiones</a>
+            <a href="live.html" class="btn btn-primary">Ver próximas transmisiones</a>
           </div>
           <div class="module-visual">
             <div style="padding: var(--sp-6); height: 100%; display: flex; flex-direction: column; gap: var(--sp-3);">
@@ -479,7 +479,7 @@
               <li>Chat directo con el técnico asignado</li>
               <li>SLA de 24 h en planes Pro/Premium</li>
             </ul>
-            <a href="#" class="btn btn-primary">Crear consulta</a>
+            <a href="register.html?redirect=dashboard.html" class="btn btn-primary">Crear consulta</a>
           </div>
           <div class="module-visual">
             <div style="padding: var(--sp-4); display: flex; flex-direction: column; gap: 8px;">
@@ -856,11 +856,11 @@
           </a>
           <p>La plataforma premium de aprendizaje para técnicos en reparación electrónica, microelectrónica e IA aplicada.</p>
           <div class="footer-social">
-            <a href="#" aria-label="YouTube">▶</a>
-            <a href="#" aria-label="Instagram">◎</a>
-            <a href="#" aria-label="Twitter">𝕏</a>
-            <a href="#" aria-label="Discord">💬</a>
-            <a href="#" aria-label="GitHub">⌨</a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">𝕏</a>
+            <a href="https://discord.com" target="_blank" rel="noopener" aria-label="Discord">💬</a>
+            <a href="https://github.com/saverio1993" target="_blank" rel="noopener" aria-label="GitHub">⌨</a>
           </div>
         </div>
 
@@ -880,8 +880,8 @@
           <ul>
             <li><a href="planes.html">Planes</a></li>
             <li><a href="#testimonios">Testimonios</a></li>
-            <li><a href="#">Centro de ayuda</a></li>
-            <li><a href="#">Estado del servicio</a></li>
+            <li><a href="#" onclick="event.preventDefault(); showToast('Centro de ayuda próximamente. Por ahora escribinos a ayuda@academia-jrubio.com', 'info', 4000);">Centro de ayuda</a></li>
+            <li><a href="#" onclick="event.preventDefault(); showToast('Todos los servicios operativos ✓', 'success', 2000);">Estado del servicio</a></li>
             <li><a href="#">API & Webhooks</a></li>
           </ul>
         </div>
@@ -889,11 +889,11 @@
         <div class="footer-col">
           <h4>Legal</h4>
           <ul>
-            <li><a href="#">Términos</a></li>
-            <li><a href="#">Privacidad</a></li>
-            <li><a href="#">Cookies</a></li>
-            <li><a href="#">Contacto</a></li>
-            <li><a href="#">Sobre nosotros</a></li>
+            <li><a href="#" onclick="event.preventDefault(); showToast('Términos: uso libre y gratuito. No nos hacemos responsables del uso de la info técnica.', 'info', 5000);">Términos</a></li>
+            <li><a href="#" onclick="event.preventDefault(); showToast('Privacidad: tus datos se guardan SOLO en este navegador (modo demo). No se envían a ningún servidor externo.', 'info', 5000);">Privacidad</a></li>
+            <li><a href="#" onclick="event.preventDefault(); showToast('Usamos solo localStorage (no cookies de tracking). Modo demo.', 'info', 3000);">Cookies</a></li>
+            <li><a href="mailto:contacto@academia-jrubio.com">Contacto</a></li>
+            <li><a href="#" onclick="event.preventDefault(); showToast('Academia Jota Rubio es una comunidad premium para técnicos en reparación. Hecho con ⚡', 'info', 3000);">Sobre nosotros</a></li>
           </ul>
         </div>
       </div>
@@ -907,6 +907,7 @@
 
   <!-- JS -->
   <script src="js/auth.js"></script>
+  <script src="js/interactions.js"></script>
   <script src="js/navbar.js"></script>
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>

@@ -147,14 +147,14 @@
             <div class="profile-meta">
               <span>📍 Ciudad de México, MX</span>
               <span>📅 Se unió en marzo 2024</span>
-              <span>🔗 <a href="#" style="color: var(--accent);">carlosrepair.com</a></span>
-              <span>🐦 <a href="#" style="color: var(--accent);">@carlos_repair</a></span>
+              <span>🔗 <a href="https://carlosrepair.com" target="_blank" rel="noopener" style="color: var(--accent);">carlosrepair.com</a></span>
+              <span>🐦 <a href="https://twitter.com/carlos_repair" target="_blank" rel="noopener" style="color: var(--accent);">@carlos_repair</a></span>
             </div>
           </div>
         </div>
         <div class="profile-actions">
-          <button class="btn btn-secondary">🔔 Seguir</button>
-          <button class="btn btn-primary">💬 Mensaje</button>
+          <button class="btn btn-secondary" id="btnSeguirPerfil" onclick="toggleSeguirPerfil(this)">🔔 Seguir</button>
+          <button class="btn btn-primary" onclick="showToast('Mensajería directa próximamente', 'info', 2500)">💬 Mensaje</button>
         </div>
       </div>
 
@@ -515,17 +515,19 @@
       <div class="sidebar-card-mini">
         <h3>🔗 Links</h3>
         <div style="display: flex; flex-direction: column; gap: 8px;">
-          <a href="#" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">🌐 carlosrepair.com</a>
-          <a href="#" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">🐦 @carlos_repair</a>
-          <a href="#" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">📸 @carlos_repair</a>
-          <a href="#" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">▶ CarlosTech Repair</a>
+          <a href="https://carlosrepair.com" target="_blank" rel="noopener" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">🌐 carlosrepair.com</a>
+          <a href="https://twitter.com/carlos_repair" target="_blank" rel="noopener" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">🐦 @carlos_repair</a>
+          <a href="https://instagram.com/carlos_repair" target="_blank" rel="noopener" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">📸 @carlos_repair</a>
+          <a href="https://youtube.com/@carlostech" target="_blank" rel="noopener" style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--fs-sm);">▶ CarlosTech Repair</a>
         </div>
       </div>
     </aside>
   </div>
 
   <script src="js/auth.js"></script>
+  <script src="js/interactions.js"></script>
   <script src="js/navbar.js"></script>
+  <script>if (!requireAuth("login.html")) { /* redirige */ }</script>
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
   <script>

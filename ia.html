@@ -95,8 +95,8 @@
         <li><a href="ia.html" class="navbar-link" style="color: var(--accent);">IA</a></li>
       </ul>
       <div class="navbar-actions">
-        <button class="btn btn-secondary btn-sm">⚙ Configurar</button>
-        <button class="btn btn-primary btn-sm">+ Nuevo caso</button>
+        <button class="btn btn-secondary btn-sm" onclick="showToast('Configuración de IA próximamente', 'info', 2500)">⚙ Configurar</button>
+        <button class="btn btn-primary btn-sm" onclick="newCaseIA()">+ Nuevo caso</button>
       </div>
     </div>
   </nav>
@@ -214,7 +214,7 @@
         <div class="ia-input-area">
           <div class="ia-input-row">
             <input type="text" class="input" placeholder="Describí el síntoma, marca, modelo, código de error...">
-            <button class="btn btn-primary">Analizar ⚡</button>
+            <button class="btn btn-primary" onclick="runAnalysis()">Analizar ⚡</button>
           </div>
           <div class="ia-quick-prompts">
             <span class="ia-quick-prompt">No enciende</span>
@@ -273,7 +273,9 @@
   </div>
 
   <script src="js/auth.js"></script>
+  <script src="js/interactions.js"></script>
   <script src="js/navbar.js"></script>
+  <script>if (!requireAuth("login.html")) { /* redirige */ }</script>
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
 

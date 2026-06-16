@@ -161,8 +161,8 @@
           </div>
           <div style="font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-4);">Incluido en Plan Profesional · acceso ilimitado</div>
 
-          <a href="#" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: var(--sp-3);">Empezar ahora →</a>
-          <button class="btn btn-secondary" style="width: 100%;">+ Agregar a favoritos</button>
+          <a href="planes.html" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: var(--sp-3);">Empezar ahora →</a>
+          <button class="btn btn-secondary" id="btnFav" style="width: 100%;" onclick="toggleFav(this)">+ Agregar a favoritos</button>
 
           <div class="course-progress-card">
             <div style="font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-1);">Tu progreso</div>
@@ -327,7 +327,7 @@
             <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Checklist de herramientas recomendadas</div>
             <div style="font-size: var(--fs-xs); color: var(--text-muted);">PDF · 1.2 MB · Lista completa de compra</div>
           </div>
-          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+          <button class="btn btn-secondary btn-sm" onclick="showToast('Descarga iniciada (demo)', 'success', 2000)">⬇ Descargar</button>
         </div>
 
         <div class="resource-item">
@@ -336,7 +336,7 @@
             <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Esquemático iPhone 13 Pro</div>
             <div style="font-size: var(--fs-xs); color: var(--text-muted);">PDF · 14.2 MB · 248 páginas</div>
           </div>
-          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+          <button class="btn btn-secondary btn-sm" onclick="showToast('Descarga iniciada (demo)', 'success', 2000)">⬇ Descargar</button>
         </div>
 
         <div class="resource-item">
@@ -345,7 +345,7 @@
             <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Datasheet A15 Bionic</div>
             <div style="font-size: var(--fs-xs); color: var(--text-muted);">PDF · 6.8 MB</div>
           </div>
-          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+          <button class="btn btn-secondary btn-sm" onclick="showToast('Descarga iniciada (demo)', 'success', 2000)">⬇ Descargar</button>
         </div>
 
         <div class="resource-item">
@@ -354,7 +354,7 @@
             <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Plantilla de tornillos iPhone 12-15</div>
             <div style="font-size: var(--fs-xs); color: var(--text-muted);">SVG · 240 KB · Imprimible</div>
           </div>
-          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+          <button class="btn btn-secondary btn-sm" onclick="showToast('Descarga iniciada (demo)', 'success', 2000)">⬇ Descargar</button>
         </div>
 
         <div class="resource-item">
@@ -363,7 +363,7 @@
             <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Hoja de presupuesto para clientes</div>
             <div style="font-size: var(--fs-xs); color: var(--text-muted);">XLSX · 18 KB · Editable</div>
           </div>
-          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+          <button class="btn btn-secondary btn-sm" onclick="showToast('Descarga iniciada (demo)', 'success', 2000)">⬇ Descargar</button>
         </div>
       </div>
 
@@ -381,8 +381,8 @@
             <li>Entrega al cliente con presupuesto</li>
           </ul>
           <div style="display: flex; gap: var(--sp-3);">
-            <button class="btn btn-primary">Entregar proyecto</button>
-            <button class="btn btn-secondary">Ver entregas de otros alumnos</button>
+            <button class="btn btn-primary" onclick="showToast('Entrega enviada ✓ (demo)', 'success', 2500)">Entregar proyecto</button>
+            <button class="btn btn-secondary" onclick="showToast('Mostrando entregas de la comunidad (demo)', 'info', 2500)">Ver entregas de otros alumnos</button>
           </div>
         </div>
       </div>
@@ -474,6 +474,7 @@
   </div>
 
   <script src="js/auth.js"></script>
+  <script src="js/interactions.js"></script>
   <script src="js/navbar.js"></script>
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
@@ -501,5 +502,23 @@
       });
     }
   </script>
+
+<script>
+function toggleFav(btn) {
+  if (btn.classList.contains('active')) {
+    btn.classList.remove('active');
+    btn.textContent = '+ Agregar a favoritos';
+    showToast('Quitado de favoritos', 'info', 2000);
+  } else {
+    btn.classList.add('active');
+    btn.textContent = '★ En favoritos';
+    showToast('Agregado a favoritos', 'success', 2000);
+  }
+  btn.style.background = btn.classList.contains('active') ? 'var(--success)' : '';
+  btn.style.color = btn.classList.contains('active') ? 'white' : '';
+  btn.style.borderColor = btn.classList.contains('active') ? 'var(--success)' : '';
+}
+</script>
+
 </body>
 </html>

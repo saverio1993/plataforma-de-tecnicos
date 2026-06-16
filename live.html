@@ -89,7 +89,7 @@
       </ul>
       <div class="navbar-actions">
         <a href="dashboard.html" class="btn btn-secondary btn-sm">← Volver</a>
-        <button class="btn btn-primary btn-sm">💬 Compartir</button>
+        <button class="btn btn-primary btn-sm" onclick="shareLive()">💬 Compartir</button>
       </div>
     </div>
   </nav>
@@ -161,8 +161,8 @@
             <div style="font-weight: var(--fw-semibold); font-size: var(--fs-base);">Carlos Méndez</div>
             <div style="font-size: var(--fs-sm); color: var(--text-secondary);">Instructor senior · 12 años reparando iPhones</div>
           </div>
-          <button class="btn btn-secondary btn-sm">+ Seguir</button>
-          <button class="btn btn-primary btn-sm">🔔 Recordar</button>
+          <button class="btn btn-secondary btn-sm" id="btnSeguir" onclick="toggleSeguir(this)">+ Seguir</button>
+          <button class="btn btn-primary btn-sm" id="btnRec" onclick="toggleRec(this)">🔔 Recordar</button>
         </div>
 
         <p style="color: var(--text-secondary); font-size: var(--fs-sm); line-height: 1.6;">
@@ -294,7 +294,7 @@
       <div class="chat-input">
         <div class="chat-input-row">
           <input type="text" class="input" placeholder="Escribí un mensaje...">
-          <button class="btn btn-primary">Enviar</button>
+          <button class="btn btn-primary" onclick="sendChat()">Enviar</button>
         </div>
         <div class="chat-emojis">
           <div class="chat-emoji">👍</div>
@@ -312,7 +312,9 @@
   </div>
 
   <script src="js/auth.js"></script>
+  <script src="js/interactions.js"></script>
   <script src="js/navbar.js"></script>
+  <script>if (!requireAuth("login.html")) { /* redirige */ }</script>
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
   <script>

@@ -117,7 +117,7 @@
 
           <div class="form-checkbox">
             <input type="checkbox" id="terms" required>
-            <label for="terms" style="font-weight: var(--fw-regular); margin: 0;">Acepto los <a href="#">términos de servicio</a> y la <a href="#">política de privacidad</a>.</label>
+            <label for="terms" style="font-weight: var(--fw-regular); margin: 0;">Acepto los <a href="#" onclick="event.preventDefault(); showToast('Términos: uso libre y gratuito, no nos hacemos responsables del uso de la info técnica', 'info', 5000);">términos de servicio</a> y la <a href="#" onclick="event.preventDefault(); showToast('Privacidad: tus datos se guardan SOLO en este navegador (modo demo). No se envían a ningún servidor.', 'info', 5000);">política de privacidad</a>.</label>
           </div>
 
           <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="submitBtn">
@@ -184,6 +184,7 @@
   </div>
 
   <script src="js/auth.js"></script>
+  <script src="js/interactions.js"></script>
   <script>
     // Si ya está logueado, redirigir
     if (Auth.isLoggedIn()) {

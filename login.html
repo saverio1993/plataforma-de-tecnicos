@@ -96,7 +96,7 @@
             <label>
               <input type="checkbox" id="remember" checked> Recordarme
             </label>
-            <a href="#" id="forgotLink">¿Olvidaste tu contraseña?</a>
+            <a href="#" id="forgotLink" onclick="event.preventDefault(); showToast('Funcionalidad disponible cuando se implemente el backend. Por ahora tus datos están en este navegador.', 'info', 5000);">¿Olvidaste tu contraseña?</a>
           </div>
 
           <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="submitBtn">
@@ -161,6 +161,7 @@
   </div>
 
   <script src="js/auth.js"></script>
+  <script src="js/interactions.js"></script>
   <script>
     // Si ya está logueado, redirigir
     if (Auth.isLoggedIn()) {

@@ -159,7 +159,7 @@
         <div class="widget reveal">
           <div class="widget-header">
             <div class="widget-title">📺 Próximas transmisiones en vivo</div>
-            <a href="#" class="widget-link">Ver todas →</a>
+            <a href="live.html" class="widget-link">Ver todas →</a>
           </div>
           <div class="live-list">
             <div class="live-item">
@@ -204,7 +204,7 @@
                   <span>👁 412 anotados</span>
                 </div>
               </div>
-              <button class="btn btn-secondary btn-sm">Recordar</button>
+              <a href="live.html" class="btn btn-secondary btn-sm">Recordar</a>
             </div>
 
             <div class="live-item">
@@ -219,7 +219,7 @@
                   <span>👁 287 anotados</span>
                 </div>
               </div>
-              <button class="btn btn-secondary btn-sm">Recordar</button>
+              <a href="live.html" class="btn btn-secondary btn-sm">Recordar</a>
             </div>
           </div>
         </div>
@@ -227,12 +227,12 @@
         <div class="widget reveal delay-2">
           <div class="widget-header">
             <div class="widget-title">📅 Calendario</div>
-            <a href="#" class="widget-link">Ver más →</a>
+            <a href="biblioteca.html" class="widget-link">Ver más →</a>
           </div>
           <div class="calendar-mini">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-3);">
               <button style="color: var(--text-secondary);">‹</button>
-              <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Junio 2026</div>
+              <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);" id="calMonth">Junio 2026</div>
               <button style="color: var(--text-secondary);">›</button>
             </div>
             <div class="calendar-week" style="font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: var(--sp-2);">
@@ -281,7 +281,7 @@
                 <div class="progress-bar-mini"><div class="progress-bar-fill" style="width: 65%"></div></div>
                 <div class="progress-pct">65% · 8h 12m restantes</div>
               </div>
-              <button class="btn btn-primary btn-sm">Continuar</button>
+              <a href="curso.html" class="btn btn-primary btn-sm">Continuar</a>
             </div>
 
             <div class="progress-item">
@@ -291,7 +291,7 @@
                 <div class="progress-bar-mini"><div class="progress-bar-fill" style="width: 30%"></div></div>
                 <div class="progress-pct">30% · 12h 45m restantes</div>
               </div>
-              <button class="btn btn-primary btn-sm">Continuar</button>
+              <a href="curso.html" class="btn btn-primary btn-sm">Continuar</a>
             </div>
 
             <div class="progress-item">
@@ -301,7 +301,7 @@
                 <div class="progress-bar-mini"><div class="progress-bar-fill" style="width: 12%"></div></div>
                 <div class="progress-pct">12% · 7h 30m restantes</div>
               </div>
-              <button class="btn btn-primary btn-sm">Continuar</button>
+              <a href="curso.html" class="btn btn-primary btn-sm">Continuar</a>
             </div>
 
             <div class="progress-item">
@@ -311,7 +311,7 @@
                 <div class="progress-bar-mini"><div class="progress-bar-fill" style="width: 88%"></div></div>
                 <div class="progress-pct">88% · 1h 20m restantes</div>
               </div>
-              <button class="btn btn-primary btn-sm">Continuar</button>
+              <a href="curso.html" class="btn btn-primary btn-sm">Continuar</a>
             </div>
           </div>
         </div>
@@ -319,7 +319,7 @@
         <div class="widget reveal delay-2">
           <div class="widget-header">
             <div class="widget-title">🔔 Actividad reciente</div>
-            <a href="#" class="widget-link">Ver todo →</a>
+            <a href="foro.html" class="widget-link">Ver todo →</a>
           </div>
           <div class="activity-list">
             <div class="activity-item">
@@ -367,6 +367,7 @@
   <button class="menu-toggle" id="menuToggle">☰</button>
 
   <script src="js/auth.js"></script>
+  <script src="js/interactions.js"></script>
   <script src="js/navbar.js"></script>
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
@@ -400,6 +401,7 @@
     }
   </script>
 <script src="js/auth.js"></script>
+  <script src="js/interactions.js"></script>
   <script src="js/navbar.js"></script>
   <script>
     if (Auth.isLoggedIn()) {
