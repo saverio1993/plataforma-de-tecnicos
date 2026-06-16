@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0F172A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .admin-page { padding-top: calc(var(--nav-height) + var(--sp-8)); min-height: 100vh; }
+    .admin-container { max-width: 1400px; margin: 0 auto; padding: 0 var(--sp-6) var(--sp-12); }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-8); flex-wrap: wrap; gap: var(--sp-4); }
+    .admin-header h1 { font-size: var(--fs-3xl); display: flex; align-items: center; gap: var(--sp-3); }
+    .admin-badge { background: linear-gradient(135deg, var(--accent), var(--warning)); color: white; padding: 4px 12px; border-radius: 999px; font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .admin-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); margin-bottom: var(--sp-8); }
+    .admin-stat-card { padding: var(--sp-5); background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); backdrop-filter: blur(20px); }
+    .admin-stat-label { font-size: var(--fs-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--sp-2); }
+    .admin-stat-value { font-size: var(--fs-3xl); font-weight: var(--fw-black); font-family: var(--font-mono); color: var(--accent); }
+    .admin-stat-delta { font-size: var(--fs-xs); color: var(--success); margin-top: var(--sp-1); }
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-6); }
+    .admin-panel { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-6); backdrop-filter: blur(20px); }
+    .admin-panel h2 { font-size: var(--fs-xl); margin-bottom: var(--sp-4); display: flex; align-items: center; gap: var(--sp-2); }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th { text-align: left; padding: var(--sp-3); font-size: var(--fs-xs); color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    .admin-table td { padding: var(--sp-3); font-size: var(--fs-sm); border-bottom: 1px solid var(--border); }
+    .admin-table tr:hover td { background: var(--bg-tertiary); }
+    .admin-user-cell { display: flex; align-items: center; gap: var(--sp-2); }
+    .admin-avatar-mini { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--success)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; flex-shrink: 0; }
+    .admin-role-badge { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+    .admin-role-badge.admin { background: var(--warning-soft); color: var(--warning); }
+    .admin-role-badge.member { background: var(--accent-soft); color: var(--accent); }
+    .admin-role-badge.premium { background: linear-gradient(135deg, var(--warning), #B45309); color: white; }
+    .admin-actions { display: flex; gap: 4px; }
+    .admin-action-btn { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 8px; cursor: pointer; font-size: 11px; color: var(--text-secondary); }
+    .admin-action-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    .admin-action-btn.danger:hover { background: var(--danger); border-color: var(--danger); }
+    .admin-pending-card { padding: var(--sp-3); background: var(--bg-tertiary); border-radius: var(--radius-md); margin-bottom: var(--sp-2); display: flex; justify-content: space-between; align-items: center; }
+    .admin-log-entry { padding: var(--sp-2) 0; font-size: var(--fs-sm); border-bottom: 1px solid var(--border); display: flex; gap: var(--sp-2); }
+    .admin-log-time { color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; flex-shrink: 0; }
+    .admin-tabs { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-6); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .admin-tab { padding: var(--sp-3) var(--sp-4); background: none; border: none; color: var(--text-secondary); font-size: var(--fs-sm); font-weight: var(--fw-semibold); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+    .admin-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .admin-tab-content { display: none; }
+    .admin-tab-content.active { display: block; }
+    .admin-empty { text-align: center; padding: var(--sp-8); color: var(--text-muted); }
+    @media (max-width: 1024px) { .admin-grid { grid-template-columns: 1fr; } .admin-stats { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu" id="navbarMenu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="comunidad.html" class="navbar-link">Comunidad</a></li>
+        <li><a href="admin.html" class="navbar-link" style="color: var(--accent);">Admin</a></li>
+        <li><a href="account.html" class="navbar-link">Mi cuenta</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">← Volver</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="admin-page">
+    <div class="admin-container">
+      <div class="admin-header">
+        <h1>👑 Panel Admin <span class="admin-badge">ADMIN</span></h1>
+        <div style="color: var(--text-secondary); font-size: var(--fs-sm);">Sesión iniciada: <strong id="adminEmail">-</strong></div>
+      </div>
+
+      <div class="admin-stats" id="adminStats">
+        <div class="admin-stat-card">
+          <div class="admin-stat-label">Usuarios totales</div>
+          <div class="admin-stat-value" id="statUsers">0</div>
+          <div class="admin-stat-delta">+0 este mes</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-label">Miembros Pro</div>
+          <div class="admin-stat-value" id="statPro">0</div>
+          <div class="admin-stat-delta">+0% conversión</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-label">MRR estimado</div>
+          <div class="admin-stat-value" id="statMRR">$0</div>
+          <div class="admin-stat-delta">↑ 12%</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-label">Activos (7d)</div>
+          <div class="admin-stat-value" id="statActive">0</div>
+          <div class="admin-stat-delta">↑ 8%</div>
+        </div>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="users">👥 Usuarios</button>
+        <button class="admin-tab" data-tab="pending">⏳ Pendientes</button>
+        <button class="admin-tab" data-tab="activity">📊 Actividad</button>
+        <button class="admin-tab" data-tab="system">⚙️ Sistema</button>
+      </div>
+
+      <div class="admin-tab-content active" data-tab="users">
+        <div class="admin-panel">
+          <h2>👥 Gestión de usuarios</h2>
+          <table class="admin-table" id="usersTable">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Plan</th>
+                <th>Rol</th>
+                <th>Registro</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="usersTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-tab-content" data-tab="pending">
+        <div class="admin-grid">
+          <div class="admin-panel">
+            <h2>⏳ Aprobaciones pendientes</h2>
+            <div class="admin-pending-card">
+              <div>
+                <div style="font-weight: 600;">Instructor: Diego Fernández</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Solicita subir "Curso de Reballing Avanzado"</div>
+              </div>
+              <div style="display: flex; gap: 4px;">
+                <button class="admin-action-btn" onclick="this.closest('.admin-pending-card').remove(); showToast('Aprobado ✓', 'success', 2000);">✓ Aprobar</button>
+                <button class="admin-action-btn danger" onclick="this.closest('.admin-pending-card').remove(); showToast('Rechazado', 'info', 2000);">✕</button>
+              </div>
+            </div>
+            <div class="admin-pending-card">
+              <div>
+                <div style="font-weight: 600;">Post en foro: "Esquema SM-908"</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Por Laura Mendez · Reportado por copyright</div>
+              </div>
+              <div style="display: flex; gap: 4px;">
+                <button class="admin-action-btn" onclick="this.closest('.admin-pending-card').remove(); showToast('Restaurado', 'info', 2000);">Restaurar</button>
+                <button class="admin-action-btn danger" onclick="this.closest('.admin-pending-card').remove(); showToast('Eliminado', 'info', 2000);">Eliminar</button>
+              </div>
+            </div>
+            <div class="admin-pending-card">
+              <div>
+                <div style="font-weight: 600;">Comentario reportado</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">"Spam en el hilo de iPhone 15"</div>
+              </div>
+              <div style="display: flex; gap: 4px;">
+                <button class="admin-action-btn" onclick="this.closest('.admin-pending-card').remove(); showToast('Comentario aprobado', 'info', 2000);">Mantener</button>
+                <button class="admin-action-btn danger" onclick="this.closest('.admin-pending-card').remove(); showToast('Comentario eliminado', 'info', 2000);">Eliminar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-panel">
+            <h2>📝 Reportes recientes</h2>
+            <div class="admin-log-entry">
+              <span class="admin-log-time">10:42</span>
+              <span><strong>2 usuarios</strong> nuevos registrados</span>
+            </div>
+            <div class="admin-log-entry">
+              <span class="admin-log-time">10:15</span>
+              <span>Backup automático completado <em>(12.4 MB)</em></span>
+            </div>
+            <div class="admin-log-entry">
+              <span class="admin-log-time">09:58</span>
+              <span>1 post marcado como spam</span>
+            </div>
+            <div class="admin-log-entry">
+              <span class="admin-log-time">09:30</span>
+              <span>Suscripción Pro renovada: <strong>maria.g</strong></span>
+            </div>
+            <div class="admin-log-entry">
+              <span class="admin-log-time">08:47</span>
+              <span>3 cursos subidos a la biblioteca</span>
+            </div>
+            <div class="admin-log-entry">
+              <span class="admin-log-time">08:12</span>
+              <span>Live stream programado: <strong>"Reparación M3"</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-tab-content" data-tab="activity">
+        <div class="admin-grid">
+          <div class="admin-panel">
+            <h2>📈 Actividad reciente (24h)</h2>
+            <div style="display: flex; gap: var(--sp-4); flex-wrap: wrap; margin-bottom: var(--sp-4);">
+              <div style="flex: 1; min-width: 120px; padding: var(--sp-3); background: var(--bg-tertiary); border-radius: var(--radius-md);">
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Logins</div>
+                <div style="font-size: var(--fs-2xl); font-weight: bold; color: var(--accent);">342</div>
+              </div>
+              <div style="flex: 1; min-width: 120px; padding: var(--sp-3); background: var(--bg-tertiary); border-radius: var(--radius-md);">
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Posts creados</div>
+                <div style="font-size: var(--fs-2xl); font-weight: bold; color: var(--success);">28</div>
+              </div>
+              <div style="flex: 1; min-width: 120px; padding: var(--sp-3); background: var(--bg-tertiary); border-radius: var(--radius-md);">
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Cursos vistos</div>
+                <div style="font-size: var(--fs-2xl); font-weight: bold; color: var(--warning);">891</div>
+              </div>
+              <div style="flex: 1; min-width: 120px; padding: var(--sp-3); background: var(--bg-tertiary); border-radius: var(--radius-md);">
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">IA consultas</div>
+                <div style="font-size: var(--fs-2xl); font-weight: bold; color: var(--accent);">1,247</div>
+              </div>
+            </div>
+            <p style="color: var(--text-secondary); font-size: var(--fs-sm);">📊 Métricas tomadas del día actual</p>
+          </div>
+
+          <div class="admin-panel">
+            <h2>🔥 Top cursos del día</h2>
+            <div style="display: flex; flex-direction: column; gap: var(--sp-2);">
+              <div style="display: flex; justify-content: space-between; padding: var(--sp-2); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                <span>iPhone · Nivel 2</span><strong style="color: var(--accent);">247 vistas</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: var(--sp-2); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                <span>Micro-soldadura</span><strong style="color: var(--accent);">189 vistas</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: var(--sp-2); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                <span>MacBook M2</span><strong style="color: var(--accent);">142 vistas</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: var(--sp-2); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                <span>IA Diagnóstico</span><strong style="color: var(--accent);">98 vistas</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: var(--sp-2); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                <span>Reballing BGA</span><strong style="color: var(--accent);">76 vistas</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-tab-content" data-tab="system">
+        <div class="admin-grid">
+          <div class="admin-panel">
+            <h2>⚙️ Configuración del sistema</h2>
+            <div class="admin-pending-card">
+              <div>
+                <div style="font-weight: 600;">Modo mantenimiento</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Solo admins pueden entrar</div>
+              </div>
+              <button class="admin-action-btn" onclick="showToast('Modo mantenimiento activado (demo)', 'warning', 2000)">Activar</button>
+            </div>
+            <div class="admin-pending-card">
+              <div>
+                <div style="font-weight: 600;">Limpiar cache</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Fuerza a los usuarios a recargar</div>
+              </div>
+              <button class="admin-action-btn" onclick="showToast('Cache limpiado ✓', 'success', 2000)">Ejecutar</button>
+            </div>
+            <div class="admin-pending-card">
+              <div>
+                <div style="font-weight: 600;">Backup de base de datos</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Último: hace 2 horas</div>
+              </div>
+              <button class="admin-action-btn" onclick="showToast('Backup iniciado ✓', 'info', 2000)">Crear ahora</button>
+            </div>
+            <div class="admin-pending-card">
+              <div>
+                <div style="font-weight: 600;">Broadcast notification</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Enviar push a todos los usuarios</div>
+              </div>
+              <button class="admin-action-btn" onclick="showToast('Modal de broadcast abierto (demo)', 'info', 2000)">Enviar</button>
+            </div>
+          </div>
+
+          <div class="admin-panel">
+            <h2>🔧 Estado del sistema</h2>
+            <div style="display: flex; flex-direction: column; gap: var(--sp-2);">
+              <div class="admin-pending-card">
+                <div>
+                  <div style="font-weight: 600;">Frontend (GitHub Pages)</div>
+                  <div style="font-size: var(--fs-xs); color: var(--text-muted);">Build: 2ef8337 · 5 min</div>
+                </div>
+                <span style="color: var(--success); font-weight: bold;">● Online</span>
+              </div>
+              <div class="admin-pending-card">
+                <div>
+                  <div style="font-weight: 600;">Service Worker</div>
+                  <div style="font-size: var(--fs-xs); color: var(--text-muted);">v2 · 30+ URLs en cache</div>
+                </div>
+                <span style="color: var(--success); font-weight: bold;">● Activo</span>
+              </div>
+              <div class="admin-pending-card">
+                <div>
+                  <div style="font-weight: 600;">Auth local (localStorage)</div>
+                  <div style="font-size: var(--fs-xs); color: var(--text-muted);">Usuarios: <span id="sysUsers">0</span></div>
+                </div>
+                <span style="color: var(--success); font-weight: bold;">● OK</span>
+              </div>
+              <div class="admin-pending-card">
+                <div>
+                  <div style="font-weight: 600;">Backend (futuro)</div>
+                  <div style="font-size: var(--fs-xs); color: var(--text-muted);">No configurado</div>
+                </div>
+                <span style="color: var(--warning); font-weight: bold;">● Pendiente</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/interactions.js"></script>
+  <script>
+    if (!requireAuth('login.html')) { /* redirige */ } else {
+      const user = Auth.getCurrentUser();
+      if (!Auth.isAdmin()) {
+        document.querySelector('.admin-container').innerHTML = `
+          <div style="text-align: center; padding: 100px 20px;">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🚫</div>
+            <h1>Acceso denegado</h1>
+            <p style="color: var(--text-secondary); margin: 20px 0;">Esta página es solo para administradores.</p>
+            <a href="dashboard.html" class="btn btn-primary">Volver al dashboard</a>
+          </div>
+        `;
+      } else {
+        init();
+      }
+    }
+
+    function init() {
+      const user = Auth.getCurrentUser();
+      document.getElementById('adminEmail').textContent = user.email;
+
+      const users = JSON.parse(localStorage.getItem('jrubio_users') || '[]');
+      const proUsers = users.filter(u => u.plan === 'pro' || u.plan === 'premium').length;
+      const premiumUsers = users.filter(u => u.plan === 'premium').length;
+
+      document.getElementById('statUsers').textContent = users.length;
+      document.getElementById('statPro').textContent = proUsers;
+      document.getElementById('statMRR').textContent = '$' + (proUsers * 15 + premiumUsers * 49);
+      document.getElementById('statActive').textContent = Math.floor(users.length * 0.7);
+      document.getElementById('sysUsers').textContent = users.length;
+
+      // Llenar tabla de usuarios
+      const tbody = document.getElementById('usersTbody');
+      tbody.innerHTML = users.map(u => {
+        const initials = (u.fullName || u.username).split(' ').map(s => s[0]).slice(0, 2).join('').toUpperCase();
+        const date = new Date(u.createdAt).toLocaleDateString('es');
+        const roleClass = u.role === 'admin' ? 'admin' : 'member';
+        const planBadge = u.plan === 'premium' ? 'premium' : u.plan === 'pro' ? 'admin' : 'member';
+        return `
+          <tr>
+            <td>
+              <div class="admin-user-cell">
+                <div class="admin-avatar-mini">${initials}</div>
+                <div>
+                  <div style="font-weight: 600;">${u.fullName}</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">@${u.username}</div>
+                </div>
+              </div>
+            </td>
+            <td>${u.email}</td>
+            <td><span class="admin-role-badge ${planBadge}">${u.plan.toUpperCase()}</span></td>
+            <td><span class="admin-role-badge ${roleClass}">${u.role}</span></td>
+            <td>${date}</td>
+            <td>
+              <div class="admin-actions">
+                <button class="admin-action-btn" onclick="showToast('Editando usuario', 'info', 2000)">✏️</button>
+                <button class="admin-action-btn" onclick="toggleAdmin('${u.id}')">${u.role === 'admin' ? '👤→👑' : '👑→👤'}</button>
+                ${u.role !== 'admin' ? `<button class="admin-action-btn danger" onclick="deleteUser('${u.id}')">🗑️</button>` : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="admin-empty">No hay usuarios registrados todavía</td></tr>';
+      }
+
+      // Tabs
+      document.querySelectorAll('.admin-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+          tab.classList.add('active');
+          document.querySelector(`.admin-tab-content[data-tab="${tab.dataset.tab}"]`).classList.add('active');
+        });
+      });
+    }
+
+    function toggleAdmin(userId) {
+      const users = JSON.parse(localStorage.getItem('jrubio_users') || '[]');
+      const idx = users.findIndex(u => u.id === userId);
+      if (idx === -1) return;
+      const newRole = users[idx].role === 'admin' ? 'member' : 'admin';
+      users[idx].role = newRole;
+      localStorage.setItem('jrubio_users', JSON.stringify(users));
+      showToast(`Rol cambiado a ${newRole}`, 'success', 2000);
+      setTimeout(() => location.reload(), 600);
+    }
+
+    function deleteUser(userId) {
+      if (!confirm('¿Eliminar este usuario? Esta acción no se puede deshacer.')) return;
+      const users = JSON.parse(localStorage.getItem('jrubio_users') || '[]').filter(u => u.id !== userId);
+      localStorage.setItem('jrubio_users', JSON.stringify(users));
+      showToast('Usuario eliminado ✓', 'success', 2000);
+      setTimeout(() => location.reload(), 600);
+    }
+  </script>
+</body>
+</html>

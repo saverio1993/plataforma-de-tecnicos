@@ -236,6 +236,56 @@ const Auth = (() => {
       return this.register(demoData);
     },
 
+    // Genera un usuario admin (con permisos especiales)
+    async createAdminUser() {
+      const adminData = {
+        username: 'admin',
+        email: 'admin@jotarubio.com',
+        password: 'admin1234',
+        fullName: 'Administrador Jota Rubio'
+      };
+      const users = getUsers();
+      if (users.find(u => u.email === adminData.email)) {
+        return this.login({ email: adminData.email, password: adminData.password });
+      }
+      const result = await this.register(adminData);
+      if (result.ok) {
+        // Marcar como admin, premium, y agregar stats de admin
+        const updated = this.updateProfile({
+          role: 'admin',
+          plan: 'premium',
+          reputation: 9999,
+          level: 99,
+          isVerified: true,
+          certificationsCount: 50,
+          bio: 'Cuenta administrativa de Academia Jota Rubio. Acceso completo a todas las funciones premium.',
+          location: 'Internet',
+          specialties: 'Administración, Desarrollo, Educación',
+          yearsExperience: 99
+        });
+        return { ok: true, user: updated };
+      }
+      return result;
+    },
+
+    // Bootstrap: crea usuarios demo y admin al cargar si no existen
+    async bootstrap() {
+      const users = getUsers();
+      // Solo crear si no hay usuarios
+      if (users.length === 0) {
+        await this.createDemoUser();
+        await this.createAdminUser();
+        // Limpiar sesion automatica del admin
+        this.logout();
+      }
+    },
+
+    // Verifica si el usuario actual es admin
+    isAdmin() {
+      const user = this.getCurrentUser();
+      return user && user.role === 'admin';
+    },
+
     // Para mostrar info de demo
     hasUsers() {
       return getUsers().length > 0;
@@ -247,6 +297,11 @@ const Auth = (() => {
 // UI helpers globales
 // ============================================================
 window.Auth = Auth;
+
+// Ejecutar bootstrap al cargar (crea admin y demo si no hay usuarios)
+document.addEventListener('DOMContentLoaded', () => {
+  Auth.bootstrap().catch(e => console.warn('Bootstrap error:', e));
+});
 
 function showToast(message, type = 'info', duration = 3500) {
   // Crear container si no existe

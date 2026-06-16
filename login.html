@@ -74,7 +74,11 @@
 
         <div class="login-info-banner">
           <span style="font-size: 16px;">💡</span>
-          <div><strong>Modo demo:</strong> tu cuenta se guarda en este navegador. Probá con el botón amarillo de abajo.</div>
+          <div>
+            <strong>Cuentas de prueba:</strong><br>
+            👑 <strong>Admin:</strong> admin@jotarubio.com / admin1234<br>
+            ⚡ <strong>Demo:</strong> demo@jotarubio.com / demo1234
+          </div>
         </div>
 
         <div class="form-errors-global" id="formErrors"></div>
@@ -106,6 +110,10 @@
 
         <button type="button" class="demo-btn" id="demoBtn">
           ⚡ Probar con usuario demo (1 click)
+        </button>
+
+        <button type="button" class="demo-btn" id="adminBtn" style="border-color: var(--accent); color: var(--accent); margin-top: var(--sp-2);">
+          👑 Entrar como admin
         </button>
 
         <div class="login-divider">o ingresá con</div>
@@ -244,6 +252,22 @@
         btn.textContent = '⚡ Probar con usuario demo (1 click)';
         btn.disabled = false;
         showGlobalError(result.errors?.[0] || 'Error desconocido');
+      }
+    });
+
+    // Admin user
+    document.getElementById('adminBtn')?.addEventListener('click', async () => {
+      const btn = document.getElementById('adminBtn');
+      btn.textContent = 'Creando admin...';
+      btn.disabled = true;
+      const result = await Auth.createAdminUser();
+      if (result.ok) {
+        showToast('👑 Bienvenido, Administrador', 'success');
+        setTimeout(() => window.location.href = 'dashboard.html', 600);
+      } else {
+        btn.textContent = '👑 Entrar como admin';
+        btn.disabled = false;
+        showGlobalError(result.errors?.[0] || 'Error');
       }
     });
 

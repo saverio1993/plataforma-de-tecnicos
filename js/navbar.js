@@ -49,6 +49,12 @@
               <span>⚡</span> Mejorar a Pro
             </a>
             ` : ''}
+            ${user.role === 'admin' ? `
+            <div style="height: 1px; background: var(--border); margin: var(--sp-2) 0;"></div>
+            <a href="admin.html" style="display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); border-radius: var(--radius-sm); color: var(--warning); font-size: var(--fs-sm); text-decoration: none; font-weight: 600;">
+              <span>👑</span> Panel Admin
+            </a>
+            ` : ''}
             <div style="height: 1px; background: var(--border); margin: var(--sp-2) 0;"></div>
             <button id="navbarLogout" style="display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); border-radius: var(--radius-sm); color: var(--danger); font-size: var(--fs-sm); background: none; border: none; cursor: pointer; width: 100%; text-align: left;">
               <span>🚪</span> Cerrar sesión
