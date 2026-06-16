@@ -5,22 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ingresar · Academia Jota Rubio</title>
   <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
-
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Jota Rubio">
-  <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#0F172A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" as="style">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
   <style>
     .login-page { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
     .login-side { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary)); padding: var(--sp-12); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
@@ -31,7 +26,6 @@
     .login-side-quote h2 { font-size: var(--fs-3xl); margin-bottom: var(--sp-4); line-height: 1.2; }
     .login-side-quote p { font-size: var(--fs-lg); color: var(--text-secondary); margin-bottom: var(--sp-8); }
     .login-stats-mini { display: flex; gap: var(--sp-6); margin-top: var(--sp-8); }
-    .login-stat-mini { }
     .login-stat-mini-value { font-size: var(--fs-2xl); font-weight: var(--fw-black); font-family: var(--font-mono); color: var(--accent); }
     .login-stat-mini-label { font-size: var(--fs-xs); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
     .login-testimonial { padding: var(--sp-5); background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); backdrop-filter: blur(20px); max-width: 480px; }
@@ -41,9 +35,14 @@
     .login-form { max-width: 420px; width: 100%; }
     .login-form h1 { font-size: var(--fs-3xl); margin-bottom: var(--sp-2); }
     .login-form > p { color: var(--text-secondary); margin-bottom: var(--sp-8); }
-    .login-form label { display: block; font-size: var(--fs-sm); font-weight: var(--fw-semibold); margin-bottom: var(--sp-2); color: var(--text-primary); }
-    .login-form .form-group { margin-bottom: var(--sp-5); }
-    .login-form .input { padding: var(--sp-4); font-size: var(--fs-base); }
+    .form-group { margin-bottom: var(--sp-5); }
+    .form-group label { display: block; font-size: var(--fs-sm); font-weight: var(--fw-semibold); margin-bottom: var(--sp-2); color: var(--text-primary); }
+    .form-group .input { padding: var(--sp-4); font-size: var(--fs-base); }
+    .form-group .input.invalid { border-color: var(--danger); }
+    .form-error { color: var(--danger); font-size: var(--fs-xs); margin-top: 4px; display: none; }
+    .form-error.show { display: block; }
+    .form-errors-global { background: var(--danger-soft); border: 1px solid var(--danger); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-4); margin-bottom: var(--sp-4); display: none; }
+    .form-errors-global.show { display: block; color: var(--danger); font-size: var(--fs-sm); }
     .login-form-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-6); font-size: var(--fs-sm); }
     .login-form-row label { display: flex; align-items: center; gap: var(--sp-2); cursor: pointer; color: var(--text-secondary); }
     .login-form-row a { color: var(--accent); }
@@ -51,11 +50,16 @@
     .login-divider::before, .login-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .social-login { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
     .social-login .btn { background: var(--bg-secondary); border: 1px solid var(--border); }
-    .social-login .btn:hover { border-color: var(--accent); }
+    .social-login .btn:hover:not(:disabled) { border-color: var(--accent); }
+    .social-login .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .login-footer { text-align: center; margin-top: var(--sp-6); font-size: var(--fs-sm); color: var(--text-secondary); }
     .login-footer a { color: var(--accent); font-weight: var(--fw-semibold); }
+    .demo-btn { width: 100%; background: transparent; border: 1px dashed var(--warning); color: var(--warning); padding: var(--sp-3); border-radius: var(--radius-md); font-size: var(--fs-sm); cursor: pointer; transition: all var(--t-fast); margin-bottom: var(--sp-3); }
+    .demo-btn:hover { background: var(--warning-soft); }
     .back-home { position: absolute; top: var(--sp-6); left: var(--sp-6); z-index: 2; }
-    @media (max-width: 900px) { .login-page { grid-template-columns: 1fr; } .login-side { display: none; } }
+    .login-info-banner { background: var(--accent-soft); border: 1px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-4); margin-bottom: var(--sp-5); font-size: var(--fs-xs); color: var(--text-secondary); display: flex; gap: var(--sp-2); align-items: flex-start; }
+    .login-info-banner strong { color: var(--accent); }
+    @media (max-width: 900px) { .login-page { grid-template-columns: 1fr; } .login-side { display: none; } .social-login { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -68,42 +72,57 @@
         <h1>Bienvenido de vuelta</h1>
         <p>Ingresá a tu cuenta y seguí aprendiendo.</p>
 
-        <form onsubmit="event.preventDefault(); window.location='dashboard.html';">
+        <div class="login-info-banner">
+          <span style="font-size: 16px;">💡</span>
+          <div><strong>Modo demo:</strong> tu cuenta se guarda en este navegador. Probá con el botón amarillo de abajo.</div>
+        </div>
+
+        <div class="form-errors-global" id="formErrors"></div>
+
+        <form id="loginForm" novalidate>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" class="input" placeholder="tu@email.com" required>
+            <input type="email" id="email" name="email" class="input" placeholder="tu@email.com" autocomplete="email" required>
+            <div class="form-error" id="error-email"></div>
           </div>
 
           <div class="form-group">
             <label for="password">Contraseña</label>
-            <input type="password" id="password" class="input" placeholder="••••••••" required>
+            <input type="password" id="password" name="password" class="input" placeholder="••••••••" autocomplete="current-password" required>
+            <div class="form-error" id="error-password"></div>
           </div>
 
           <div class="login-form-row">
             <label>
-              <input type="checkbox" checked> Recordarme
+              <input type="checkbox" id="remember" checked> Recordarme
             </label>
-            <a href="#">¿Olvidaste tu contraseña?</a>
+            <a href="#" id="forgotLink">¿Olvidaste tu contraseña?</a>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Ingresar</button>
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="submitBtn">
+            Ingresar
+          </button>
         </form>
+
+        <button type="button" class="demo-btn" id="demoBtn">
+          ⚡ Probar con usuario demo (1 click)
+        </button>
 
         <div class="login-divider">o ingresá con</div>
 
         <div class="social-login">
-          <button class="btn">
+          <button type="button" class="btn" disabled title="Próximamente">
             <span style="font-size: 18px;">🔍</span>
             Google
           </button>
-          <button class="btn">
+          <button type="button" class="btn" disabled title="Próximamente">
             <span style="font-size: 18px;">⌨</span>
             GitHub
           </button>
         </div>
 
         <div class="login-footer">
-          ¿Sos nuevo? <a href="#">Creá una cuenta gratis</a>
+          ¿Sos nuevo? <a href="register.html">Creá una cuenta gratis</a>
         </div>
       </div>
     </div>
@@ -114,15 +133,15 @@
         <h2>La comunidad <span class="gradient-text">técnica</span> que necesitabas.</h2>
         <p>2,438 técnicos activos compartiendo reparaciones, esquemáticos y diagnósticos en tiempo real.</p>
         <div class="login-stats-mini">
-          <div class="login-stat-mini">
+          <div>
             <div class="login-stat-mini-value">120+</div>
             <div class="login-stat-mini-label">Cursos</div>
           </div>
-          <div class="login-stat-mini">
+          <div>
             <div class="login-stat-mini-value">8K+</div>
             <div class="login-stat-mini-label">Documentos</div>
           </div>
-          <div class="login-stat-mini">
+          <div>
             <div class="login-stat-mini-value">15K</div>
             <div class="login-stat-mini-label">Casos resueltos</div>
           </div>
@@ -141,15 +160,109 @@
     </div>
   </div>
 
-
-  <!-- PWA Service Worker -->
+  <script src="js/auth.js"></script>
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw-pwa.js')
-          .then(reg => console.log('PWA: SW registered', reg.scope))
-          .catch(err => console.log('PWA: SW failed', err));
+    // Si ya está logueado, redirigir
+    if (Auth.isLoggedIn()) {
+      const redirect = getRedirectParam() || 'dashboard.html';
+      window.location.href = redirect;
+    }
+
+    const form = document.getElementById('loginForm');
+    const errorsGlobal = document.getElementById('formErrors');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function clearErrors() {
+      errorsGlobal.classList.remove('show');
+      errorsGlobal.textContent = '';
+      document.querySelectorAll('.form-error').forEach(e => e.classList.remove('show'));
+      document.querySelectorAll('.input').forEach(i => i.classList.remove('invalid'));
+    }
+
+    function showGlobalError(msg) {
+      errorsGlobal.textContent = msg;
+      errorsGlobal.classList.add('show');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email) {
+        document.getElementById('email').classList.add('invalid');
+        const e = document.getElementById('error-email');
+        e.textContent = 'Ingresá tu email';
+        e.classList.add('show');
+        return;
+      }
+      if (!password) {
+        document.getElementById('password').classList.add('invalid');
+        const e = document.getElementById('error-password');
+        e.textContent = 'Ingresá tu contraseña';
+        e.classList.add('show');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Ingresando...';
+
+      const result = await Auth.login({ email, password });
+
+      if (result.ok) {
+        submitBtn.textContent = '✓ Bienvenido!';
+        showToast('Hola de vuelta, ' + result.user.fullName, 'success');
+        setTimeout(() => {
+          const redirect = getRedirectParam() || 'dashboard.html';
+          window.location.href = redirect;
+        }, 800);
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Ingresar';
+        showGlobalError(result.errors[0]);
+        document.getElementById('email').classList.add('invalid');
+        document.getElementById('password').classList.add('invalid');
+      }
+    });
+
+    // Demo user
+    document.getElementById('demoBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('demoBtn');
+      btn.textContent = 'Creando demo...';
+      btn.disabled = true;
+      const result = await Auth.createDemoUser();
+      if (result.ok) {
+        showToast('Bienvenido! Entrando como demo', 'success');
+        setTimeout(() => {
+          const redirect = getRedirectParam() || 'dashboard.html';
+          window.location.href = redirect;
+        }, 600);
+      } else {
+        btn.textContent = '⚡ Probar con usuario demo (1 click)';
+        btn.disabled = false;
+        showGlobalError(result.errors?.[0] || 'Error desconocido');
+      }
+    });
+
+    // Forgot password (placeholder)
+    document.getElementById('forgotLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      showToast('Funcionalidad disponible en la versión con backend', 'info', 4000);
+    });
+
+    // Limpiar errores al escribir
+    document.querySelectorAll('.input').forEach(input => {
+      input.addEventListener('input', () => {
+        input.classList.remove('invalid');
+        const errEl = document.getElementById('error-' + input.id);
+        if (errEl) errEl.classList.remove('show');
       });
+    });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw-pwa.js').catch(() => {}));
     }
   </script>
 </body>

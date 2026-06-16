@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi cuenta · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0F172A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .account-page { padding-top: calc(var(--nav-height) + var(--sp-8)); min-height: 100vh; }
+    .account-layout { max-width: 1000px; margin: 0 auto; padding: 0 var(--sp-6) var(--sp-12); display: grid; grid-template-columns: 240px 1fr; gap: var(--sp-6); }
+    .account-sidebar { position: sticky; top: calc(var(--nav-height) + var(--sp-4)); align-self: flex-start; }
+    .account-nav { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-3); backdrop-filter: blur(20px); }
+    .account-nav-item { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3); border-radius: var(--radius-md); color: var(--text-secondary); font-size: var(--fs-sm); cursor: pointer; transition: all var(--t-fast); margin-bottom: 2px; }
+    .account-nav-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+    .account-nav-item.active { background: var(--accent-soft); color: var(--accent); }
+    .account-content { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-8); backdrop-filter: blur(20px); }
+    .account-content h1 { font-size: var(--fs-2xl); margin-bottom: var(--sp-2); }
+    .account-content > p { color: var(--text-secondary); margin-bottom: var(--sp-6); }
+    .form-section { margin-bottom: var(--sp-8); }
+    .form-section:last-child { margin-bottom: 0; }
+    .form-section h3 { font-size: var(--fs-lg); margin-bottom: var(--sp-2); }
+    .form-section p { color: var(--text-secondary); font-size: var(--fs-sm); margin-bottom: var(--sp-4); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+    .form-group { margin-bottom: var(--sp-4); }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { display: block; font-size: var(--fs-sm); font-weight: var(--fw-semibold); margin-bottom: var(--sp-2); color: var(--text-primary); }
+    .form-group .input { padding: var(--sp-3) var(--sp-4); }
+    .form-group .input:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-group .input-hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .form-actions { display: flex; gap: var(--sp-3); justify-content: flex-end; padding-top: var(--sp-4); border-top: 1px solid var(--border); }
+    .danger-zone { background: var(--danger-soft); border: 1px solid var(--danger); border-radius: var(--radius-md); padding: var(--sp-5); }
+    .danger-zone h3 { color: var(--danger); margin-bottom: var(--sp-2); }
+    .danger-zone p { color: var(--text-secondary); font-size: var(--fs-sm); margin-bottom: var(--sp-4); }
+    .plan-card-current { padding: var(--sp-5); background: linear-gradient(135deg, var(--accent-soft), rgba(16, 185, 129, 0.05)); border: 1px solid var(--accent); border-radius: var(--radius-md); margin-bottom: var(--sp-4); }
+    .plan-card-current-title { font-size: var(--fs-xs); text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: var(--sp-2); }
+    .plan-card-current-name { font-size: var(--fs-xl); font-weight: var(--fw-bold); margin-bottom: var(--sp-2); }
+    .plan-card-current-features { list-style: none; display: flex; flex-direction: column; gap: var(--sp-1); }
+    .plan-card-current-features li { font-size: var(--fs-sm); color: var(--text-secondary); display: flex; gap: 8px; align-items: center; }
+    .plan-card-current-features li::before { content: '✓'; color: var(--success); }
+    .stat-mini-row { display: flex; gap: var(--sp-4); margin-bottom: var(--sp-6); }
+    .stat-mini { flex: 1; padding: var(--sp-4); background: var(--bg-secondary); border-radius: var(--radius-md); }
+    .stat-mini-value { font-size: var(--fs-2xl); font-weight: var(--fw-bold); font-family: var(--font-mono); color: var(--accent); }
+    .stat-mini-label { font-size: var(--fs-xs); color: var(--text-muted); text-transform: uppercase; }
+    @media (max-width: 900px) { .account-layout { grid-template-columns: 1fr; } .account-sidebar { position: static; } .form-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu" id="navbarMenu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="academia.html" class="navbar-link">Academia</a></li>
+        <li><a href="comunidad.html" class="navbar-link">Comunidad</a></li>
+        <li><a href="planes.html" class="navbar-link">Planes</a></li>
+        <li><a href="account.html" class="navbar-link" style="color: var(--accent);">Mi cuenta</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">← Volver</a>
+        <a href="planes.html" class="btn btn-primary btn-sm">⚡ Pro</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="account-page">
+    <div class="account-layout">
+      <aside class="account-sidebar">
+        <nav class="account-nav">
+          <div class="account-nav-item active" data-tab="general">👤 General</div>
+          <div class="account-nav-item" data-tab="profile">📝 Perfil público</div>
+          <div class="account-nav-item" data-tab="security">🔒 Seguridad</div>
+          <div class="account-nav-item" data-tab="plan">💳 Plan &amp; pagos</div>
+          <div class="account-nav-item" data-tab="notifications">🔔 Notificaciones</div>
+          <div class="account-nav-item" data-tab="danger">⚠️ Zona peligrosa</div>
+        </nav>
+      </aside>
+
+      <div class="account-content">
+        <!-- General -->
+        <div class="account-tab active" data-tab="general">
+          <h1>👤 Configuración general</h1>
+          <p>Información básica de tu cuenta y cómo te ven los demás.</p>
+
+          <div class="stat-mini-row">
+            <div class="stat-mini">
+              <div class="stat-mini-value" id="statName">-</div>
+              <div class="stat-mini-label">Nombre</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-mini-value" id="statUser">-</div>
+              <div class="stat-mini-label">Usuario</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-mini-value" id="statPlan">-</div>
+              <div class="stat-mini-label">Plan</div>
+            </div>
+          </div>
+
+          <form id="generalForm" onsubmit="event.preventDefault(); saveGeneral();">
+            <div class="form-section">
+              <h3>Información personal</h3>
+              <p>Estos datos se muestran en tu perfil público.</p>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="fullName">Nombre completo</label>
+                  <input type="text" id="fullName" class="input" required>
+                </div>
+                <div class="form-group">
+                  <label for="username">Nombre de usuario</label>
+                  <input type="text" id="username" class="input" disabled>
+                  <div class="input-hint">El usuario no se puede cambiar</div>
+                </div>
+                <div class="form-group full">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" class="input" disabled>
+                  <div class="input-hint">Para cambiar el email contactanos</div>
+                </div>
+                <div class="form-group full">
+                  <label for="bio">Biografía</label>
+                  <textarea id="bio" class="input" rows="3" placeholder="Contá algo sobre vos..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="location">Ubicación</label>
+                  <input type="text" id="location" class="input" placeholder="Ciudad, País">
+                </div>
+                <div class="form-group">
+                  <label for="yearsExperience">Años de experiencia</label>
+                  <input type="number" id="yearsExperience" class="input" min="0" max="50" placeholder="5">
+                </div>
+                <div class="form-group full">
+                  <label for="specialties">Especialidades (separadas por coma)</label>
+                  <input type="text" id="specialties" class="input" placeholder="iPhone, MacBook, Micro-soldadura">
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" onclick="location.reload()">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Profile -->
+        <div class="account-tab" data-tab="profile" style="display:none;">
+          <h1>📝 Perfil público</h1>
+          <p>Cómo se ve tu perfil para los demás miembros de la comunidad.</p>
+          <div class="form-section">
+            <h3>URL del perfil</h3>
+            <p>Tu perfil es público en academia-jrubio.com/u/<strong id="profileSlug">username</strong></p>
+          </div>
+          <div class="form-actions">
+            <a href="perfil.html" class="btn btn-secondary">Ver mi perfil</a>
+            <a href="perfil.html" class="btn btn-primary">Editar perfil completo</a>
+          </div>
+        </div>
+
+        <!-- Security -->
+        <div class="account-tab" data-tab="security" style="display:none;">
+          <h1>🔒 Seguridad</h1>
+          <p>Mantené tu cuenta segura.</p>
+
+          <div class="form-section">
+            <h3>Cambiar contraseña</h3>
+            <p>Te recomendamos usar una contraseña única y fuerte.</p>
+            <form id="passwordForm" onsubmit="event.preventDefault(); changePassword();">
+              <div class="form-group">
+                <label for="currentPw">Contraseña actual</label>
+                <input type="password" id="currentPw" class="input" required>
+              </div>
+              <div class="form-group">
+                <label for="newPw">Nueva contraseña</label>
+                <input type="password" id="newPw" class="input" minlength="6" required>
+                <div class="input-hint">Mínimo 6 caracteres</div>
+              </div>
+              <div class="form-group">
+                <label for="newPw2">Repetir nueva contraseña</label>
+                <input type="password" id="newPw2" class="input" minlength="6" required>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="form-section">
+            <h3>Sesión activa</h3>
+            <p>Estás logueado desde este navegador. La sesión expira en 30 días.</p>
+            <button class="btn btn-secondary" onclick="Auth.logout(); window.location.href='index.html';">Cerrar sesión</button>
+          </div>
+        </div>
+
+        <!-- Plan -->
+        <div class="account-tab" data-tab="plan" style="display:none;">
+          <h1>💳 Plan &amp; pagos</h1>
+          <p>Gestioná tu suscripción y método de pago.</p>
+
+          <div class="plan-card-current" id="planCard">
+            <div class="plan-card-current-title">PLAN ACTUAL</div>
+            <div class="plan-card-current-name" id="planName">Gratuito</div>
+            <ul class="plan-card-current-features" id="planFeatures"></ul>
+          </div>
+
+          <div class="form-actions">
+            <a href="planes.html" class="btn btn-primary">Cambiar plan</a>
+            <button class="btn btn-secondary" id="cancelPlanBtn" style="display:none;">Cancelar suscripción</button>
+          </div>
+          <div class="input-hint" style="margin-top: var(--sp-3); text-align: right;">💡 En el modo demo, los planes son solo UI. Stripe real viene en la próxima fase.</div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="account-tab" data-tab="notifications" style="display:none;">
+          <h1>🔔 Notificaciones</h1>
+          <p>Elegí qué notificaciones querés recibir.</p>
+          <div class="form-section">
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md);">
+              <div>
+                <div style="font-weight: var(--fw-semibold);">Nuevas transmisiones en vivo</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Recibí un aviso cuando un instructor empiece una clase</div>
+              </div>
+              <input type="checkbox" checked>
+            </div>
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md);">
+              <div>
+                <div style="font-weight: var(--fw-semibold);">Respuestas en el foro</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Cuando alguien responde a tus preguntas</div>
+              </div>
+              <input type="checkbox" checked>
+            </div>
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md);">
+              <div>
+                <div style="font-weight: var(--fw-semibold);">Newsletter semanal</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Resumen de lo mejor de la semana</div>
+              </div>
+              <input type="checkbox" checked>
+            </div>
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md);">
+              <div>
+                <div style="font-weight: var(--fw-semibold);">Novedades de productos</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Nuevas features y mejoras</div>
+              </div>
+              <input type="checkbox">
+            </div>
+          </div>
+        </div>
+
+        <!-- Danger zone -->
+        <div class="account-tab" data-tab="danger" style="display:none;">
+          <h1>⚠️ Zona peligrosa</h1>
+          <p>Acciones irreversibles. Procedé con cuidado.</p>
+
+          <div class="danger-zone">
+            <h3>Eliminar cuenta</h3>
+            <p>Una vez eliminada, no se puede recuperar. Todos tus datos, posts, progreso y suscripción se perderán para siempre.</p>
+            <button class="btn btn-secondary" style="color: var(--danger); border-color: var(--danger);" onclick="if(confirm('¿Estás seguro? Esta acción no se puede deshacer.')) { deleteAccount(); }">Eliminar mi cuenta</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    if (!requireAuth('login.html')) { /* redirige */ } else {
+      init();
+    }
+
+    function init() {
+      const user = Auth.getCurrentUser();
+      if (!user) return;
+
+      // Stats arriba
+      document.getElementById('statName').textContent = user.fullName.split(' ')[0];
+      document.getElementById('statUser').textContent = '@' + user.username;
+      document.getElementById('statPlan').textContent = user.plan.toUpperCase();
+      document.getElementById('profileSlug').textContent = user.username;
+
+      // Form general
+      document.getElementById('fullName').value = user.fullName || '';
+      document.getElementById('username').value = user.username || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('bio').value = user.bio || '';
+      document.getElementById('location').value = user.location || '';
+      document.getElementById('yearsExperience').value = user.yearsExperience || '';
+      document.getElementById('specialties').value = user.specialties || '';
+
+      // Plan card
+      const planName = document.getElementById('planName');
+      const planFeatures = document.getElementById('planFeatures');
+      const plans = {
+        free: { name: 'Gratuito', features: ['5 cursos introductorios', 'Acceso al foro público', '10 usos de IA por mes'] },
+        pro: { name: '⚡ Pro', features: ['120+ cursos completos', 'Clases en vivo semanales', 'Biblioteca completa', 'IA sin límite'] },
+        premium: { name: '👑 Premium', features: ['Todo del Pro', '2 mentorías 1:1 al mes', 'Directos exclusivos', 'Soporte prioritario'] }
+      };
+      const current = plans[user.plan] || plans.free;
+      planName.textContent = current.name;
+      planFeatures.innerHTML = current.features.map(f => `<li>${f}</li>`).join('');
+      if (user.plan !== 'free') {
+        document.getElementById('cancelPlanBtn').style.display = '';
+      }
+
+      // Tabs
+      document.querySelectorAll('.account-nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const tab = item.dataset.tab;
+          document.querySelectorAll('.account-nav-item').forEach(i => i.classList.remove('active'));
+          document.querySelectorAll('.account-tab').forEach(t => { t.style.display = 'none'; t.classList.remove('active'); });
+          item.classList.add('active');
+          const target = document.querySelector(`.account-tab[data-tab="${tab}"]`);
+          if (target) { target.style.display = ''; target.classList.add('active'); }
+        });
+      });
+    }
+
+    function saveGeneral() {
+      const data = {
+        fullName: document.getElementById('fullName').value.trim(),
+        bio: document.getElementById('bio').value.trim(),
+        location: document.getElementById('location').value.trim(),
+        yearsExperience: parseInt(document.getElementById('yearsExperience').value) || null,
+        specialties: document.getElementById('specialties').value.trim()
+      };
+      Auth.updateProfile(data);
+      showToast('Perfil actualizado ✓', 'success');
+    }
+
+    async function changePassword() {
+      const cur = document.getElementById('currentPw').value;
+      const nw = document.getElementById('newPw').value;
+      const nw2 = document.getElementById('newPw2').value;
+      if (nw !== nw2) { showToast('Las contraseñas no coinciden', 'error'); return; }
+      if (nw.length < 6) { showToast('Mínimo 6 caracteres', 'error'); return; }
+      const r = await Auth.changePassword(cur, nw);
+      if (r.ok) {
+        showToast('Contraseña cambiada ✓', 'success');
+        document.getElementById('passwordForm').reset();
+      } else {
+        showToast(r.errors?.[0] || 'Error', 'error');
+      }
+    }
+
+    function deleteAccount() {
+      const user = Auth.getCurrentUser();
+      if (!user) return;
+      const users = JSON.parse(localStorage.getItem('jrubio_users') || '[]').filter(u => u.id !== user.id);
+      localStorage.setItem('jrubio_users', JSON.stringify(users));
+      Auth.logout();
+      showToast('Cuenta eliminada', 'info');
+      setTimeout(() => window.location.href = 'index.html', 800);
+    }
+
+    document.getElementById('cancelPlanBtn')?.addEventListener('click', () => {
+      if (confirm('¿Cancelar suscripción? Vas a volver al plan gratuito al final del período.')) {
+        Auth.updateProfile({ plan: 'free' });
+        showToast('Suscripción cancelada', 'info');
+        setTimeout(() => location.reload(), 600);
+      }
+    });
+  </script>
+</body>
+</html>

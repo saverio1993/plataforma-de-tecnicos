@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear cuenta · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0F172A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .reg-page { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+    .reg-side { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary)); padding: var(--sp-12); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+    .reg-side::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, var(--accent-glow), transparent 60%); opacity: 0.3; }
+    .reg-side::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.15), transparent 60%); opacity: 0.4; }
+    .reg-side > * { position: relative; z-index: 1; }
+    .reg-side-quote { max-width: 480px; }
+    .reg-side-quote h2 { font-size: var(--fs-3xl); margin-bottom: var(--sp-4); line-height: 1.2; }
+    .reg-side-quote p { font-size: var(--fs-lg); color: var(--text-secondary); margin-bottom: var(--sp-8); }
+    .reg-stats-mini { display: flex; gap: var(--sp-6); margin-top: var(--sp-8); }
+    .reg-stat-mini-value { font-size: var(--fs-2xl); font-weight: var(--fw-black); font-family: var(--font-mono); color: var(--accent); }
+    .reg-stat-mini-label { font-size: var(--fs-xs); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .reg-benefits { display: flex; flex-direction: column; gap: var(--sp-3); max-width: 480px; }
+    .reg-benefit { display: flex; gap: var(--sp-3); align-items: center; padding: var(--sp-3); background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); backdrop-filter: blur(20px); }
+    .reg-benefit-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .reg-benefit-text { font-size: var(--fs-sm); color: var(--text-secondary); }
+    .reg-benefit-text strong { color: var(--text-primary); display: block; }
+    .reg-form-side { padding: var(--sp-12); display: flex; align-items: center; justify-content: center; overflow-y: auto; }
+    .reg-form { max-width: 440px; width: 100%; padding: var(--sp-4) 0; }
+    .reg-form h1 { font-size: var(--fs-3xl); margin-bottom: var(--sp-2); }
+    .reg-form > p { color: var(--text-secondary); margin-bottom: var(--sp-8); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
+    .form-group { margin-bottom: var(--sp-4); }
+    .form-group label { display: block; font-size: var(--fs-sm); font-weight: var(--fw-semibold); margin-bottom: var(--sp-2); color: var(--text-primary); }
+    .form-group label .req { color: var(--danger); }
+    .form-group .input { padding: var(--sp-3) var(--sp-4); }
+    .form-group .input.invalid { border-color: var(--danger); }
+    .form-error { color: var(--danger); font-size: var(--fs-xs); margin-top: 4px; display: none; }
+    .form-error.show { display: block; }
+    .password-strength { height: 4px; background: var(--bg-tertiary); border-radius: 999px; margin-top: 6px; overflow: hidden; }
+    .password-strength-bar { height: 100%; width: 0; transition: all 0.2s; border-radius: 999px; }
+    .password-strength-bar.weak { width: 33%; background: var(--danger); }
+    .password-strength-bar.medium { width: 66%; background: var(--warning); }
+    .password-strength-bar.strong { width: 100%; background: var(--success); }
+    .password-hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .form-errors-global { background: var(--danger-soft); border: 1px solid var(--danger); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-4); margin-bottom: var(--sp-4); display: none; }
+    .form-errors-global.show { display: block; }
+    .form-errors-global ul { margin: 0; padding-left: 20px; color: var(--danger); font-size: var(--fs-sm); }
+    .form-checkbox { display: flex; gap: var(--sp-2); align-items: flex-start; margin-bottom: var(--sp-5); font-size: var(--fs-sm); color: var(--text-secondary); }
+    .form-checkbox input { margin-top: 4px; flex-shrink: 0; }
+    .form-checkbox a { color: var(--accent); }
+    .form-divider { display: flex; align-items: center; gap: var(--sp-4); margin: var(--sp-6) 0; color: var(--text-muted); font-size: var(--fs-sm); }
+    .form-divider::before, .form-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .form-footer { text-align: center; margin-top: var(--sp-6); font-size: var(--fs-sm); color: var(--text-secondary); }
+    .form-footer a { color: var(--accent); font-weight: var(--fw-semibold); }
+    .demo-btn { width: 100%; background: transparent; border: 1px dashed var(--warning); color: var(--warning); padding: var(--sp-3); border-radius: var(--radius-md); font-size: var(--fs-sm); cursor: pointer; transition: all var(--t-fast); margin-top: var(--sp-3); }
+    .demo-btn:hover { background: var(--warning-soft); }
+    .back-home { position: absolute; top: var(--sp-6); left: var(--sp-6); z-index: 2; }
+    @media (max-width: 900px) { .reg-page { grid-template-columns: 1fr; } .reg-side { display: none; } .form-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div class="reg-page">
+    <a href="index.html" class="back-home"><img src="assets/logos/logo.svg" alt="Logo" style="height: 40px;"></a>
+
+    <div class="reg-form-side">
+      <div class="reg-form">
+        <h1>Crear cuenta</h1>
+        <p>Empezá gratis. 7 días del plan Pro sin compromiso.</p>
+
+        <div class="form-errors-global" id="formErrors">
+          <ul id="formErrorsList"></ul>
+        </div>
+
+        <form id="regForm" novalidate>
+          <div class="form-group">
+            <label for="fullName">Nombre completo <span class="req">*</span></label>
+            <input type="text" id="fullName" name="fullName" class="input" placeholder="Juan Pérez" required>
+            <div class="form-error" id="error-fullName"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="username">Nombre de usuario <span class="req">*</span></label>
+            <input type="text" id="username" name="username" class="input" placeholder="juanperez" required>
+            <div class="form-error" id="error-username"></div>
+            <div class="password-hint">3+ caracteres, solo letras, números y guiones bajos</div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email <span class="req">*</span></label>
+            <input type="email" id="email" name="email" class="input" placeholder="tu@email.com" required>
+            <div class="form-error" id="error-email"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Contraseña <span class="req">*</span></label>
+            <input type="password" id="password" name="password" class="input" placeholder="Mínimo 6 caracteres" required>
+            <div class="password-strength"><div class="password-strength-bar" id="strengthBar"></div></div>
+            <div class="password-hint" id="strengthText">Escribí una contraseña</div>
+            <div class="form-error" id="error-password"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="password2">Repetir contraseña <span class="req">*</span></label>
+            <input type="password" id="password2" name="password2" class="input" placeholder="Mismo que arriba" required>
+            <div class="form-error" id="error-password2"></div>
+          </div>
+
+          <div class="form-checkbox">
+            <input type="checkbox" id="terms" required>
+            <label for="terms" style="font-weight: var(--fw-regular); margin: 0;">Acepto los <a href="#">términos de servicio</a> y la <a href="#">política de privacidad</a>.</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="submitBtn">
+            Crear cuenta gratis
+          </button>
+
+          <button type="button" class="demo-btn" id="demoBtn">
+            ⚡ Probar con usuario demo (un click)
+          </button>
+        </form>
+
+        <div class="form-divider">o registrate con</div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3);">
+          <button type="button" class="btn btn-secondary" disabled style="opacity: 0.5; cursor: not-allowed;" title="Próximamente">
+            🔍 Google
+          </button>
+          <button type="button" class="btn btn-secondary" disabled style="opacity: 0.5; cursor: not-allowed;" title="Próximamente">
+            ⌨ GitHub
+          </button>
+        </div>
+
+        <div class="form-footer">
+          ¿Ya tenés cuenta? <a href="login.html">Iniciá sesión</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="reg-side">
+      <div></div>
+      <div class="reg-side-quote">
+        <h2>Sumate a la comunidad <span class="gradient-text">técnica</span> más grande de Iberoamérica.</h2>
+        <p>Aprendé de los mejores. Compartí con los que saben. Crece con cada reparación.</p>
+        <div class="reg-stats-mini">
+          <div>
+            <div class="reg-stat-mini-value">2,438</div>
+            <div class="reg-stat-mini-label">Miembros</div>
+          </div>
+          <div>
+            <div class="reg-stat-mini-value">120+</div>
+            <div class="reg-stat-mini-label">Cursos</div>
+          </div>
+          <div>
+            <div class="reg-stat-mini-value">15K</div>
+            <div class="reg-stat-mini-label">Casos resueltos</div>
+          </div>
+        </div>
+      </div>
+      <div class="reg-benefits">
+        <div class="reg-benefit">
+          <div class="reg-benefit-icon">🎁</div>
+          <div class="reg-benefit-text"><strong>7 días del Plan Pro</strong>Sin tarjeta de crédito</div>
+        </div>
+        <div class="reg-benefit">
+          <div class="reg-benefit-icon">📱</div>
+          <div class="reg-benefit-text"><strong>Acceso a la PWA</strong>Instalala en tu celular</div>
+        </div>
+        <div class="reg-benefit">
+          <div class="reg-benefit-icon">💬</div>
+          <div class="reg-benefit-text"><strong>Comunidad activa</strong>Foro + chat en vivo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // Si ya está logueado, redirigir
+    if (Auth.isLoggedIn()) {
+      const redirect = getRedirectParam() || 'dashboard.html';
+      window.location.href = redirect;
+    }
+
+    const form = document.getElementById('regForm');
+    const errorsGlobal = document.getElementById('formErrors');
+    const errorsList = document.getElementById('formErrorsList');
+    const submitBtn = document.getElementById('submitBtn');
+    const passwordInput = document.getElementById('password');
+    const strengthBar = document.getElementById('strengthBar');
+    const strengthText = document.getElementById('strengthText');
+
+    function clearErrors() {
+      errorsGlobal.classList.remove('show');
+      errorsList.innerHTML = '';
+      document.querySelectorAll('.form-error').forEach(e => e.classList.remove('show'));
+      document.querySelectorAll('.input').forEach(i => i.classList.remove('invalid'));
+    }
+
+    function showFieldError(id, msg) {
+      const el = document.getElementById('error-' + id);
+      if (el) { el.textContent = msg; el.classList.add('show'); }
+      const input = document.getElementById(id);
+      if (input) input.classList.add('invalid');
+    }
+
+    function showGlobalErrors(errs) {
+      errorsList.innerHTML = errs.map(e => `<li>${e}</li>`).join('');
+      errorsGlobal.classList.add('show');
+      errorsGlobal.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Password strength meter
+    function checkStrength(pw) {
+      let score = 0;
+      if (pw.length >= 6) score++;
+      if (pw.length >= 10) score++;
+      if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+      if (/[0-9]/.test(pw)) score++;
+      if (/[^A-Za-z0-9]/.test(pw)) score++;
+      return score;
+    }
+
+    passwordInput.addEventListener('input', () => {
+      const pw = passwordInput.value;
+      strengthBar.className = 'password-strength-bar';
+      if (pw.length === 0) {
+        strengthText.textContent = 'Escribí una contraseña';
+        strengthText.style.color = 'var(--text-muted)';
+        return;
+      }
+      const score = checkStrength(pw);
+      if (score <= 2) {
+        strengthBar.classList.add('weak');
+        strengthText.textContent = '⚠ Débil · Agregá números y mayúsculas';
+        strengthText.style.color = 'var(--danger)';
+      } else if (score <= 3) {
+        strengthBar.classList.add('medium');
+        strengthText.textContent = '✓ Aceptable';
+        strengthText.style.color = 'var(--warning)';
+      } else {
+        strengthBar.classList.add('strong');
+        strengthText.textContent = '🔒 Fuerte';
+        strengthText.style.color = 'var(--success)';
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const data = {
+        fullName: document.getElementById('fullName').value.trim(),
+        username: document.getElementById('username').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: passwordInput.value,
+        password2: document.getElementById('password2').value,
+        terms: document.getElementById('terms').checked
+      };
+
+      // Validaciones locales
+      const localErrors = [];
+      if (data.password !== data.password2) {
+        showFieldError('password2', 'Las contraseñas no coinciden');
+        localErrors.push('Las contraseñas no coinciden');
+      }
+      if (!data.terms) {
+        localErrors.push('Tenés que aceptar los términos');
+      }
+
+      if (localErrors.length) {
+        showGlobalErrors(localErrors);
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creando cuenta...';
+
+      const result = await Auth.register({
+        fullName: data.fullName,
+        username: data.username,
+        email: data.email,
+        password: data.password
+      });
+
+      if (result.ok) {
+        submitBtn.textContent = '✓ Cuenta creada!';
+        showToast('¡Bienvenido a Academia Jota Rubio!', 'success');
+        setTimeout(() => {
+          const redirect = getRedirectParam() || 'dashboard.html';
+          window.location.href = redirect;
+        }, 1000);
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Crear cuenta gratis';
+        // Mapear errores a campos si es posible
+        const errs = result.errors;
+        errs.forEach(err => {
+          if (err.includes('email')) showFieldError('email', err);
+          else if (err.includes('usuario')) showFieldError('username', err);
+          else if (err.includes('contraseña')) showFieldError('password', err);
+          else if (err.includes('Nombre')) showFieldError('fullName', err);
+        });
+        showGlobalErrors(errs);
+      }
+    });
+
+    // Demo user
+    document.getElementById('demoBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('demoBtn');
+      btn.textContent = 'Creando demo...';
+      btn.disabled = true;
+      const result = await Auth.createDemoUser();
+      if (result.ok) {
+        showToast('Bienvenido! Entrando como demo', 'success');
+        setTimeout(() => window.location.href = 'dashboard.html', 600);
+      } else {
+        btn.textContent = '⚡ Probar con usuario demo (un click)';
+        btn.disabled = false;
+        showToast('Error: ' + (result.errors?.[0] || 'desconocido'), 'error');
+      }
+    });
+
+    // Limpiar errores al escribir
+    document.querySelectorAll('.input').forEach(input => {
+      input.addEventListener('input', () => {
+        input.classList.remove('invalid');
+        const errEl = document.getElementById('error-' + input.id);
+        if (errEl) errEl.classList.remove('show');
+      });
+    });
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw-pwa.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>

@@ -99,11 +99,11 @@
         </a>
       </div>
 
-      <div class="sidebar-user">
-        <div class="sidebar-user-avatar">JR</div>
+      <div class="sidebar-user" id="sidebarUser">
+        <div class="sidebar-user-avatar" id="sbAvatar">U</div>
         <div class="sidebar-user-info">
-          <div class="sidebar-user-name">Jota Rubio</div>
-          <div class="sidebar-user-plan">⚡ Plan Pro</div>
+          <div class="sidebar-user-name" id="sbName">Usuario</div>
+          <div class="sidebar-user-plan" id="sbPlan">Gratis</div>
         </div>
       </div>
     </aside>
@@ -112,7 +112,7 @@
     <main class="dashboard-main">
       <header class="dashboard-header">
         <div class="dashboard-greeting">
-          <h1>Hola, Jota 👋</h1>
+          <h1 id="dashGreeting">Hola 👋</h1>
           <p>Tenés 2 transmisiones en vivo hoy y 3 cursos en progreso.</p>
         </div>
         <div class="dashboard-header-actions">
@@ -366,6 +366,8 @@
   <!-- Mobile menu toggle -->
   <button class="menu-toggle" id="menuToggle">☰</button>
 
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
   <script>
@@ -395,6 +397,25 @@
           .then(reg => console.log('PWA: SW registered', reg.scope))
           .catch(err => console.log('PWA: SW failed', err));
       });
+    }
+  </script>
+<script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    if (Auth.isLoggedIn()) {
+      const u = Auth.getCurrentUser();
+      const initials = (u.fullName || u.username).split(' ').map(s => s[0]).slice(0, 2).join('').toUpperCase();
+      const first = (u.fullName || u.username).split(' ')[0];
+      const greeting = document.getElementById('dashGreeting');
+      if (greeting) greeting.textContent = `Hola, ${first} 👋`;
+      const sbAvatar = document.getElementById('sbAvatar');
+      const sbName = document.getElementById('sbName');
+      const sbPlan = document.getElementById('sbPlan');
+      if (sbAvatar) sbAvatar.textContent = initials;
+      if (sbName) sbName.textContent = u.fullName;
+      if (sbPlan) sbPlan.textContent = (u.plan === 'pro' ? '⚡ Plan Pro' : u.plan === 'premium' ? '👑 Plan Premium' : 'Plan Gratuito');
+    } else {
+      window.location.href = 'login.html?redirect=dashboard.html';
     }
   </script>
 </body>
