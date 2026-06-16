@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EN VIVO · Reparación iPhone 14 Pro · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    .live-layout { display: grid; grid-template-columns: 1fr 360px; min-height: 100vh; padding-top: var(--nav-height); }
+    .live-main { padding: var(--sp-6); }
+    .live-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--sp-4); flex-wrap: wrap; gap: var(--sp-3); }
+    .live-status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--danger-soft); color: var(--danger); border-radius: var(--radius-full); font-size: var(--fs-sm); font-weight: var(--fw-bold); }
+    .live-status::before { content: ''; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; box-shadow: 0 0 12px var(--danger); animation: pulse 1.5s ease-in-out infinite; }
+    .live-viewers { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--text-secondary); }
+    .live-viewers-stack { display: flex; }
+    .live-viewers-stack div { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--bg-primary); margin-left: -8px; background: linear-gradient(135deg, var(--accent), var(--success)); display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; }
+    .live-viewers-stack div:first-child { margin-left: 0; }
+    .video-container-live { background: #000; border-radius: var(--radius-lg); aspect-ratio: 16/9; position: relative; overflow: hidden; margin-bottom: var(--sp-5); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+    .video-live-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #0F172A, #1E293B); }
+    .video-live-bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.4), transparent 50%), radial-gradient(circle at 70% 50%, rgba(16, 185, 129, 0.3), transparent 50%); }
+    .microscope-overlay { position: absolute; bottom: var(--sp-5); right: var(--sp-5); width: 200px; aspect-ratio: 4/3; background: rgba(0,0,0,0.5); border: 2px solid var(--accent); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); box-shadow: 0 0 30px var(--accent-glow); }
+    .microscope-overlay-content { text-align: center; color: white; }
+    .microscope-overlay-content div:first-child { font-size: 24px; margin-bottom: 4px; }
+    .microscope-overlay-content div:last-child { font-size: 11px; opacity: 0.8; }
+    .live-overlay-info { position: absolute; top: var(--sp-4); left: var(--sp-4); right: var(--sp-4); display: flex; justify-content: space-between; z-index: 2; }
+    .live-overlay-badge { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); color: white; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-family: var(--font-mono); }
+    .live-overlay-badge.danger { background: var(--danger); animation: pulse 2s ease-in-out infinite; }
+    .live-controls { position: absolute; bottom: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: center; z-index: 2; color: white; }
+    .live-info-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-5); backdrop-filter: blur(20px); }
+    .live-info-card h1 { font-size: var(--fs-2xl); margin-bottom: var(--sp-2); }
+    .live-info-card .instructor-row { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-4); padding-bottom: var(--sp-4); border-bottom: 1px solid var(--border); }
+    .live-sidebar { background: var(--bg-secondary); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
+    .chat-header { padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .chat-tabs { display: flex; gap: var(--sp-1); }
+    .chat-tab { padding: var(--sp-2) var(--sp-3); border-radius: var(--radius-sm); font-size: var(--fs-sm); color: var(--text-secondary); cursor: pointer; }
+    .chat-tab:hover { background: var(--bg-tertiary); }
+    .chat-tab.active { background: var(--accent-soft); color: var(--accent); }
+    .chat-messages { flex: 1; padding: var(--sp-4); overflow-y: auto; display: flex; flex-direction: column; gap: var(--sp-3); }
+    .chat-msg { display: flex; gap: var(--sp-2); font-size: var(--fs-sm); animation: fadeUp 0.3s ease; }
+    .chat-msg-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 10px; flex-shrink: 0; }
+    .chat-msg-content { flex: 1; min-width: 0; }
+    .chat-msg-header { display: flex; gap: var(--sp-2); align-items: center; margin-bottom: 2px; }
+    .chat-msg-author { font-weight: var(--fw-semibold); font-size: var(--fs-sm); }
+    .chat-msg-author.mod { color: var(--accent); }
+    .chat-msg-author.instructor { color: var(--success); }
+    .chat-msg-time { font-size: 10px; color: var(--text-muted); }
+    .chat-msg-text { color: var(--text-secondary); font-size: var(--fs-sm); line-height: 1.4; word-wrap: break-word; }
+    .chat-msg.pinned .chat-msg-content { background: var(--warning-soft); border-left: 3px solid var(--warning); padding: 6px 10px; border-radius: 4px; }
+    .chat-msg.donation .chat-msg-text { color: var(--warning); font-weight: var(--fw-semibold); }
+    .chat-input { padding: var(--sp-4); border-top: 1px solid var(--border); background: var(--bg-primary); }
+    .chat-input-row { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-2); }
+    .chat-input-row .input { padding: 8px 12px; font-size: var(--fs-sm); }
+    .chat-emojis { display: flex; gap: 4px; }
+    .chat-emoji { width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--t-fast); }
+    .chat-emoji:hover { background: var(--accent-soft); transform: scale(1.1); }
+    .next-stream-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-4); margin: var(--sp-4); backdrop-filter: blur(20px); }
+    .next-stream-thumb { aspect-ratio: 16/9; background: linear-gradient(135deg, #10B981, #047857); border-radius: var(--radius-md); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    @media (max-width: 1024px) { .live-layout { grid-template-columns: 1fr; } .live-sidebar { border-left: none; border-top: 1px solid var(--border); height: 500px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="academia.html" class="navbar-link">Academia</a></li>
+        <li><a href="biblioteca.html" class="navbar-link">Biblioteca</a></li>
+        <li><a href="foro.html" class="navbar-link">Foro</a></li>
+        <li><a href="live.html" class="navbar-link" style="color: var(--danger);">EN VIVO</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">← Volver</a>
+        <button class="btn btn-primary btn-sm">💬 Compartir</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="live-layout">
+    <div class="live-main">
+      <div class="live-header">
+        <div>
+          <div class="live-status">EN VIVO · Ahora</div>
+          <h1 style="font-size: var(--fs-2xl); margin: var(--sp-2) 0 var(--sp-1);">Reparación iPhone 14 Pro · Cambio de Taptic Engine</h1>
+          <div style="color: var(--text-secondary); font-size: var(--fs-sm);">Clase 24/40 del curso "Reparación profesional de iPhone · Nivel 2"</div>
+        </div>
+        <div class="live-viewers">
+          <div class="live-viewers-stack">
+            <div style="background: linear-gradient(135deg, #3B82F6, #10B981);">A</div>
+            <div style="background: linear-gradient(135deg, #F59E0B, #EA580C);">B</div>
+            <div style="background: linear-gradient(135deg, #EC4899, #A855F7);">C</div>
+            <div style="background: linear-gradient(135deg, #10B981, #047857); font-size: 8px;">+</div>
+          </div>
+          <div>
+            <strong style="color: var(--text-primary);">234</strong> viendo ahora
+          </div>
+        </div>
+      </div>
+
+      <!-- Video principal -->
+      <div class="video-container-live">
+        <div class="video-live-bg"></div>
+
+        <div class="live-overlay-info">
+          <div style="display: flex; gap: 8px;">
+            <div class="live-overlay-badge danger">● EN VIVO</div>
+            <div class="live-overlay-badge">🔴 HD</div>
+            <div class="live-overlay-badge">⏱ 24:18 / 1:15:00</div>
+          </div>
+          <div class="live-overlay-badge">Carlos Méndez · Instructor</div>
+        </div>
+
+        <!-- Microscope view overlay (estilo multi-cam) -->
+        <div class="microscope-overlay">
+          <div class="microscope-overlay-content">
+            <div>🔬</div>
+            <div>Vista microscopio</div>
+          </div>
+        </div>
+
+        <div class="live-controls">
+          <div style="display: flex; gap: 12px; align-items: center; font-size: 14px;">
+            <span>▶</span>
+            <span>⏸</span>
+            <span>🔊</span>
+            <span style="font-family: var(--font-mono);">1.0x</span>
+            <span>📹 1080p</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center; font-size: 14px;">
+            <span>CC</span>
+            <span>⚙</span>
+            <span>⛶</span>
+            <span style="background: var(--accent); padding: 4px 10px; border-radius: 4px; font-size: 12px;">Multicam</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info card -->
+      <div class="live-info-card">
+        <div class="instructor-row">
+          <div class="instructor-mini-avatar" style="width: 48px; height: 48px; font-size: 16px;">CM</div>
+          <div style="flex: 1;">
+            <div style="font-weight: var(--fw-semibold); font-size: var(--fs-base);">Carlos Méndez</div>
+            <div style="font-size: var(--fs-sm); color: var(--text-secondary);">Instructor senior · 12 años reparando iPhones</div>
+          </div>
+          <button class="btn btn-secondary btn-sm">+ Seguir</button>
+          <button class="btn btn-primary btn-sm">🔔 Recordar</button>
+        </div>
+
+        <p style="color: var(--text-secondary); font-size: var(--fs-sm); line-height: 1.6;">
+          En esta clase Carlos va a cambiar el Taptic Engine de un iPhone 14 Pro con la pantalla rota. Vas a ver el proceso completo: apertura con ventosas, desconexión de flex, reemplazo del componente, y calibración final. Como siempre, respondemos preguntas en el chat.
+        </p>
+
+        <div style="display: flex; gap: var(--sp-2); margin-top: var(--sp-3); flex-wrap: wrap;">
+          <span class="badge badge-primary">iPhone 14 Pro</span>
+          <span class="badge badge-success">Taptic Engine</span>
+          <span class="badge badge-warning">Nivel 2</span>
+          <span class="badge badge-neutral">1h 15min</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar: Chat -->
+    <aside class="live-sidebar">
+      <div class="chat-header">
+        <div style="font-weight: var(--fw-semibold);">Chat en vivo</div>
+        <div class="chat-tabs">
+          <span class="chat-tab active">Chat</span>
+          <span class="chat-tab">Q&A</span>
+          <span class="chat-tab">Recursos</span>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg pinned">
+          <div class="chat-msg-avatar" style="background: var(--accent);">📌</div>
+          <div class="chat-msg-content">
+            <div class="chat-msg-header">
+              <span class="chat-msg-author">Carlos Méndez</span>
+              <span class="chat-msg-author" style="color: var(--warning); font-size: 10px;">📌 FIJADO</span>
+            </div>
+            <div class="chat-msg-text">¡Bienvenidos! Recuerden que las preguntas técnicas se responden en el chat, las administrativas por DM. Material de la clase al final en "Recursos".</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-msg-avatar" style="background: linear-gradient(135deg, #3B82F6, #10B981);">A</div>
+          <div class="chat-msg-content">
+            <div class="chat-msg-header">
+              <span class="chat-msg-author">Ana Ramírez</span>
+              <span class="chat-msg-author mod">MOD</span>
+              <span class="chat-msg-time">hace 2 min</span>
+            </div>
+            <div class="chat-msg-text">¡Buenas a todos! Acá estamos. Recuerden usar #pregunta para que el instructor pueda filtrar.</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-msg-avatar" style="background: linear-gradient(135deg, #F59E0B, #EA580C);">J</div>
+          <div class="chat-msg-content">
+            <div class="chat-msg-header">
+              <span class="chat-msg-author">juan_repair</span>
+              <span class="chat-msg-time">hace 5 min</span>
+            </div>
+            <div class="chat-msg-text">tremenda clase de microelectrónica. Los flex del 14 Pro son una pesadilla.</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-msg-avatar" style="background: linear-gradient(135deg, #EC4899, #A855F7);">M</div>
+          <div class="chat-msg-content">
+            <div class="chat-msg-header">
+              <span class="chat-msg-author">microsoldadora</span>
+              <span class="chat-msg-time">hace 8 min</span>
+            </div>
+            <div class="chat-msg-text">#pregunta Carlos, ¿qué flux usás para limpiar los contactos después?</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-msg-avatar" style="background: linear-gradient(135deg, #3B82F6, #10B981);">C</div>
+          <div class="chat-msg-content">
+            <div class="chat-msg-header">
+              <span class="chat-msg-author instructor">Carlos Méndez</span>
+              <span class="chat-msg-time">hace 8 min</span>
+            </div>
+            <div class="chat-msg-text">@microsoldadora uso el flux orgánico de MG Chemicals, 8341. Lo limpio con isopropílico 99% + cepillo antiestático. Te lo muestro en la próxima clase 🎯</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-msg-avatar" style="background: linear-gradient(135deg, #10B981, #047857);">D</div>
+          <div class="chat-msg-content">
+            <div class="chat-msg-header">
+              <span class="chat-msg-author">diegom_tech</span>
+              <span class="chat-msg-time">hace 12 min</span>
+            </div>
+            <div class="chat-msg-text">primera vez en vivo, se ve re pro la plataforma</div>
+          </div>
+        </div>
+
+        <div class="chat-msg donation">
+          <div class="chat-msg-avatar" style="background: var(--warning);">💛</div>
+          <div class="chat-msg-content">
+            <div class="chat-msg-header">
+              <span class="chat-msg-author">carlos_tec</span>
+              <span class="chat-msg-time">hace 15 min</span>
+            </div>
+            <div class="chat-msg-text">donó $5 · "Gracias por la calidad, maestro. La academia vale oro." 💛</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-msg-avatar" style="background: linear-gradient(135deg, #F59E0B, #EA580C);">P</div>
+          <div class="chat-msg-content">
+            <div class="chat-msg-header">
+              <span class="chat-msg-author">pao_lab</span>
+              <span class="chat-msg-time">hace 18 min</span>
+            </div>
+            <div class="chat-msg-text">#pregunta: el adhesivo del 14 Pro viene original o aftermarket? Tengo cliente preguntando.</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-msg-avatar" style="background: linear-gradient(135deg, #3B82F6, #10B981);">C</div>
+          <div class="chat-msg-content">
+            <div class="chat-msg-header">
+              <span class="chat-msg-author instructor">Carlos Méndez</span>
+              <span class="chat-msg-time">hace 17 min</span>
+            </div>
+            <div class="chat-msg-text">@pao_lab adhesivo adhesivo original de batería. Siempre uso original o equivalente de calidad (Wiha, PB). El chino genérico a la larga genera problemas.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <div class="chat-input-row">
+          <input type="text" class="input" placeholder="Escribí un mensaje...">
+          <button class="btn btn-primary">Enviar</button>
+        </div>
+        <div class="chat-emojis">
+          <div class="chat-emoji">👍</div>
+          <div class="chat-emoji">❤️</div>
+          <div class="chat-emoji">🔥</div>
+          <div class="chat-emoji">👏</div>
+          <div class="chat-emoji">🎯</div>
+          <div class="chat-emoji">💡</div>
+          <div class="chat-emoji">🔧</div>
+          <div class="chat-emoji">😱</div>
+          <div class="chat-emoji" style="margin-left: auto;">GIF</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    // Auto-scroll chat to bottom
+    const chat = document.getElementById('chatMessages');
+    if (chat) chat.scrollTop = chat.scrollHeight;
+
+    // Chat tabs
+    document.querySelectorAll('.chat-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.chat-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

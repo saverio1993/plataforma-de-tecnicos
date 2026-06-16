@@ -73,4 +73,42 @@ document.addEventListener('DOMContentLoaded', () => {
       node.style.animationDelay = `${i * 0.4}s`;
     });
   });
+
+  // ── Typing effect en el hero ─────────────────────────────
+  const typingEl = document.getElementById('heroTyping');
+  if (typingEl) {
+    const phrases = [
+      'técnicos se vuelven leyenda',
+      'expertos comparten su saber',
+      'reparaciones se vuelven magia',
+      'diagnósticos se resuelven en segundos',
+      'comunidades se vuelven familia'
+    ];
+    let phraseIdx = 0, charIdx = 0, isDeleting = false;
+
+    function typeLoop() {
+      const current = phrases[phraseIdx];
+      if (isDeleting) {
+        typingEl.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        if (charIdx === 0) {
+          isDeleting = false;
+          phraseIdx = (phraseIdx + 1) % phrases.length;
+          setTimeout(typeLoop, 600);
+          return;
+        }
+        setTimeout(typeLoop, 30);
+      } else {
+        typingEl.textContent = current.substring(0, charIdx + 1);
+        charIdx++;
+        if (charIdx === current.length) {
+          isDeleting = true;
+          setTimeout(typeLoop, 2200);
+          return;
+        }
+        setTimeout(typeLoop, 60);
+      }
+    }
+    setTimeout(typeLoop, 800);
+  }
 });

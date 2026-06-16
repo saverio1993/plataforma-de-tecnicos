@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reparación profesional de iPhone · Nivel 2 · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    .course-hero { padding: calc(var(--nav-height) + var(--sp-8)) var(--sp-6) var(--sp-8); background: linear-gradient(180deg, rgba(59, 130, 246, 0.08), transparent); border-bottom: 1px solid var(--border); }
+    .course-hero-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 380px; gap: var(--sp-8); align-items: flex-start; }
+    .breadcrumb { display: flex; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-4); }
+    .breadcrumb a { color: var(--text-secondary); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .course-hero h1 { font-size: var(--fs-4xl); margin-bottom: var(--sp-3); line-height: 1.15; }
+    .course-short { font-size: var(--fs-lg); color: var(--text-secondary); margin-bottom: var(--sp-5); }
+    .course-meta-row { display: flex; gap: var(--sp-4); align-items: center; flex-wrap: wrap; margin-bottom: var(--sp-5); font-size: var(--fs-sm); color: var(--text-secondary); }
+    .course-instructor-mini { display: flex; align-items: center; gap: var(--sp-2); }
+    .instructor-mini-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #3B82F6, #10B981); display: flex; align-items: center; justify-content: center; color: white; font-weight: var(--fw-bold); font-size: var(--fs-sm); }
+    .course-stats-mini { display: flex; gap: var(--sp-4); }
+    .course-stats-mini div { display: flex; align-items: center; gap: 4px; }
+    .course-layout { display: grid; grid-template-columns: 1fr 380px; gap: var(--sp-8); max-width: 1280px; margin: var(--sp-8) auto; padding: 0 var(--sp-6); align-items: flex-start; }
+    .video-container { background: #000; border-radius: var(--radius-lg); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; margin-bottom: var(--sp-5); }
+    .video-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #0F172A, #1E293B); }
+    .video-bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.3), transparent 50%), radial-gradient(circle at 70% 50%, rgba(16, 185, 129, 0.2), transparent 50%); }
+    .video-play-btn { position: relative; z-index: 1; width: 80px; height: 80px; border-radius: 50%; background: rgba(255, 255, 255, 0.95); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(0,0,0,0.5); cursor: pointer; transition: transform var(--t-base); }
+    .video-play-btn:hover { transform: scale(1.1); }
+    .video-play-btn::after { content: ''; width: 0; height: 0; border-left: 24px solid var(--bg-primary); border-top: 16px solid transparent; border-bottom: 16px solid transparent; margin-left: 6px; }
+    .video-overlay-info { position: absolute; top: var(--sp-3); left: var(--sp-3); right: var(--sp-3); display: flex; justify-content: space-between; z-index: 2; }
+    .video-overlay-badge { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); color: white; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-family: var(--font-mono); }
+    .video-progress-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(255, 255, 255, 0.2); z-index: 2; }
+    .video-progress-fill { height: 100%; width: 35%; background: var(--accent); }
+    .video-controls { position: absolute; bottom: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: center; z-index: 2; color: white; font-size: 12px; }
+    .video-tabs { display: flex; gap: var(--sp-1); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-5); }
+    .video-tab { padding: var(--sp-3) var(--sp-5); color: var(--text-secondary); font-weight: var(--fw-medium); border-bottom: 2px solid transparent; cursor: pointer; transition: all var(--t-fast); font-size: var(--fs-sm); }
+    .video-tab:hover { color: var(--text-primary); }
+    .video-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .lesson-list { display: flex; flex-direction: column; gap: var(--sp-2); }
+    .lesson-item { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: all var(--t-fast); }
+    .lesson-item:hover { border-color: var(--accent); background: var(--bg-tertiary); }
+    .lesson-item.current { border-color: var(--accent); background: var(--accent-soft); }
+    .lesson-item.completed { opacity: 0.7; }
+    .lesson-num { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--text-secondary); flex-shrink: 0; }
+    .lesson-item.completed .lesson-num { background: var(--success); color: white; }
+    .lesson-item.current .lesson-num { background: var(--accent); color: white; }
+    .lesson-info { flex: 1; min-width: 0; }
+    .lesson-title { font-size: var(--fs-sm); font-weight: var(--fw-semibold); margin-bottom: 2px; }
+    .lesson-meta { font-size: 11px; color: var(--text-muted); display: flex; gap: var(--sp-2); }
+    .lesson-duration { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); }
+    .course-sidebar { position: sticky; top: calc(var(--nav-height) + var(--sp-4)); }
+    .sidebar-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-5); backdrop-filter: blur(20px); margin-bottom: var(--sp-4); }
+    .price-big { font-size: 3rem; font-weight: var(--fw-black); font-family: var(--font-mono); line-height: 1; }
+    .price-old { text-decoration: line-through; color: var(--text-muted); font-size: var(--fs-lg); }
+    .price-row { display: flex; align-items: baseline; gap: var(--sp-2); margin-bottom: var(--sp-2); }
+    .sidebar-feature { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) 0; font-size: var(--fs-sm); color: var(--text-secondary); }
+    .sidebar-feature::before { content: '✓'; color: var(--success); font-weight: var(--fw-bold); }
+    .course-progress-card { margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--border); }
+    .course-progress-card .progress-bar-mini { height: 8px; background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; margin: var(--sp-2) 0; }
+    .course-progress-card .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--success)); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    .resource-item { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--sp-2); }
+    .resource-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .instructor-card { display: flex; gap: var(--sp-4); padding: var(--sp-5); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-top: var(--sp-6); }
+    .instructor-card-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #3B82F6, #10B981); display: flex; align-items: center; justify-content: center; color: white; font-weight: var(--fw-bold); font-size: var(--fs-2xl); flex-shrink: 0; }
+    .instructor-card-info h3 { font-size: var(--fs-xl); margin-bottom: var(--sp-1); }
+    .instructor-card-info p { font-size: var(--fs-sm); margin-bottom: var(--sp-3); }
+    .instructor-stats { display: flex; gap: var(--sp-4); font-size: var(--fs-sm); color: var(--text-secondary); }
+    .review-card { padding: var(--sp-4); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--sp-3); }
+    .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-2); }
+    .review-author { display: flex; align-items: center; gap: var(--sp-2); }
+    .review-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--success)); }
+    .review-rating { color: var(--warning); }
+    @media (max-width: 1024px) { .course-hero-inner, .course-layout { grid-template-columns: 1fr; } .course-sidebar { position: static; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="academia.html" class="navbar-link" style="color: var(--accent);">Academia</a></li>
+        <li><a href="biblioteca.html" class="navbar-link">Biblioteca</a></li>
+        <li><a href="foro.html" class="navbar-link">Foro</a></li>
+        <li><a href="ia.html" class="navbar-link">IA</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">← Volver</a>
+        <a href="planes.html" class="btn btn-primary btn-sm">⚡ Pro</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="course-hero">
+    <div class="course-hero-inner">
+      <div>
+        <div class="breadcrumb">
+          <a href="academia.html">Academia</a>
+          <span>›</span>
+          <a href="academia.html">Smartphones</a>
+          <span>›</span>
+          <span style="color: var(--text-primary);">Reparación iPhone · Nivel 2</span>
+        </div>
+
+        <div style="display: flex; gap: var(--sp-2); margin-bottom: var(--sp-3);">
+          <span class="badge badge-primary">Smartphones</span>
+          <span class="badge badge-success">Intermedio</span>
+          <span class="badge badge-warning">⭐ Bestseller</span>
+        </div>
+
+        <h1>Reparación profesional de iPhone · Nivel 2</h1>
+        <p class="course-short">Cambio de batería, pantallas, Taptic Engine, Face ID, cámaras y los problemas comunes de las series 12-15. Lo que necesitás para empezar a reparar iPhones como un pro.</p>
+
+        <div class="course-meta-row">
+          <div class="course-instructor-mini">
+            <div class="instructor-mini-avatar">CM</div>
+            <div>
+              <div style="color: var(--text-primary); font-weight: var(--fw-semibold);">Carlos Méndez</div>
+              <div style="font-size: var(--fs-xs);">Instructor senior</div>
+            </div>
+          </div>
+          <div class="course-stats-mini">
+            <div>⭐ <strong style="color: var(--text-primary);">4.9</strong> (234)</div>
+            <div>👥 <strong style="color: var(--text-primary);">1,248</strong> alumnos</div>
+            <div>📅 Actualizado <strong style="color: var(--text-primary);">hace 2 semanas</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="course-sidebar">
+        <div class="sidebar-card">
+          <div style="position: relative; aspect-ratio: 16/9; border-radius: var(--radius-md); overflow: hidden; margin: calc(var(--sp-5) * -1) calc(var(--sp-5) * -1) var(--sp-5); background: linear-gradient(135deg, #1e3a8a, #3B82F6); display: flex; align-items: center; justify-content: center;">
+            <div style="text-align: center; color: white;">
+              <div style="font-family: var(--font-mono); font-size: var(--fs-lg); font-weight: var(--fw-bold); margin-bottom: 4px;">▶ VISTA PREVIA</div>
+              <div style="font-size: var(--fs-sm); opacity: 0.9;">2 clases gratis</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <span class="price-big">$29</span>
+            <span class="price-old">$89</span>
+            <span class="badge badge-success" style="margin-left: auto;">-67%</span>
+          </div>
+          <div style="font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-4);">Incluido en Plan Profesional · acceso ilimitado</div>
+
+          <a href="#" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: var(--sp-3);">Empezar ahora →</a>
+          <button class="btn btn-secondary" style="width: 100%;">+ Agregar a favoritos</button>
+
+          <div class="course-progress-card">
+            <div style="font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-1);">Tu progreso</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-2);">
+              <span style="font-size: var(--fs-sm); font-weight: var(--fw-semibold);">42 de 64 clases</span>
+              <span style="font-size: var(--fs-sm); font-family: var(--font-mono); color: var(--accent);">65%</span>
+            </div>
+            <div class="progress-bar-mini"><div class="progress-bar-fill" style="width: 65%"></div></div>
+          </div>
+
+          <div style="margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--border);">
+            <div class="sidebar-feature">12h 40m de video HD</div>
+            <div class="sidebar-feature">8 módulos · 64 clases</div>
+            <div class="sidebar-feature">Recursos descargables</div>
+            <div class="sidebar-feature">Acceso de por vida</div>
+            <div class="sidebar-feature">Acceso en mobile y TV</div>
+            <div class="sidebar-feature">Certificado al completar</div>
+            <div class="sidebar-feature">Acceso al foro del curso</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <div class="course-layout">
+    <main>
+      <!-- Video player -->
+      <div class="video-container">
+        <div class="video-bg"></div>
+        <div class="video-overlay-info">
+          <div class="video-overlay-badge">Clase 5 de 8 · Módulo 2</div>
+          <div class="video-overlay-badge">⏱ 18:24 / 52:10</div>
+        </div>
+        <div class="video-play-btn"></div>
+        <div class="video-progress-bar">
+          <div class="video-progress-fill"></div>
+        </div>
+        <div class="video-controls">
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <span>▶</span>
+            <span>⏸</span>
+            <span>🔊</span>
+            <span>1.0x</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <span>CC</span>
+            <span>⚙</span>
+            <span>⛶</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="video-tabs">
+        <div class="video-tab active" data-tab="temario">📋 Temario</div>
+        <div class="video-tab" data-tab="recursos">📁 Recursos</div>
+        <div class="video-tab" data-tab="proyecto">🔧 Proyecto</div>
+        <div class="video-tab" data-tab="reviews">⭐ Reseñas (234)</div>
+        <div class="video-tab" data-tab="instructor">👨‍🏫 Instructor</div>
+      </div>
+
+      <!-- Tab content: Temario -->
+      <div class="tab-content active" data-tab="temario">
+        <div class="lesson-list">
+          <div class="lesson-item completed">
+            <div class="lesson-num">✓</div>
+            <div class="lesson-info">
+              <div class="lesson-title">1. Bienvenida y setup del laboratorio</div>
+              <div class="lesson-meta">Módulo 1 · 5 min · Vista previa gratis</div>
+            </div>
+            <div class="lesson-duration">05:12</div>
+          </div>
+
+          <div class="lesson-item completed">
+            <div class="lesson-num">✓</div>
+            <div class="lesson-info">
+              <div class="lesson-title">2. Herramientas esenciales para iPhone</div>
+              <div class="lesson-meta">Módulo 1 · 18 min · Vista previa gratis</div>
+            </div>
+            <div class="lesson-duration">18:24</div>
+          </div>
+
+          <div class="lesson-item completed">
+            <div class="lesson-num">✓</div>
+            <div class="lesson-info">
+              <div class="lesson-title">3. Diagnóstico inicial: cómo encarar una reparación</div>
+              <div class="lesson-meta">Módulo 1 · 22 min</div>
+            </div>
+            <div class="lesson-duration">22:08</div>
+          </div>
+
+          <div class="lesson-item completed">
+            <div class="lesson-num">✓</div>
+            <div class="lesson-info">
+              <div class="lesson-title">4. Cambio de batería paso a paso</div>
+              <div class="lesson-meta">Módulo 2 · 28 min</div>
+            </div>
+            <div class="lesson-duration">28:45</div>
+          </div>
+
+          <div class="lesson-item current">
+            <div class="lesson-num">5</div>
+            <div class="lesson-info">
+              <div class="lesson-title">5. Cambio de pantalla y calibración True Tone</div>
+              <div class="lesson-meta">Módulo 2 · 52 min · Reproduciendo</div>
+            </div>
+            <div class="lesson-duration">52:10</div>
+          </div>
+
+          <div class="lesson-item">
+            <div class="lesson-num">6</div>
+            <div class="lesson-info">
+              <div class="lesson-title">6. Reemplazo de Taptic Engine</div>
+              <div class="lesson-meta">Módulo 3 · 35 min</div>
+            </div>
+            <div class="lesson-duration">35:18</div>
+          </div>
+
+          <div class="lesson-item">
+            <div class="lesson-num">7</div>
+            <div class="lesson-info">
+              <div class="lesson-title">7. Reemplazo y calibración de Face ID</div>
+              <div class="lesson-meta">Módulo 3 · 42 min</div>
+            </div>
+            <div class="lesson-duration">42:33</div>
+          </div>
+
+          <div class="lesson-item">
+            <div class="lesson-num">8</div>
+            <div class="lesson-info">
+              <div class="lesson-title">8. Módulos de cámara: reemplazo y problemas</div>
+              <div class="lesson-meta">Módulo 4 · 38 min</div>
+            </div>
+            <div class="lesson-duration">38:12</div>
+          </div>
+
+          <div class="lesson-item">
+            <div class="lesson-num">9</div>
+            <div class="lesson-info">
+              <div class="lesson-title">9. Problemas comunes de carga (Tristar, Hydra)</div>
+              <div class="lesson-meta">Módulo 5 · 56 min</div>
+            </div>
+            <div class="lesson-duration">56:24</div>
+          </div>
+
+          <div class="lesson-item">
+            <div class="lesson-num">10</div>
+            <div class="lesson-info">
+              <div class="lesson-title">10. Audio: parlantes, micrófono y audio IC</div>
+              <div class="lesson-meta">Módulo 5 · 32 min</div>
+            </div>
+            <div class="lesson-duration">32:08</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab content: Recursos -->
+      <div class="tab-content" data-tab="recursos">
+        <div class="resource-item">
+          <div class="resource-icon">📄</div>
+          <div style="flex: 1;">
+            <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Checklist de herramientas recomendadas</div>
+            <div style="font-size: var(--fs-xs); color: var(--text-muted);">PDF · 1.2 MB · Lista completa de compra</div>
+          </div>
+          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+        </div>
+
+        <div class="resource-item">
+          <div class="resource-icon">📐</div>
+          <div style="flex: 1;">
+            <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Esquemático iPhone 13 Pro</div>
+            <div style="font-size: var(--fs-xs); color: var(--text-muted);">PDF · 14.2 MB · 248 páginas</div>
+          </div>
+          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+        </div>
+
+        <div class="resource-item">
+          <div class="resource-icon">📄</div>
+          <div style="flex: 1;">
+            <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Datasheet A15 Bionic</div>
+            <div style="font-size: var(--fs-xs); color: var(--text-muted);">PDF · 6.8 MB</div>
+          </div>
+          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+        </div>
+
+        <div class="resource-item">
+          <div class="resource-icon">🔧</div>
+          <div style="flex: 1;">
+            <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Plantilla de tornillos iPhone 12-15</div>
+            <div style="font-size: var(--fs-xs); color: var(--text-muted);">SVG · 240 KB · Imprimible</div>
+          </div>
+          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+        </div>
+
+        <div class="resource-item">
+          <div class="resource-icon">📋</div>
+          <div style="flex: 1;">
+            <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Hoja de presupuesto para clientes</div>
+            <div style="font-size: var(--fs-xs); color: var(--text-muted);">XLSX · 18 KB · Editable</div>
+          </div>
+          <button class="btn btn-secondary btn-sm">⬇ Descargar</button>
+        </div>
+      </div>
+
+      <!-- Tab content: Proyecto -->
+      <div class="tab-content" data-tab="proyecto">
+        <div style="padding: var(--sp-5); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg);">
+          <h3 style="margin-bottom: var(--sp-3);">🔧 Proyecto final del curso</h3>
+          <p style="margin-bottom: var(--sp-4);">Reparar un iPhone con daño múltiple (caída + agua) y entregarlo funcionando. El proyecto incluye:</p>
+          <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 2; margin-bottom: var(--sp-5);">
+            <li>Diagnóstico completo del estado del equipo</li>
+            <li>Reemplazo de pantalla y batería</li>
+            <li>Limpieza ultrasónica de la placa base</li>
+            <li>Reasignación de Face ID (si es posible)</li>
+            <li>Calibración final y testeo</li>
+            <li>Entrega al cliente con presupuesto</li>
+          </ul>
+          <div style="display: flex; gap: var(--sp-3);">
+            <button class="btn btn-primary">Entregar proyecto</button>
+            <button class="btn btn-secondary">Ver entregas de otros alumnos</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab content: Reviews -->
+      <div class="tab-content" data-tab="reviews">
+        <div style="display: flex; gap: var(--sp-4); align-items: center; margin-bottom: var(--sp-6); padding: var(--sp-4); background: var(--bg-secondary); border-radius: var(--radius-lg);">
+          <div style="text-align: center;">
+            <div style="font-size: 4rem; font-weight: var(--fw-black); font-family: var(--font-mono); line-height: 1; color: var(--accent);">4.9</div>
+            <div style="color: var(--warning); font-size: var(--fs-lg); margin-top: 4px;">★★★★★</div>
+            <div style="font-size: var(--fs-xs); color: var(--text-muted);">234 reseñas</div>
+          </div>
+          <div style="flex: 1;">
+            <div style="display: grid; grid-template-columns: 30px 1fr 50px; gap: 8px; font-size: var(--fs-sm); align-items: center;">
+              <div>5★</div><div style="height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 88%; background: var(--warning);"></div></div><div>206</div>
+              <div>4★</div><div style="height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 9%; background: var(--warning);"></div></div><div>21</div>
+              <div>3★</div><div style="height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 2%; background: var(--warning);"></div></div><div>5</div>
+              <div>2★</div><div style="height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 1%; background: var(--warning);"></div></div><div>2</div>
+              <div>1★</div><div style="height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 0%; background: var(--warning);"></div></div><div>0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-author">
+              <div class="review-avatar"></div>
+              <div>
+                <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">María González</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Hace 3 días</div>
+              </div>
+            </div>
+            <div class="review-rating">★★★★★</div>
+          </div>
+          <p style="font-size: var(--fs-sm); color: var(--text-secondary);">Increíble. Carlos explica todo con una claridad que no había visto en otros cursos. El módulo de Taptic Engine me ahorró horas de prueba y error. Ya reparé 4 iPhones con lo aprendido.</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-author">
+              <div class="review-avatar"></div>
+              <div>
+                <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Juan Pablo R.</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Hace 1 semana</div>
+              </div>
+            </div>
+            <div class="review-rating">★★★★★</div>
+          </div>
+          <p style="font-size: var(--fs-sm); color: var(--text-secondary);">Pasé de no haber tocado un iPhone a armar mi propio taller en 4 meses. La calidad de los videos es excelente y los recursos descargables son un golazo. Lo recomiendo 100%.</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-author">
+              <div class="review-avatar"></div>
+              <div>
+                <div style="font-weight: var(--fw-semibold); font-size: var(--fs-sm);">Diego M.</div>
+                <div style="font-size: var(--fs-xs); color: var(--text-muted);">Hace 2 semanas</div>
+              </div>
+            </div>
+            <div class="review-rating">★★★★☆</div>
+          </div>
+          <p style="font-size: var(--fs-sm); color: var(--text-secondary);">Muy completo. Le falta un poco más sobre iPhones más nuevos (14 Pro, 15 Pro Max) pero la base es excelente y aplicable. Carlos responde rápido en el foro.</p>
+        </div>
+      </div>
+
+      <!-- Tab content: Instructor -->
+      <div class="tab-content" data-tab="instructor">
+        <div class="instructor-card">
+          <div class="instructor-card-avatar">CM</div>
+          <div class="instructor-card-info">
+            <h3>Carlos Méndez</h3>
+            <p style="color: var(--text-secondary);">Técnico certificado Apple · 12 años reparando iPhones · Ex-genio del Apple Store · Fundó su propio taller de reparación premium en CDMX.</p>
+            <div class="instructor-stats">
+              <div>⭐ <strong>4.95</strong> instructor rating</div>
+              <div>👥 <strong>3,421</strong> estudiantes</div>
+              <div>📚 <strong>8</strong> cursos</div>
+            </div>
+            <div style="margin-top: var(--sp-3); display: flex; gap: var(--sp-2);">
+              <span class="badge badge-success">Verificado</span>
+              <span class="badge badge-primary">Top instructor</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <aside></aside>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    // Tabs
+    document.querySelectorAll('.video-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        const targetEl = document.querySelector(`.tab-content[data-tab="${target}"]`);
+        if (targetEl) targetEl.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
