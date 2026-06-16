@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comunidad · Academia Jota Rubio</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    .community-hero { padding: calc(var(--nav-height) + var(--sp-12)) var(--sp-6) var(--sp-12); text-align: center; position: relative; }
+    .community-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center top, var(--accent-glow), transparent 60%); opacity: 0.3; }
+    .community-hero h1 { font-size: var(--fs-5xl); margin-bottom: var(--sp-3); position: relative; }
+    .community-hero p { font-size: var(--fs-lg); color: var(--text-secondary); max-width: 700px; margin: 0 auto var(--sp-8); position: relative; }
+    .community-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); max-width: 1000px; margin: 0 auto; position: relative; }
+    .community-stat-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-5); backdrop-filter: blur(20px); text-align: center; }
+    .community-stat-value { font-size: var(--fs-3xl); font-weight: var(--fw-black); font-family: var(--font-mono); background: linear-gradient(135deg, var(--accent), var(--success)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .community-stat-label { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--sp-1); }
+    .community-layout { max-width: 1280px; margin: 0 auto; padding: 0 var(--sp-6) var(--sp-12); display: grid; grid-template-columns: 1fr 360px; gap: var(--sp-6); }
+    .section-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-5); }
+    .section-title-row h2 { font-size: var(--fs-2xl); }
+    .section-title-row .tabs-mini { display: flex; gap: 4px; background: var(--bg-secondary); padding: 4px; border-radius: var(--radius-full); }
+    .tab-mini { padding: 6px 14px; border-radius: var(--radius-full); font-size: var(--fs-sm); color: var(--text-secondary); cursor: pointer; transition: all var(--t-fast); }
+    .tab-mini:hover { color: var(--text-primary); }
+    .tab-mini.active { background: var(--accent); color: white; }
+    .member-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
+    .member-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-5); backdrop-filter: blur(20px); transition: all var(--t-base); cursor: pointer; position: relative; overflow: hidden; }
+    .member-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--shadow-lg); }
+    .member-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60px; background: linear-gradient(135deg, var(--accent-soft), transparent); opacity: 0.5; }
+    .member-card-header { display: flex; gap: var(--sp-3); margin-bottom: var(--sp-3); position: relative; }
+    .member-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--success)); display: flex; align-items: center; justify-content: center; color: white; font-weight: var(--fw-bold); font-size: var(--fs-lg); flex-shrink: 0; position: relative; }
+    .member-avatar.online::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: var(--success); border: 2px solid var(--bg-primary); border-radius: 50%; }
+    .member-info { flex: 1; min-width: 0; position: relative; }
+    .member-name { font-weight: var(--fw-semibold); font-size: var(--fs-base); margin-bottom: 2px; }
+    .member-handle { font-size: var(--fs-xs); color: var(--text-secondary); font-family: var(--font-mono); }
+    .member-bio { font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--sp-3); min-height: 36px; position: relative; }
+    .member-stats { display: flex; gap: var(--sp-3); font-size: 11px; color: var(--text-muted); margin-bottom: var(--sp-3); position: relative; }
+    .member-stats span { display: flex; align-items: center; gap: 3px; }
+    .member-badges { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: var(--sp-3); position: relative; }
+    .member-badge-mini { font-size: 16px; }
+    .member-actions { display: flex; gap: 4px; position: relative; }
+    .member-actions .btn { padding: 4px 12px; font-size: 12px; }
+    .leaderboard { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--sp-5); backdrop-filter: blur(20px); }
+    .leaderboard-tabs { display: flex; gap: 4px; background: var(--bg-secondary); padding: 4px; border-radius: var(--radius-md); margin-bottom: var(--sp-4); }
+    .lb-tab { flex: 1; padding: 6px 8px; text-align: center; border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); cursor: pointer; transition: all var(--t-fast); }
+    .lb-tab:hover { color: var(--text-primary); }
+    .lb-tab.active { background: var(--accent); color: white; }
+    .lb-row { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3); background: var(--bg-secondary); border-radius: var(--radius-md); margin-bottom: var(--sp-2); transition: all var(--t-base); cursor: pointer; }
+    .lb-row:hover { background: var(--bg-tertiary); transform: translateX(4px); }
+    .lb-row.top1 { background: linear-gradient(90deg, rgba(245, 158, 11, 0.15), transparent); border-left: 3px solid var(--warning); }
+    .lb-row.top2 { background: linear-gradient(90deg, rgba(148, 163, 184, 0.15), transparent); border-left: 3px solid #94A3B8; }
+    .lb-row.top3 { background: linear-gradient(90deg, rgba(180, 83, 9, 0.15), transparent); border-left: 3px solid #B45309; }
+    .lb-rank { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: var(--fw-bold); font-size: var(--fs-sm); color: var(--text-muted); font-family: var(--font-mono); flex-shrink: 0; }
+    .lb-row.top1 .lb-rank { color: var(--warning); font-size: var(--fs-lg); }
+    .lb-row.top2 .lb-rank { color: #94A3B8; font-size: var(--fs-lg); }
+    .lb-row.top3 .lb-rank { color: #B45309; font-size: var(--fs-lg); }
+    .lb-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--success)); display: flex; align-items: center; justify-content: center; color: white; font-weight: var(--fw-bold); font-size: var(--fs-sm); flex-shrink: 0; }
+    .lb-info { flex: 1; min-width: 0; }
+    .lb-name { font-weight: var(--fw-semibold); font-size: var(--fs-sm); }
+    .lb-handle { font-size: 11px; color: var(--text-muted); }
+    .lb-score { font-weight: var(--fw-bold); color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-sm); }
+    .activity-feed { display: flex; flex-direction: column; gap: var(--sp-3); }
+    .feed-item { display: flex; gap: var(--sp-3); padding: var(--sp-4); background: var(--bg-secondary); border-radius: var(--radius-md); transition: all var(--t-base); }
+    .feed-item:hover { background: var(--bg-tertiary); }
+    .feed-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .feed-icon.post { background: var(--accent-soft); color: var(--accent); }
+    .feed-icon.course { background: var(--success-soft); color: var(--success); }
+    .feed-icon.badge { background: var(--warning-soft); color: var(--warning); }
+    .feed-icon.biblioteca { background: rgba(168, 85, 247, 0.15); color: #A855F7; }
+    .feed-content { flex: 1; min-width: 0; }
+    .feed-text { font-size: var(--fs-sm); line-height: 1.5; }
+    .feed-text strong { color: var(--text-primary); }
+    .feed-text a { color: var(--accent); }
+    .feed-time { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .online-members { display: flex; flex-direction: column; gap: var(--sp-2); }
+    .online-member { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) 0; }
+    .online-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--success)); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold; position: relative; }
+    .online-avatar::after { content: ''; position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px; background: var(--success); border: 2px solid var(--bg-secondary); border-radius: 50%; }
+    .online-name { font-size: var(--fs-sm); flex: 1; }
+    .online-action { font-size: 11px; color: var(--text-muted); }
+    .trending-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .trending-tag { padding: 4px 10px; background: var(--bg-tertiary); border-radius: var(--radius-full); font-size: var(--fs-sm); color: var(--text-secondary); cursor: pointer; transition: all var(--t-fast); }
+    .trending-tag:hover { background: var(--accent-soft); color: var(--accent); transform: scale(1.05); }
+    .trending-tag .count { font-size: 10px; color: var(--text-muted); margin-left: 4px; }
+    @media (max-width: 1024px) { .member-grid { grid-template-columns: repeat(2, 1fr); } .community-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .member-grid { grid-template-columns: 1fr; } .community-stats { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo"><img src="assets/logos/logo.svg" alt="Logo"></a>
+      <ul class="navbar-menu">
+        <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+        <li><a href="academia.html" class="navbar-link">Academia</a></li>
+        <li><a href="biblioteca.html" class="navbar-link">Biblioteca</a></li>
+        <li><a href="comunidad.html" class="navbar-link" style="color: var(--accent);">Comunidad</a></li>
+        <li><a href="ia.html" class="navbar-link">IA</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">← Volver</a>
+        <a href="planes.html" class="btn btn-primary btn-sm">⚡ Pro</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="community-hero">
+    <h1>Comunidad <span class="gradient-text">Jota Rubio</span></h1>
+    <p>2,438 técnicos activos de toda Iberoamérica. Comparten, aprenden, enseñan y resuelven juntos. Sé parte.</p>
+
+    <div class="community-stats">
+      <div class="community-stat-card reveal">
+        <div class="community-stat-value" data-counter="2438">0</div>
+        <div class="community-stat-label">Miembros totales</div>
+      </div>
+      <div class="community-stat-card reveal delay-1">
+        <div class="community-stat-value" data-counter="342">0</div>
+        <div class="community-stat-label">En línea ahora</div>
+      </div>
+      <div class="community-stat-card reveal delay-2">
+        <div class="community-stat-value" data-counter="48">0</div>
+        <div class="community-stat-label">Países</div>
+      </div>
+      <div class="community-stat-card reveal delay-3">
+        <div class="community-stat-value" data-counter="15">0</div>
+        <div class="community-stat-label">Años de experiencia media</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="community-layout">
+    <main>
+      <!-- Muro de miembros -->
+      <section style="margin-bottom: var(--sp-12);">
+        <div class="section-title-row">
+          <h2>👥 Conocé la comunidad</h2>
+          <div class="tabs-mini">
+            <div class="tab-mini active" data-filter="all">Todos</div>
+            <div class="tab-mini" data-filter="online">🟢 En línea</div>
+            <div class="tab-mini" data-filter="instructors">Instructores</div>
+            <div class="tab-mini" data-filter="top">⭐ Top</div>
+          </div>
+        </div>
+
+        <div class="member-grid" id="memberGrid">
+          <!-- 1 -->
+          <div class="member-card reveal">
+            <div class="member-card-header">
+              <div class="member-avatar online">CM</div>
+              <div class="member-info">
+                <div class="member-name">Carlos Méndez</div>
+                <div class="member-handle">@carlos_repair</div>
+              </div>
+            </div>
+            <p class="member-bio">Instructor senior · 12 años reparando iPhones · CDMX</p>
+            <div class="member-stats">
+              <span>⭐ 4.95</span>
+              <span>👥 3.4K</span>
+              <span>📚 8 cursos</span>
+            </div>
+            <div class="member-badges">
+              <span class="member-badge-mini" title="Top Instructor">🎓</span>
+              <span class="member-badge-mini" title="Verified">💎</span>
+              <span class="member-badge-mini" title="100 directos">🎥</span>
+            </div>
+            <div class="member-actions">
+              <a href="perfil.html" class="btn btn-secondary" style="flex: 1;">Ver perfil</a>
+              <button class="btn btn-primary">+ Seguir</button>
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div class="member-card reveal delay-1">
+            <div class="member-card-header">
+              <div class="member-avatar online" style="background: linear-gradient(135deg, #10B981, #047857);">AR</div>
+              <div class="member-info">
+                <div class="member-name">Ana Ramírez</div>
+                <div class="member-handle">@microsoldadora</div>
+              </div>
+            </div>
+            <p class="member-bio">Especialista BGA · 8 años · Bogotá</p>
+            <div class="member-stats">
+              <span>⭐ 4.92</span>
+              <span>👥 2.1K</span>
+              <span>📚 5 cursos</span>
+            </div>
+            <div class="member-badges">
+              <span class="member-badge-mini">🎯</span>
+              <span class="member-badge-mini">💎</span>
+              <span class="member-badge-mini">🔥</span>
+            </div>
+            <div class="member-actions">
+              <button class="btn btn-secondary" style="flex: 1;">Ver perfil</button>
+              <button class="btn btn-primary">+ Seguir</button>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="member-card reveal delay-2">
+            <div class="member-card-header">
+              <div class="member-avatar" style="background: linear-gradient(135deg, #F59E0B, #B45309);">LO</div>
+              <div class="member-info">
+                <div class="member-name">Luis Ortega</div>
+                <div class="member-handle">@luis_ai_tech</div>
+              </div>
+            </div>
+            <p class="member-bio">AI Engineer aplicado a diagnóstico · Madrid</p>
+            <div class="member-stats">
+              <span>⭐ 4.88</span>
+              <span>👥 1.8K</span>
+              <span>📚 3 cursos</span>
+            </div>
+            <div class="member-badges">
+              <span class="member-badge-mini">🤖</span>
+              <span class="member-badge-mini">💎</span>
+            </div>
+            <div class="member-actions">
+              <button class="btn btn-secondary" style="flex: 1;">Ver perfil</button>
+              <button class="btn btn-primary">+ Seguir</button>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="member-card reveal delay-3">
+            <div class="member-card-header">
+              <div class="member-avatar online" style="background: linear-gradient(135deg, #EC4899, #A855F7);">MG</div>
+              <div class="member-info">
+                <div class="member-name">María González</div>
+                <div class="member-handle">@maria_lab</div>
+              </div>
+            </div>
+            <p class="member-bio">Data recovery + hardware repair · Buenos Aires</p>
+            <div class="member-stats">
+              <span>⭐ 4.85</span>
+              <span>👥 1.5K</span>
+              <span>📚 4 cursos</span>
+            </div>
+            <div class="member-badges">
+              <span class="member-badge-mini">💾</span>
+              <span class="member-badge-mini">💎</span>
+            </div>
+            <div class="member-actions">
+              <button class="btn btn-secondary" style="flex: 1;">Ver perfil</button>
+              <button class="btn btn-primary">+ Seguir</button>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="member-card reveal delay-4">
+            <div class="member-card-header">
+              <div class="member-avatar online" style="background: linear-gradient(135deg, #06B6D4, #0E7490);">JP</div>
+              <div class="member-info">
+                <div class="member-name">Juan Pablo</div>
+                <div class="member-handle">@jp_repair</div>
+              </div>
+            </div>
+            <p class="member-bio">Reparador independiente · Micro-soldadura hobby · CABA</p>
+            <div class="member-stats">
+              <span>⭐ 4.72</span>
+              <span>👥 642</span>
+              <span>📚 2 cursos</span>
+            </div>
+            <div class="member-badges">
+              <span class="member-badge-mini">🔬</span>
+              <span class="member-badge-mini">🚀</span>
+            </div>
+            <div class="member-actions">
+              <button class="btn btn-secondary" style="flex: 1;">Ver perfil</button>
+              <button class="btn btn-primary">+ Seguir</button>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div class="member-card reveal delay-5">
+            <div class="member-card-header">
+              <div class="member-avatar" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9);">DM</div>
+              <div class="member-info">
+                <div class="member-name">Diego Morales</div>
+                <div class="member-handle">@diegom_tech</div>
+              </div>
+            </div>
+            <p class="member-bio">Estudiante de ingeniería electrónica aprendiendo reparación</p>
+            <div class="member-stats">
+              <span>⭐ 4.68</span>
+              <span>👥 312</span>
+              <span>📚 1 curso</span>
+            </div>
+            <div class="member-badges">
+              <span class="member-badge-mini">🎓</span>
+            </div>
+            <div class="member-actions">
+              <button class="btn btn-secondary" style="flex: 1;">Ver perfil</button>
+              <button class="btn btn-primary">+ Seguir</button>
+            </div>
+          </div>
+
+          <!-- 7 -->
+          <div class="member-card reveal">
+            <div class="member-card-header">
+              <div class="member-avatar online" style="background: linear-gradient(135deg, #14B8A6, #0F766E);">PS</div>
+              <div class="member-info">
+                <div class="member-name">Paula Sánchez</div>
+                <div class="member-handle">@pao_lab</div>
+              </div>
+            </div>
+            <p class="member-bio">Taller propio en Valencia · 6 años de experiencia</p>
+            <div class="member-stats">
+              <span>⭐ 4.81</span>
+              <span>👥 1.1K</span>
+              <span>📚 3 cursos</span>
+            </div>
+            <div class="member-badges">
+              <span class="member-badge-mini">🛠</span>
+              <span class="member-badge-mini">💎</span>
+            </div>
+            <div class="member-actions">
+              <button class="btn btn-secondary" style="flex: 1;">Ver perfil</button>
+              <button class="btn btn-primary">+ Seguir</button>
+            </div>
+          </div>
+
+          <!-- 8 -->
+          <div class="member-card reveal delay-1">
+            <div class="member-card-header">
+              <div class="member-avatar" style="background: linear-gradient(135deg, #F97316, #C2410C);">RC</div>
+              <div class="member-info">
+                <div class="member-name">Roberto Castro</div>
+                <div class="member-handle">@roberto_fix</div>
+              </div>
+            </div>
+            <p class="member-bio">Técnico multimarca · 15 años · Lima, Perú</p>
+            <div class="member-stats">
+              <span>⭐ 4.78</span>
+              <span>👥 2.4K</span>
+              <span>📚 6 cursos</span>
+            </div>
+            <div class="member-badges">
+              <span class="member-badge-mini">🌟</span>
+              <span class="member-badge-mini">💎</span>
+              <span class="member-badge-mini">🏆</span>
+            </div>
+            <div class="member-actions">
+              <button class="btn btn-secondary" style="flex: 1;">Ver perfil</button>
+              <button class="btn btn-primary">+ Seguir</button>
+            </div>
+          </div>
+
+          <!-- 9 -->
+          <div class="member-card reveal delay-2">
+            <div class="member-card-header">
+              <div class="member-avatar online" style="background: linear-gradient(135deg, #E11D48, #BE123C);">LF</div>
+              <div class="member-info">
+                <div class="member-name">Laura Fernández</div>
+                <div class="member-handle">@laura_diag</div>
+              </div>
+            </div>
+            <p class="member-bio">Diagnóstico avanzado + modding · Buenos Aires</p>
+            <div class="member-stats">
+              <span>⭐ 4.89</span>
+              <span>👥 987</span>
+              <span>📚 2 cursos</span>
+            </div>
+            <div class="member-badges">
+              <span class="member-badge-mini">🤖</span>
+              <span class="member-badge-mini">💎</span>
+            </div>
+            <div class="member-actions">
+              <button class="btn btn-secondary" style="flex: 1;">Ver perfil</button>
+              <button class="btn btn-primary">+ Seguir</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: var(--sp-8);">
+          <button class="btn btn-secondary btn-lg">Cargar más miembros →</button>
+        </div>
+      </section>
+
+      <!-- Activity feed -->
+      <section>
+        <div class="section-title-row">
+          <h2>📊 Actividad reciente</h2>
+          <div class="tabs-mini">
+            <div class="tab-mini active">Todos</div>
+            <div class="tab-mini">Cursos</div>
+            <div class="tab-mini">Logros</div>
+          </div>
+        </div>
+
+        <div class="activity-feed">
+          <div class="feed-item">
+            <div class="feed-icon post">💬</div>
+            <div class="feed-content">
+              <div class="feed-text"><strong>Ana Ramírez</strong> respondió una pregunta en el foro: <a href="#">"iPhone 13 bootloop post-golpe"</a></div>
+              <div class="feed-time">Hace 12 minutos</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon course">🎓</div>
+            <div class="feed-content">
+              <div class="feed-text"><strong>Juan Pablo</strong> completó el curso <a href="#">"Reparación de Laptops · Diagnóstico avanzado"</a></div>
+              <div class="feed-time">Hace 28 minutos</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon badge">🏆</div>
+            <div class="feed-content">
+              <div class="feed-text"><strong>Diego Morales</strong> obtuvo el badge <strong>Micro Pro</strong></div>
+              <div class="feed-time">Hace 1 hora</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon biblioteca">📚</div>
+            <div class="feed-content">
+              <div class="feed-text"><strong>Roberto Castro</strong> subió <a href="#">"Esquema MacBook Pro 16 M2"</a> a la biblioteca</div>
+              <div class="feed-time">Hace 2 horas</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon post">💬</div>
+            <div class="feed-content">
+              <div class="feed-text"><strong>Paula Sánchez</strong> preguntó en el foro: <a href="#">"Xiaomi RN11 backlight intermitente"</a></div>
+              <div class="feed-time">Hace 3 horas</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon course">🎓</div>
+            <div class="feed-content">
+              <div class="feed-text"><strong>Laura Fernández</strong> se inscribió en <a href="#">"IA para diagnóstico técnico"</a></div>
+              <div class="feed-time">Hace 4 horas</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon badge">🏆</div>
+            <div class="feed-content">
+              <div class="feed-text"><strong>Carlos Méndez</strong> llegó a <strong>15,000 puntos de reputación</strong> · Nivel 24</div>
+              <div class="feed-time">Hace 5 horas</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon post">💬</div>
+            <div class="feed-content">
+              <div class="feed-text"><strong>Carlos Méndez</strong> publicó nuevo directo: <a href="#">"Reparación iPhone 14 Pro · Taptic Engine"</a></div>
+              <div class="feed-time">Hace 6 horas</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <!-- Leaderboard -->
+      <div class="leaderboard" style="margin-bottom: var(--sp-4);">
+        <h2 style="font-size: var(--fs-xl); margin-bottom: var(--sp-3);">🏆 Top esta semana</h2>
+        <div class="leaderboard-tabs">
+          <div class="lb-tab active">Reputación</div>
+          <div class="lb-tab">Cursos</div>
+          <div class="lb-tab">Ayuda</div>
+          <div class="lb-tab">Streaming</div>
+        </div>
+
+        <div class="lb-row top1">
+          <div class="lb-rank">🥇</div>
+          <div class="lb-avatar">CM</div>
+          <div class="lb-info">
+            <div class="lb-name">Carlos Méndez</div>
+            <div class="lb-handle">@carlos_repair</div>
+          </div>
+          <div class="lb-score">15.4K</div>
+        </div>
+
+        <div class="lb-row top2">
+          <div class="lb-rank">🥈</div>
+          <div class="lb-avatar" style="background: linear-gradient(135deg, #10B981, #047857);">AR</div>
+          <div class="lb-info">
+            <div class="lb-name">Ana Ramírez</div>
+            <div class="lb-handle">@microsoldadora</div>
+          </div>
+          <div class="lb-score">12.8K</div>
+        </div>
+
+        <div class="lb-row top3">
+          <div class="lb-rank">🥉</div>
+          <div class="lb-avatar" style="background: linear-gradient(135deg, #F97316, #C2410C);">RC</div>
+          <div class="lb-info">
+            <div class="lb-name">Roberto Castro</div>
+            <div class="lb-handle">@roberto_fix</div>
+          </div>
+          <div class="lb-score">11.2K</div>
+        </div>
+
+        <div class="lb-row">
+          <div class="lb-rank">4</div>
+          <div class="lb-avatar" style="background: linear-gradient(135deg, #F59E0B, #B45309);">LO</div>
+          <div class="lb-info">
+            <div class="lb-name">Luis Ortega</div>
+            <div class="lb-handle">@luis_ai_tech</div>
+          </div>
+          <div class="lb-score">9.8K</div>
+        </div>
+
+        <div class="lb-row">
+          <div class="lb-rank">5</div>
+          <div class="lb-avatar" style="background: linear-gradient(135deg, #EC4899, #A855F7);">MG</div>
+          <div class="lb-info">
+            <div class="lb-name">María González</div>
+            <div class="lb-handle">@maria_lab</div>
+          </div>
+          <div class="lb-score">8.4K</div>
+        </div>
+
+        <div class="lb-row">
+          <div class="lb-rank">6</div>
+          <div class="lb-avatar" style="background: linear-gradient(135deg, #14B8A6, #0F766E);">PS</div>
+          <div class="lb-info">
+            <div class="lb-name">Paula Sánchez</div>
+            <div class="lb-handle">@pao_lab</div>
+          </div>
+          <div class="lb-score">7.1K</div>
+        </div>
+
+        <div class="lb-row">
+          <div class="lb-rank">7</div>
+          <div class="lb-avatar" style="background: linear-gradient(135deg, #E11D48, #BE123C);">LF</div>
+          <div class="lb-info">
+            <div class="lb-name">Laura Fernández</div>
+            <div class="lb-handle">@laura_diag</div>
+          </div>
+          <div class="lb-score">6.5K</div>
+        </div>
+
+        <div class="lb-row">
+          <div class="lb-rank">8</div>
+          <div class="lb-avatar" style="background: linear-gradient(135deg, #06B6D4, #0E7490);">JP</div>
+          <div class="lb-info">
+            <div class="lb-name">Juan Pablo</div>
+            <div class="lb-handle">@jp_repair</div>
+          </div>
+          <div class="lb-score">5.2K</div>
+        </div>
+      </div>
+
+      <!-- Online ahora -->
+      <div class="leaderboard">
+        <h2 style="font-size: var(--fs-xl); margin-bottom: var(--sp-3);">🟢 En línea ahora <span style="color: var(--text-muted); font-size: var(--fs-sm); font-weight: var(--fw-regular);">(342)</span></h2>
+        <div class="online-members">
+          <div class="online-member">
+            <div class="online-avatar">CM</div>
+            <div class="online-name">Carlos Méndez</div>
+            <div class="online-action">🎥 En vivo</div>
+          </div>
+          <div class="online-member">
+            <div class="online-avatar" style="background: linear-gradient(135deg, #10B981, #047857);">AR</div>
+            <div class="online-name">Ana Ramírez</div>
+            <div class="online-action">📝 En el foro</div>
+          </div>
+          <div class="online-member">
+            <div class="online-avatar" style="background: linear-gradient(135deg, #EC4899, #A855F7);">MG</div>
+            <div class="online-name">María González</div>
+            <div class="online-action">📚 Estudiando</div>
+          </div>
+          <div class="online-member">
+            <div class="online-avatar" style="background: linear-gradient(135deg, #06B6D4, #0E7490);">JP</div>
+            <div class="online-name">Juan Pablo</div>
+            <div class="online-action">💬 Respondiendo</div>
+          </div>
+          <div class="online-member">
+            <div class="online-avatar" style="background: linear-gradient(135deg, #14B8A6, #0F766E);">PS</div>
+            <div class="online-name">Paula Sánchez</div>
+            <div class="online-action">🤖 Usando IA</div>
+          </div>
+          <div class="online-member">
+            <div class="online-avatar" style="background: linear-gradient(135deg, #E11D48, #BE123C);">LF</div>
+            <div class="online-name">Laura Fernández</div>
+            <div class="online-action">📚 Estudiando</div>
+          </div>
+          <div style="text-align: center; padding: var(--sp-2); font-size: 11px; color: var(--text-muted);">+ 336 más en línea</div>
+        </div>
+      </div>
+
+      <!-- Trending tags -->
+      <div class="leaderboard" style="margin-top: var(--sp-4);">
+        <h2 style="font-size: var(--fs-xl); margin-bottom: var(--sp-3);">🔥 Trending ahora</h2>
+        <div class="trending-tags">
+          <span class="trending-tag">#iPhone15<span class="count">142</span></span>
+          <span class="trending-tag">#MacBookM2<span class="count">98</span></span>
+          <span class="trending-tag">#BGA<span class="count">87</span></span>
+          <span class="trending-tag">#SamsungS24<span class="count">76</span></span>
+          <span class="trending-tag">#Bootloop<span class="count">64</span></span>
+          <span class="trending-tag">#Backlight<span class="count">52</span></span>
+          <span class="trending-tag">#Xiaomi14<span class="count">48</span></span>
+          <span class="trending-tag">#Esquematicos<span class="count">41</span></span>
+          <span class="trending-tag">#TouchID<span class="count">38</span></span>
+          <span class="trending-tag">#Tristar<span class="count">32</span></span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    // Filter tabs
+    document.querySelectorAll('.tab-mini').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const siblings = tab.parentElement.querySelectorAll('.tab-mini');
+        siblings.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+    document.querySelectorAll('.lb-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const siblings = tab.parentElement.querySelectorAll('.lb-tab');
+        siblings.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
