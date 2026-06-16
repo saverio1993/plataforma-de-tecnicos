@@ -5,44 +5,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sin conexión · Academia Jota Rubio</title>
   <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0F172A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
   <style>
-    .offline-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--sp-6); }
-    .offline-content { text-align: center; max-width: 480px; }
-    .offline-icon { font-size: 5rem; margin-bottom: var(--sp-4); animation: pulse 2s ease-in-out infinite; }
-    .offline-title { font-size: var(--fs-2xl); margin-bottom: var(--sp-3); }
-    .offline-text { color: var(--text-secondary); margin-bottom: var(--sp-6); line-height: 1.6; }
-    .offline-tips { text-align: left; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-4); margin-bottom: var(--sp-6); }
-    .offline-tip { display: flex; gap: var(--sp-2); padding: var(--sp-2) 0; font-size: var(--fs-sm); color: var(--text-secondary); }
+    .offline-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--sp-6); position: relative; overflow: hidden; }
+    .offline-bg { position: absolute; inset: 0; opacity: 0.4; pointer-events: none; }
+    .offline-bg svg { width: 100%; height: 100%; }
+    .offline-content { text-align: center; max-width: 640px; position: relative; z-index: 1; }
+    .offline-icon { font-size: 6rem; margin-bottom: var(--sp-4); animation: pulse 2s ease-in-out infinite; display: inline-block; }
+    .offline-title { font-size: var(--fs-3xl); margin-bottom: var(--sp-3); }
+    .offline-text { color: var(--text-secondary); margin-bottom: var(--sp-6); line-height: 1.6; font-size: var(--fs-lg); }
+    .offline-tips { text-align: left; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: var(--sp-5); margin-bottom: var(--sp-6); backdrop-filter: blur(20px); }
+    .offline-tip { display: flex; gap: var(--sp-3); padding: var(--sp-2) 0; font-size: var(--fs-sm); color: var(--text-secondary); align-items: flex-start; }
+    .offline-tip-icon { flex-shrink: 0; font-size: 18px; }
+    .offline-actions { display: flex; gap: var(--sp-3); justify-content: center; flex-wrap: wrap; margin-bottom: var(--sp-8); }
+    .offline-cached { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-4); margin-top: var(--sp-6); }
+    .offline-cached-title { font-size: var(--fs-sm); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--sp-3); }
+    .offline-cached-list { display: flex; flex-direction: column; gap: var(--sp-1); }
+    .offline-cached-item { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); background: var(--bg-tertiary); border-radius: var(--radius-sm); font-size: var(--fs-sm); text-decoration: none; color: var(--text-primary); transition: all var(--t-fast); }
+    .offline-cached-item:hover { background: var(--accent-soft); color: var(--accent); transform: translateX(4px); }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @media (max-width: 600px) { .offline-title { font-size: var(--fs-2xl); } .offline-icon { font-size: 4rem; } .offline-actions .btn { width: 100%; } }
   </style>
 </head>
 <body>
+
   <main class="offline-page">
+    <div class="offline-bg">
+      <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+        <g stroke="#3B82F6" stroke-width="1" fill="none" opacity="0.4">
+          <path d="M 0 200 L 200 200 L 200 100 L 400 100" stroke-dasharray="5 5"/>
+          <path d="M 600 0 L 600 200 L 800 200" stroke-dasharray="5 5"/>
+          <path d="M 800 400 L 1000 400 L 1000 600" stroke-dasharray="5 5"/>
+        </g>
+        <g fill="#3B82F6" opacity="0.4">
+          <circle cx="200" cy="200" r="3"/>
+          <circle cx="800" cy="200" r="3"/>
+        </g>
+      </svg>
+    </div>
+
     <div class="offline-content">
       <div class="offline-icon">📡</div>
       <h1 class="offline-title">Estás sin conexión</h1>
-      <p class="offline-text">No pudimos cargar la página. Revisá tu internet y volvé a intentar.</p>
+      <p class="offline-text">No pudimos cargar la página. Pero no te preocupes: las páginas que ya visitaste siguen disponibles y podés seguir explorando la plataforma.</p>
+
       <div class="offline-tips">
-        <div class="offline-tip">🔌 <span>Verificá que estés conectado a WiFi o datos móviles</span></div>
-        <div class="offline-tip">📶 <span>Si tenés señal baja, esperá unos segundos y reintentá</span></div>
-        <div class="offline-tip">🔄 <span>Pull down para refrescar cuando vuelvas a tener internet</span></div>
-        <div class="offline-tip">💾 <span>Las páginas que ya visitaste siguen disponibles offline</span></div>
+        <div class="offline-tip">
+          <div class="offline-tip-icon">🔌</div>
+          <span><strong>Verificá tu conexión</strong> · Chequeá que estés conectado a WiFi o datos móviles</span>
+        </div>
+        <div class="offline-tip">
+          <div class="offline-tip-icon">📶</div>
+          <span><strong>Señal baja</strong> · Si tenés señal débil, esperá unos segundos y reintentá</span>
+        </div>
+        <div class="offline-tip">
+          <div class="offline-tip-icon">🔄</div>
+          <span><strong>Pull to refresh</strong> · En mobile, deslizá hacia abajo para reintentar</span>
+        </div>
+        <div class="offline-tip">
+          <div class="offline-tip-icon">💾</div>
+          <span><strong>Modo offline</strong> · Todas las páginas que ya visitaste funcionan sin internet</span>
+        </div>
       </div>
-      <button class="btn btn-primary btn-lg" onclick="location.reload()">🔄 Reintentar</button>
+
+      <div class="offline-actions">
+        <button class="btn btn-primary btn-lg" onclick="location.reload()">🔄 Reintentar conexión</button>
+        <a href="index.html" class="btn btn-secondary btn-lg">🏠 Ir al inicio</a>
+      </div>
+
+      <div class="offline-cached">
+        <div class="offline-cached-title">📚 Páginas disponibles offline</div>
+        <div class="offline-cached-list">
+          <a href="index.html" class="offline-cached-item">🏠 Inicio · Academia Jota Rubio</a>
+          <a href="dashboard.html" class="offline-cached-item">📊 Dashboard personal</a>
+          <a href="academia.html" class="offline-cached-item">🎓 Catálogo de cursos</a>
+          <a href="comunidad.html" class="offline-cached-item">👥 Comunidad de técnicos</a>
+          <a href="blog.html" class="offline-cached-item">📝 Blog & recursos</a>
+        </div>
+      </div>
     </div>
   </main>
 
-  <!-- PWA Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw-pwa.js')
-          .then(reg => console.log('PWA: SW registered', reg.scope))
-          .catch(err => console.log('PWA: SW failed', err));
+        navigator.serviceWorker.register('sw-pwa.js').catch(() => {});
       });
     }
+    // Auto-reload cuando vuelve la conexión
+    window.addEventListener('online', () => {
+      const btn = document.querySelector('button[onclick]');
+      if (btn) { btn.textContent = '✓ Conectado! Recargando...'; btn.disabled = true; }
+      setTimeout(() => location.reload(), 800);
+    });
   </script>
 </body>
 </html>

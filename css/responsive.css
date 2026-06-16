@@ -1,0 +1,308 @@
+/* ============================================================
+   RESPONSIVE OVERRIDES — Mobile-first fixes
+   Se aplica después de components.css y dashboard.css
+   ============================================================ */
+
+/* ── Touch targets minimos (44x44) ───────────────────────── */
+@media (max-width: 768px) {
+  .btn { min-height: 44px; }
+  .navbar-link { min-height: 44px; display: inline-flex; align-items: center; }
+  .sidebar-link { min-height: 44px; }
+  .lesson-item, .module-tab, .chat-tab, .tab-mini, .lb-tab { min-height: 44px; }
+  .stat-card, .feature-card, .course-card { min-height: auto; }
+  input, select, textarea { font-size: 16px !important; } /* evita zoom en iOS */
+}
+
+/* ── Container: padding menor en mobile ──────────────────── */
+@media (max-width: 480px) {
+  .container { padding: 0 var(--sp-3); }
+  .section { padding: var(--sp-12) 0; }
+  .section-header { margin-bottom: var(--sp-8); }
+}
+
+/* ── Hero: ajustes agresivos en mobile chico ─────────────── */
+@media (max-width: 600px) {
+  .hero { padding: calc(var(--nav-height) + var(--sp-8)) var(--sp-3) var(--sp-8); }
+  .hero h1 { font-size: var(--fs-3xl); line-height: 1.1; }
+  .hero-subtitle { font-size: var(--fs-base); }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; }
+  .hero-stats { grid-template-columns: 1fr; gap: var(--sp-3); }
+  .hero-stat { display: flex; align-items: center; gap: var(--sp-3); padding-left: var(--sp-3); border-left: 2px solid var(--accent); }
+  .hero-stat-value { font-size: var(--fs-2xl); margin-bottom: 0; }
+  .hero-visual { margin-top: var(--sp-6); }
+  .hero-mockup { transform: none !important; }
+  .floating-card { font-size: 11px; padding: 6px 10px; }
+  .floating-card.ia { left: 4px; }
+  .floating-card.live { right: 4px; top: -8px; }
+  .floating-text-main { font-size: 11px; }
+  .floating-text-sub { font-size: 9px; }
+  .floating-icon { width: 24px; height: 24px; font-size: 12px; }
+}
+
+/* ── Grids: 3 columnas → 1 en mobile ─────────────────────── */
+@media (max-width: 600px) {
+  .features-grid,
+  .courses-grid,
+  .testimonials-grid,
+  .pricing-grid,
+  .pricing-grid-large,
+  .module-content,
+  .member-grid,
+  .badge-grid { grid-template-columns: 1fr !important; }
+
+  .module-content { padding: var(--sp-4); }
+  .module-content.active { display: flex !important; flex-direction: column; }
+  .modules-tabs { gap: 4px; }
+  .module-tab { padding: var(--sp-2) var(--sp-3); font-size: 12px; }
+}
+
+/* ── Tablet: 3 cols → 2 cols ─────────────────────────────── */
+@media (max-width: 900px) and (min-width: 601px) {
+  .features-grid,
+  .courses-grid,
+  .testimonials-grid,
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .member-grid { grid-template-columns: repeat(2, 1fr); }
+  .badge-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── Dashboard layout: ya existe en dashboard.css, reforzamos ── */
+@media (max-width: 768px) {
+  .dashboard-header { flex-direction: column; align-items: stretch; }
+  .dashboard-header-actions { justify-content: space-between; }
+  .dashboard-search { width: 100%; }
+  .dashboard-grid { grid-template-columns: repeat(2, 1fr) !important; gap: var(--sp-3); }
+  .stat-card { padding: var(--sp-4); }
+  .stat-card-value { font-size: var(--fs-2xl); }
+  .stat-card-icon { width: 32px; height: 32px; font-size: 16px; }
+}
+
+@media (max-width: 480px) {
+  .dashboard-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── Navbar mobile: menu fullscreen ─────────────────────── */
+@media (max-width: 900px) {
+  .navbar-inner { padding: 0 var(--sp-4); }
+  .navbar-menu {
+    display: none;
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(20px);
+    padding: var(--sp-6);
+    gap: var(--sp-2);
+    overflow-y: auto;
+    z-index: 99;
+  }
+  .navbar-menu.open { display: flex; }
+  .navbar-menu li { width: 100%; }
+  .navbar-link {
+    display: block;
+    padding: var(--sp-4);
+    font-size: var(--fs-base);
+    border-radius: var(--radius-md);
+  }
+  .navbar-link:hover { background: var(--accent-soft); }
+  .navbar-actions { gap: var(--sp-2); }
+  .navbar-actions .btn-ghost { display: none; }
+  .navbar-toggle { display: block; font-size: 24px; }
+  .navbar-logo img { height: 36px; }
+}
+
+/* ── Hero/CTA section ───────────────────────────────────── */
+@media (max-width: 600px) {
+  .cta-final { padding: var(--sp-12) var(--sp-4); }
+  .cta-final h2 { font-size: var(--fs-2xl); }
+  .cta-final p { font-size: var(--fs-base); }
+  .cta-final .btn-lg { width: 100%; }
+}
+
+/* ── Forum: threads apilados ────────────────────────────── */
+@media (max-width: 600px) {
+  .thread { grid-template-columns: 50px 1fr !important; gap: var(--sp-3) !important; padding: var(--sp-3) !important; }
+  .thread-views, .thread-answers { display: none; }
+  .thread-content h3 { font-size: var(--fs-base) !important; }
+  .forum-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .forum-tab { white-space: nowrap; }
+}
+
+/* ── Biblioteca: filtros en columna ─────────────────────── */
+@media (max-width: 600px) {
+  .chip-row { gap: 4px; }
+  .chip { padding: 4px 10px; font-size: 12px; }
+  .library-grid { grid-template-columns: 1fr !important; }
+  .search-bar-big { flex-direction: column; }
+  .search-bar-big .btn { width: 100%; }
+}
+
+/* ── Academia: filtros como drawer ──────────────────────── */
+@media (max-width: 900px) {
+  .academia-layout { grid-template-columns: 1fr !important; }
+  .filter-sidebar { display: none; }
+  .filter-sidebar.open {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    z-index: 200;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+  .filter-toggle-mobile { display: inline-flex; }
+  .courses-grid-page { grid-template-columns: 1fr !important; }
+}
+
+@media (min-width: 901px) {
+  .filter-toggle-mobile { display: none; }
+}
+
+/* ── IA chat: fullscreen en mobile ──────────────────────── */
+@media (max-width: 600px) {
+  .ia-layout { grid-template-columns: 1fr !important; padding-top: 0 !important; }
+  .ia-main { padding: var(--sp-3); }
+  .ia-chat-area { min-height: calc(100vh - 200px); }
+  .ia-msg { max-width: 90%; }
+  .ia-msg-bubble { font-size: 13px; }
+  .ia-context-chip { font-size: 10px; }
+  .ia-input-area { padding: var(--sp-3); }
+}
+
+/* ── Live: video siempre full width, chat abajo ─────────── */
+@media (max-width: 1024px) {
+  .live-layout { grid-template-columns: 1fr !important; padding-top: var(--nav-height) !important; }
+  .live-main { padding: var(--sp-3); }
+  .microscope-overlay { width: 120px; bottom: var(--sp-3); right: var(--sp-3); }
+}
+
+@media (max-width: 600px) {
+  .microscope-overlay { display: none; }
+  .live-overlay-info { flex-direction: column; gap: 4px; }
+  .chat-messages { padding: var(--sp-3); }
+  .chat-input { padding: var(--sp-3); }
+}
+
+/* ── Curso: temario abajo en mobile, video full width ────── */
+@media (max-width: 1024px) {
+  .course-hero-inner,
+  .course-layout { grid-template-columns: 1fr !important; gap: var(--sp-4) !important; }
+  .course-sidebar { position: static !important; order: -1; }
+  .video-container { margin-bottom: var(--sp-3); }
+  .instructor-card { flex-direction: column; text-align: center; }
+  .course-stats-mini { flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 600px) {
+  .course-hero h1 { font-size: var(--fs-2xl); }
+  .breadcrumb { font-size: 11px; }
+  .video-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .video-tab { white-space: nowrap; }
+  .sidebar-card { padding: var(--sp-4); }
+  .price-big { font-size: 2.5rem; }
+  .lesson-item { padding: var(--sp-3); }
+  .lesson-num { width: 28px; height: 28px; font-size: 12px; }
+  .review-author { font-size: 12px; }
+}
+
+/* ── Perfil: banner más chico en mobile ─────────────────── */
+@media (max-width: 600px) {
+  .profile-banner { height: 120px; }
+  .profile-avatar { width: 80px; height: 80px; font-size: 1.75rem; }
+  .profile-avatar-wrap { margin-top: -40px; }
+  .profile-name-block h1 { font-size: var(--fs-2xl); }
+  .profile-stats { gap: var(--sp-3); }
+  .profile-stat-value { font-size: var(--fs-base); }
+  .profile-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .profile-tab { white-space: nowrap; padding: var(--sp-3); }
+  .activity-cell { width: 8px !important; height: 8px !important; }
+  .badge-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+/* ── Comunidad: grids y leaderboard ─────────────────────── */
+@media (max-width: 600px) {
+  .community-stats { grid-template-columns: repeat(2, 1fr) !important; }
+  .community-stat-value { font-size: var(--fs-2xl); }
+  .lb-row { padding: var(--sp-2); }
+  .lb-rank { width: 24px; height: 24px; font-size: 12px; }
+  .lb-avatar { width: 32px; height: 32px; font-size: 11px; }
+  .trending-tags { gap: 4px; }
+  .trending-tag { font-size: 11px; padding: 3px 8px; }
+}
+
+/* ── Login: solo form en mobile ─────────────────────────── */
+@media (max-width: 900px) {
+  .login-side { display: none; }
+  .login-form-side { padding: var(--sp-6); }
+  .login-form h1 { font-size: var(--fs-2xl); }
+  .social-login { grid-template-columns: 1fr; }
+}
+
+/* ── Planes: cards stack ────────────────────────────────── */
+@media (max-width: 600px) {
+  .pricing-grid-large { padding: 0 var(--sp-3); }
+  .pricing-card-large { padding: var(--sp-6) var(--sp-4); }
+  .plan-amount { font-size: 3.5rem; }
+  .billing-toggle { width: 100%; }
+  .billing-toggle button { flex: 1; padding: var(--sp-2) var(--sp-3); font-size: 12px; }
+  .faq-question { padding: var(--sp-3); font-size: var(--fs-sm); }
+}
+
+/* ── Dashboard widgets: stack en mobile ─────────────────── */
+@media (max-width: 600px) {
+  .live-item { flex-wrap: wrap; }
+  .live-item .btn { width: 100%; }
+  .progress-item { flex-wrap: wrap; }
+  .progress-item .btn { width: 100%; margin-top: var(--sp-2); }
+  .activity-item { padding: var(--sp-2) 0; }
+  .calendar-mini { padding: var(--sp-2); }
+}
+
+/* ── Stats banner ───────────────────────────────────────── */
+@media (max-width: 480px) {
+  .stats-banner { grid-template-columns: 1fr 1fr !important; padding: var(--sp-4); gap: var(--sp-3); }
+  .stat-value { font-size: var(--fs-2xl) !important; }
+}
+
+/* ── Footer: stack columnas ────────────────────────────── */
+@media (max-width: 600px) {
+  .footer-grid { grid-template-columns: 1fr !important; gap: var(--sp-6); }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+/* ── Forms: full width en mobile ────────────────────────── */
+@media (max-width: 600px) {
+  .input { font-size: 16px; }
+  .form-group { margin-bottom: var(--sp-4); }
+}
+
+/* ── Modal/tostada: full width bottom en mobile ─────────── */
+@media (max-width: 600px) {
+  .toast-container { top: auto; bottom: var(--sp-4); right: var(--sp-3); left: var(--sp-3); }
+  .toast { min-width: auto; max-width: none; }
+}
+
+/* ── Tables: scroll horizontal en mobile ────────────────── */
+@media (max-width: 768px) {
+  .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* ── Header mobile: h1 más chico ───────────────────────── */
+@media (max-width: 600px) {
+  h1 { font-size: var(--fs-3xl); }
+  h2 { font-size: var(--fs-2xl); }
+  h3 { font-size: var(--fs-lg); }
+}
+
+/* ── Print: solo lo esencial ────────────────────────────── */
+@media print {
+  .navbar, .footer, .menu-toggle, .toast-container { display: none !important; }
+  body { background: white; color: black; }
+  a { color: black; text-decoration: underline; }
+}

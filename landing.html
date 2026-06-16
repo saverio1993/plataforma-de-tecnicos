@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia Jota Rubio · La plataforma donde los técnicos se vuelven leyenda</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0F172A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="Comunidad premium de aprendizaje para técnicos en reparación electrónica. Clases en vivo, biblioteca técnica, foro profesional y asistente IA.">
+  <meta property="og:title" content="Academia Jota Rubio · La plataforma de los técnicos">
+  <meta property="og:description" content="120+ cursos · 2,438 técnicos activos · Mentorías 1:1 con expertos.">
+  <meta property="og:image" content="https://saverio1993.github.io/plataforma-de-tecnicos/assets/og/og-image.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --accent: #3B82F6;
+      --accent-glow: rgba(59, 130, 246, 0.4);
+      --success: #10B981;
+      --warning: #F59E0B;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --border: rgba(148, 163, 184, 0.12);
+      --glass-bg: rgba(15, 23, 42, 0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(at 30% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 70% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+    .lp-wrap { min-height: 100vh; display: flex; flex-direction: column; }
+    .lp-nav { padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .lp-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 18px; text-decoration: none; color: var(--text-primary); }
+    .lp-logo img { height: 36px; }
+    .lp-nav-cta { background: linear-gradient(135deg, var(--accent), #2563EB); color: white; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 14px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 16px var(--accent-glow); }
+    .lp-nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+    .lp-main { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 40px 60px; max-width: 1280px; margin: 0 auto; width: 100%; }
+    .lp-left { max-width: 600px; }
+    .lp-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--accent-glow); color: var(--accent); border-radius: 999px; font-size: 13px; font-weight: 600; border: 1px solid rgba(59, 130, 246, 0.3); margin-bottom: 24px; animation: fadeUp 0.6s ease; }
+    .lp-tag-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 12px var(--accent); animation: pulse 2s ease infinite; }
+    .lp-h1 { font-size: 64px; font-weight: 900; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeUp 0.6s ease 0.1s both; }
+    .lp-h1 .grad { background: linear-gradient(135deg, #3B82F6 0%, #10B981 50%, #F59E0B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .lp-sub { font-size: 20px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 36px; animation: fadeUp 0.6s ease 0.2s both; }
+    .lp-actions { display: flex; gap: 12px; margin-bottom: 40px; animation: fadeUp 0.6s ease 0.3s both; }
+    .lp-btn-primary { background: linear-gradient(135deg, var(--accent), #2563EB); color: white; padding: 16px 28px; border-radius: 12px; font-weight: 700; font-size: 16px; text-decoration: none; transition: all 0.2s; box-shadow: 0 4px 16px var(--accent-glow); display: inline-flex; align-items: center; gap: 8px; }
+    .lp-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); color: white; }
+    .lp-btn-secondary { background: transparent; color: var(--text-primary); padding: 16px 28px; border-radius: 12px; font-weight: 600; font-size: 16px; text-decoration: none; border: 1px solid var(--border); transition: all 0.2s; }
+    .lp-btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .lp-trust { display: flex; gap: 28px; padding-top: 32px; border-top: 1px solid var(--border); animation: fadeUp 0.6s ease 0.4s both; }
+    .lp-trust-item { }
+    .lp-trust-value { font-size: 28px; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: var(--text-primary); }
+    .lp-trust-value .acc { color: var(--accent); }
+    .lp-trust-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .lp-right { position: relative; animation: fadeUp 0.8s ease 0.3s both; }
+    .lp-mockup { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; backdrop-filter: blur(20px); overflow: hidden; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5); transform: perspective(1000px) rotateY(-8deg) rotateX(4deg); transition: transform 0.4s; }
+    .lp-mockup:hover { transform: perspective(1000px) rotateY(-2deg) rotateX(1deg); }
+    .lp-mockup-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; background: rgba(0, 0, 0, 0.3); border-bottom: 1px solid var(--border); }
+    .lp-mockup-bar span { width: 10px; height: 10px; border-radius: 50%; }
+    .lp-mockup-bar .r { background: #FF5F57; }
+    .lp-mockup-bar .y { background: #FFBD2E; }
+    .lp-mockup-bar .g { background: #28CA42; }
+    .lp-mockup-body { padding: 24px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(16, 185, 129, 0.04)); }
+    .lp-mockup-video { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #0F172A, #1E293B); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; position: relative; overflow: hidden; border: 1px solid var(--border); }
+    .lp-mockup-video::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.3), transparent 50%), radial-gradient(circle at 70% 50%, rgba(16, 185, 129, 0.2), transparent 50%); }
+    .lp-play { width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 255, 255, 0.95); display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+    .lp-play::after { content: ''; width: 0; height: 0; border-left: 18px solid var(--bg-primary); border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px; }
+    .lp-mockup-rows { display: flex; flex-direction: column; gap: 8px; }
+    .lp-mockup-rows div { height: 12px; background: rgba(255, 255, 255, 0.06); border-radius: 6px; }
+    .lp-mockup-rows div:nth-child(1) { width: 80%; background: var(--accent-glow); }
+    .lp-mockup-rows div:nth-child(2) { width: 60%; }
+    .lp-mockup-rows div:nth-child(3) { width: 70%; }
+    .lp-floating { position: absolute; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; font-size: 13px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); z-index: 3; }
+    .lp-floating.live { top: -16px; right: -16px; animation: float 4s ease infinite; }
+    .lp-floating.ia { bottom: 50px; left: -32px; animation: float 5s ease infinite 1s; }
+    .lp-floating-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+    .lp-floating.live .lp-floating-icon { background: #EF4444; }
+    .lp-floating.ia .lp-floating-icon { background: linear-gradient(135deg, #3B82F6, #10B981); }
+    .lp-floating-main { font-weight: 600; font-size: 12px; }
+    .lp-floating-sub { font-size: 10px; color: var(--text-secondary); }
+    .lp-marquee { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 20px 0; overflow: hidden; }
+    .lp-marquee-track { display: flex; gap: 60px; animation: marquee 30s linear infinite; white-space: nowrap; }
+    .lp-marquee-item { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 14px; font-weight: 500; flex-shrink: 0; }
+    .lp-marquee-item .dot { color: var(--success); }
+    .lp-footer { padding: 24px 40px; text-align: center; color: var(--text-muted); font-size: 12px; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (max-width: 900px) {
+      .lp-main { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
+      .lp-h1 { font-size: 44px; }
+      .lp-mockup { transform: none; }
+      .lp-trust { gap: 16px; flex-wrap: wrap; }
+      .lp-floating.ia { left: 8px; }
+      .lp-floating.live { right: 8px; }
+    }
+    @media (max-width: 480px) {
+      .lp-h1 { font-size: 36px; }
+      .lp-sub { font-size: 16px; }
+      .lp-actions { flex-direction: column; }
+      .lp-btn-primary, .lp-btn-secondary { width: 100%; justify-content: center; }
+      .lp-floating { font-size: 11px; padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="lp-wrap">
+    <nav class="lp-nav">
+      <a href="index.html" class="lp-logo">
+        <img src="assets/logos/logo.svg" alt="Academia Jota Rubio">
+      </a>
+      <a href="index.html" class="lp-nav-cta">Ver plataforma completa →</a>
+    </nav>
+
+    <main class="lp-main">
+      <div class="lp-left">
+        <div class="lp-tag">
+          <span class="lp-tag-dot"></span>
+          Comunidad activa · 2,438 técnicos
+        </div>
+
+        <h1 class="lp-h1">
+          La plataforma donde los <span class="grad">técnicos se vuelven leyenda</span>
+        </h1>
+
+        <p class="lp-sub">
+          Clases en vivo, biblioteca técnica, foro profesional, mentorías 1:1 y asistente IA para diagnóstico. Todo lo que necesitás para dominar la reparación electrónica.
+        </p>
+
+        <div class="lp-actions">
+          <a href="index.html" class="lp-btn-primary">
+            Empezar ahora
+            <span>→</span>
+          </a>
+          <a href="index.html#cursos" class="lp-btn-secondary">▶ Ver demo</a>
+        </div>
+
+        <div class="lp-trust">
+          <div class="lp-trust-item">
+            <div class="lp-trust-value"><span class="acc">120</span>+</div>
+            <div class="lp-trust-label">Cursos</div>
+          </div>
+          <div class="lp-trust-item">
+            <div class="lp-trust-value"><span class="acc">850</span>h</div>
+            <div class="lp-trust-label">Contenido</div>
+          </div>
+          <div class="lp-trust-item">
+            <div class="lp-trust-value"><span class="acc">15</span>K</div>
+            <div class="lp-trust-label">Casos resueltos</div>
+          </div>
+          <div class="lp-trust-item">
+            <div class="lp-trust-value"><span class="acc">48</span></div>
+            <div class="lp-trust-label">Países</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lp-right">
+        <div class="lp-floating live">
+          <div class="lp-floating-icon">●</div>
+          <div>
+            <div class="lp-floating-main">EN VIVO</div>
+            <div class="lp-floating-sub">Reparación iPhone · 234 viendo</div>
+          </div>
+        </div>
+
+        <div class="lp-floating ia">
+          <div class="lp-floating-icon">⚡</div>
+          <div>
+            <div class="lp-floating-main">IA Diagnóstico</div>
+            <div class="lp-floating-sub">3 causas detectadas</div>
+          </div>
+        </div>
+
+        <div class="lp-mockup">
+          <div class="lp-mockup-bar">
+            <span class="r"></span><span class="y"></span><span class="g"></span>
+          </div>
+          <div class="lp-mockup-body">
+            <div class="lp-mockup-video">
+              <div class="lp-play"></div>
+            </div>
+            <div class="lp-mockup-rows">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="lp-marquee">
+      <div class="lp-marquee-track">
+        <div class="lp-marquee-item"><span class="dot">●</span> 2,438 técnicos activos</div>
+        <div class="lp-marquee-item">📱 32 cursos de smartphones</div>
+        <div class="lp-marquee-item">💻 22 cursos de laptops</div>
+        <div class="lp-marquee-item">🔬 18 cursos de microelectrónica</div>
+        <div class="lp-marquee-item">🤖 9 cursos de IA aplicada</div>
+        <div class="lp-marquee-item">📚 8,247 documentos técnicos</div>
+        <div class="lp-marquee-item">🎥 3-5 clases en vivo por semana</div>
+        <div class="lp-marquee-item">🏆 Certificaciones reconocidas</div>
+        <div class="lp-marquee-item"><span class="dot">●</span> 2,438 técnicos activos</div>
+        <div class="lp-marquee-item">📱 32 cursos de smartphones</div>
+        <div class="lp-marquee-item">💻 22 cursos de laptops</div>
+        <div class="lp-marquee-item">🔬 18 cursos de microelectrónica</div>
+        <div class="lp-marquee-item">🤖 9 cursos de IA aplicada</div>
+        <div class="lp-marquee-item">📚 8,247 documentos técnicos</div>
+        <div class="lp-marquee-item">🎥 3-5 clases en vivo por semana</div>
+        <div class="lp-marquee-item">🏆 Certificaciones reconocidas</div>
+      </div>
+    </div>
+
+    <footer class="lp-footer">
+      © 2026 Academia Jota Rubio · Hecho con ⚡ para la comunidad técnica
+    </footer>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw-pwa.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
